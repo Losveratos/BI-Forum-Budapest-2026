@@ -1,0 +1,179 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "r2spark",
+  "position": {
+    "x": 1345,
+    "y": 123,
+    "z": 0,
+    "height": 894,
+    "width": 548,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "pivotTable",
+    "query": {
+      "queryState": {
+        "Rows": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim-gesellschaft"
+                    }
+                  },
+                  "Property": "Short name"
+                }
+              },
+              "queryRef": "dim-gesellschaft.Short name",
+              "nativeQueryRef": "Short name",
+              "active": true
+            }
+          ]
+        },
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact-abschluss"
+                    }
+                  },
+                  "Property": "Revenue AC mEUR"
+                }
+              },
+              "queryRef": "fact-abschluss.Revenue AC mEUR",
+              "nativeQueryRef": "Revenue AC mEUR"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact-abschluss"
+                    }
+                  },
+                  "Property": "Revenue PL mEUR"
+                }
+              },
+              "queryRef": "fact-abschluss.Revenue PL mEUR",
+              "nativeQueryRef": "Revenue PL mEUR"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact-abschluss"
+                    }
+                  },
+                  "Property": "Revenue sparkline (text)"
+                }
+              },
+              "queryRef": "fact-abschluss.Revenue sparkline (text)",
+              "nativeQueryRef": "Revenue sparkline (text)"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "fact-abschluss"
+                  }
+                },
+                "Property": "Revenue AC mEUR"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Revenue in EUR m, by company | Jan..Oct 2026 AC, PL, month pattern'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true,
+    "objects": {
+      "values": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "10D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "rowHeaders": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "10D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "10D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

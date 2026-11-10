@@ -1,0 +1,40 @@
+/// v3 Schalter für die Monatsabschluss-Szene. Ohne Auswahl (Standard) und bei
+/// "Closed WD3" bleibt AC exakt wie bisher; "Incl. day-3 adjustment" addiert
+/// fact-nachbuchung. Keine Beziehung zu anderen Tabellen.
+table close-status
+	lineageTag: 31c80196-ea2b-4c22-96c3-5b303f3d36f2
+
+	column 'Close status'
+		dataType: string
+		lineageTag: 731163fb-5cbb-4b65-8254-a795894adf8d
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Close status]
+		sortByColumn: 'Close status Sort'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Close status Sort'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 208f2e71-2c8f-495c-b4e9-af86439ae225
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Close status Sort]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition close-status = calculated
+		mode: import
+		source =
+				DATATABLE (
+				    "Close status", STRING,
+				    "Close status Sort", INTEGER,
+				    {
+				        { "Closed WD3", 1 },
+				        { "Incl. day-3 adjustment", 2 }
+				    }
+				)
+
+

@@ -1,0 +1,35 @@
+relationship 8f46bf17-e280-4b20-8325-9ccbdc3d6cec
+	fromColumn: fact-abschluss.AccountID
+	toColumn: dim-konten.AccountID
+
+relationship 41b3bd33-b40d-4f04-8bf5-eb2edefef597
+	fromColumn: fact-abschluss.Datum
+	toColumn: dim-datum.Datum
+
+relationship 399c6bf3-6b6c-4af9-878a-96124e6a6841
+	fromColumn: fact-abschluss.EntityID
+	toColumn: dim-gesellschaft.EntityID
+
+relationship 73bc75d8-7073-48a5-8f44-0ab2ab0cb88b
+	fromColumn: dim-gesellschaft.RegionID
+	toColumn: dim-region.RegionID
+
+relationship 2de7d4cc-ca5e-4d16-848f-069e63269210
+	fromColumn: fact-kurse.Datum
+	toColumn: dim-datum.Datum
+
+relationship 10646ca4-f6c9-4639-825e-a35a8ae095ec
+	fromColumn: fact-kurse.Währung
+	toColumn: dim-waehrung.Währung
+
+relationship bd1d39b7-914e-4083-9380-e7ad953d48eb
+	fromColumn: fact-nachbuchung.AccountID
+	toColumn: dim-konten.AccountID
+
+relationship cb0e2b72-ddcf-4502-a842-f64a76803b84
+	fromColumn: fact-nachbuchung.Datum
+	toColumn: dim-datum.Datum
+
+relationship df701a12-1d0d-4eae-93f1-c4d25c2f5c86
+	fromColumn: fact-nachbuchung.EntityID
+	toColumn: dim-gesellschaft.EntityID

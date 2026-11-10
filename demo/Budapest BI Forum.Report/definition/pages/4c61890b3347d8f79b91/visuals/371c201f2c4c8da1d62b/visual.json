@@ -1,0 +1,345 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "name": "371c201f2c4c8da1d62b",
+  "position": {
+    "x": 1119,
+    "y": 123,
+    "z": 2000,
+    "width": 774,
+    "height": 894,
+    "tabOrder": 1000
+  },
+  "visual": {
+    "visualType": "chartKitchenByDatenWGD9DE0F7AD44D41058672C6FBF6F5A18D",
+    "query": {
+      "queryState": {
+        "category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim-datum"
+                    }
+                  },
+                  "Property": "Month Short"
+                }
+              },
+              "queryRef": "dim-datum.Month Short",
+              "nativeQueryRef": "Month Short",
+              "active": true
+            }
+          ]
+        },
+        "actual": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact-abschluss"
+                    }
+                  },
+                  "Property": "Revenue AC"
+                }
+              },
+              "queryRef": "fact-abschluss.Revenue AC",
+              "nativeQueryRef": "Revenue AC",
+              "displayName": "Revenue AC"
+            }
+          ]
+        },
+        "previousYear": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact-abschluss"
+                    }
+                  },
+                  "Property": "Revenue PY"
+                }
+              },
+              "queryRef": "fact-abschluss.Revenue PY",
+              "nativeQueryRef": "Revenue PY",
+              "displayName": "Revenue PY"
+            }
+          ]
+        },
+        "forecast": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact-abschluss"
+                    }
+                  },
+                  "Property": "Revenue FC"
+                }
+              },
+              "queryRef": "fact-abschluss.Revenue FC",
+              "nativeQueryRef": "Revenue FC",
+              "displayName": "Revenue FC"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "chart": [
+        {
+          "properties": {
+            "template": {
+              "expr": {
+                "Literal": {
+                  "Value": "'C03'"
+                }
+              }
+            },
+            "templateApplied": {
+              "expr": {
+                "Literal": {
+                  "Value": "'C03'"
+                }
+              }
+            },
+            "orientation": {
+              "expr": {
+                "Literal": {
+                  "Value": "'columns'"
+                }
+              }
+            },
+            "comparisonMode": {
+              "expr": {
+                "Literal": {
+                  "Value": "'py'"
+                }
+              }
+            },
+            "showAbsoluteVariance": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "showRelativeVariance": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "dualVariance": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "waterfallStyle": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "ibcsTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "kpi": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Revenue vs prior year by month'"
+                }
+              }
+            },
+            "period": {
+              "expr": {
+                "Literal": {
+                  "Value": "'January to October 2026'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "labels": [
+        {
+          "properties": {
+            "fontPreset": {
+              "expr": {
+                "Literal": {
+                  "Value": "'fullhd'"
+                }
+              }
+            },
+            "displayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "'m'"
+                }
+              }
+            },
+            "decimals": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "padding": [
+        {
+          "properties": {
+            "top": {
+              "expr": {
+                "Literal": {
+                  "Value": "8D"
+                }
+              }
+            },
+            "bottom": {
+              "expr": {
+                "Literal": {
+                  "Value": "8D"
+                }
+              }
+            },
+            "left": {
+              "expr": {
+                "Literal": {
+                  "Value": "8D"
+                }
+              }
+            },
+            "right": {
+              "expr": {
+                "Literal": {
+                  "Value": "8D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#E1DFD6'"
+                    }
+                  }
+                }
+              }
+            },
+            "width": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            },
+            "radius": {
+              "expr": {
+                "Literal": {
+                  "Value": "9D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#FFFFFF'"
+                    }
+                  }
+                }
+              }
+            },
+            "transparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "dropShadow": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

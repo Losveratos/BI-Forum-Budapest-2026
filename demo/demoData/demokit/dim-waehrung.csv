@@ -1,0 +1,8 @@
+Währung;Name;Name EN;Symbol;Nachkommastellen;IstKonzernwährung;Sortierung
+EUR;Euro;Euro;€;2;true;10
+CHF;Schweizer Franken;Swiss franc;CHF;2;false;20
+PLN;Polnischer Zloty;Polish zloty;zł;2;false;30
+CZK;Tschechische Krone;Czech koruna;Kč;2;false;40
+USD;US-Dollar;US dollar;$;2;false;50
+AUD;Australischer Dollar;Australian dollar;A$;2;false;60
+JPY;Japanischer Yen;Japanese yen;¥;0;false;70

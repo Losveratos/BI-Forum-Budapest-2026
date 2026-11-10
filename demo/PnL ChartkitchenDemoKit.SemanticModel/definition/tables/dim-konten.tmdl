@@ -1,0 +1,315 @@
+/// Kontenplan für alle drei Rechenwerke. Die Spalte Abschluss wählt
+/// zwischen GuV, Bilanz und Cashflow; L1 bis L6 tragen die Hierarchie in
+/// Deutsch, L1 EN bis L6 EN dieselbe in Englisch.
+table dim-konten
+	lineageTag: 458ba298-e6a7-4032-8c24-e48d5c674a59
+
+	/// Technischer Schlüssel. Präfix G = GuV, B = Bilanz, C = Cashflow, N =
+	/// Knotenzeile für den Parent-Child-Modus.
+	column AccountID
+		dataType: string
+		lineageTag: 5d159984-6390-483a-8d6f-d31733a7dcf6
+		summarizeBy: none
+		sourceColumn: AccountID
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Nur für den Parent-Child-Modus. Im Levels-Modus NICHT binden, sonst
+	/// ignoriert das Visual L1 bis L6.
+	column ParentAccountID
+		dataType: string
+		displayFolder: Steuerung
+		lineageTag: 3c26dc04-837b-4c03-8b00-0b6bb1ecc2f2
+		summarizeBy: none
+		sourceColumn: ParentAccountID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Kontonummer
+		dataType: string
+		displayFolder: Steuerung
+		lineageTag: a2a7c83f-8a3f-48c4-8232-d19897eb138a
+		summarizeBy: none
+		sourceColumn: Kontonummer
+
+		annotation SummarizationSetBy = Automatic
+
+	/// GuV, Bilanz oder Cashflow. Gehört auf einen Slicer — damit wählt man
+	/// die Aufstellung aus.
+	column Abschluss
+		dataType: string
+		lineageTag: a769aed3-30a3-42dc-8f5e-17e46e0f87cb
+		summarizeBy: none
+		sourceColumn: Abschluss
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Englische Entsprechung zu Abschluss.
+	column Statement
+		dataType: string
+		lineageTag: 42132b5b-0f8c-40f8-874c-3de1b7127449
+		summarizeBy: none
+		sourceColumn: Statement
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Zeilenname, deutsch. Formeln in FormulaDef verweisen auf genau diese
+	/// Namen.
+	column Name
+		dataType: string
+		lineageTag: 3924498d-73ab-4f7e-8f9c-f0b939cf3d54
+		summarizeBy: none
+		sourceColumn: Name
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Zeilenname, englisch. Passt zu FormulaDef EN.
+	column 'Name EN'
+		dataType: string
+		lineageTag: 2d0e09da-f603-46cb-8dd5-2a60145fb909
+		summarizeBy: none
+		sourceColumn: Name EN
+
+		annotation SummarizationSetBy = Automatic
+
+	column L1
+		dataType: string
+		displayFolder: Levels DE
+		lineageTag: 72312806-dbc3-41c3-8ef0-4ff60aeea18d
+		summarizeBy: none
+		sourceColumn: L1
+
+		annotation SummarizationSetBy = Automatic
+
+	column L2
+		dataType: string
+		displayFolder: Levels DE
+		lineageTag: 2a15118c-e921-4e88-8ad2-ad18e9de387e
+		summarizeBy: none
+		sourceColumn: L2
+
+		annotation SummarizationSetBy = Automatic
+
+	column L3
+		dataType: string
+		displayFolder: Levels DE
+		lineageTag: 50ef47d4-7a3c-4d22-8a8a-4d574c986324
+		summarizeBy: none
+		sourceColumn: L3
+
+		annotation SummarizationSetBy = Automatic
+
+	column L4
+		dataType: string
+		displayFolder: Levels DE
+		lineageTag: 23966297-d50c-4280-8015-7efd6e4223de
+		summarizeBy: none
+		sourceColumn: L4
+
+		annotation SummarizationSetBy = Automatic
+
+	column L5
+		dataType: string
+		displayFolder: Levels DE
+		lineageTag: 7e28efaa-20d3-469f-8aef-c7ff8ac3b6d9
+		summarizeBy: none
+		sourceColumn: L5
+
+		annotation SummarizationSetBy = Automatic
+
+	column L6
+		dataType: string
+		displayFolder: Levels DE
+		lineageTag: 53be1ca7-ef55-4619-8b91-339654e24342
+		summarizeBy: none
+		sourceColumn: L6
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'L1 EN'
+		dataType: string
+		displayFolder: Levels EN
+		lineageTag: ba1ed26b-f7d6-4bc8-80c4-e09b14f8f607
+		summarizeBy: none
+		sourceColumn: L1 EN
+		sortByColumn: 'L1 Sort'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'L2 EN'
+		dataType: string
+		displayFolder: Levels EN
+		lineageTag: 68dbaacb-903b-4f12-870e-733dd88e24ab
+		summarizeBy: none
+		sourceColumn: L2 EN
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'L3 EN'
+		dataType: string
+		displayFolder: Levels EN
+		lineageTag: 5968a8f3-b402-4c7f-8cef-5a186dd85ec1
+		summarizeBy: none
+		sourceColumn: L3 EN
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'L4 EN'
+		dataType: string
+		displayFolder: Levels EN
+		lineageTag: ca6fdd93-5dab-4e37-8d55-59ab9f24661b
+		summarizeBy: none
+		sourceColumn: L4 EN
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'L5 EN'
+		dataType: string
+		displayFolder: Levels EN
+		lineageTag: 989ef90c-5443-45dd-8fd5-428a46bdea0c
+		summarizeBy: none
+		sourceColumn: L5 EN
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'L6 EN'
+		dataType: string
+		displayFolder: Levels EN
+		lineageTag: fa495eeb-13db-4ac3-8ea6-fe9e6073b720
+		summarizeBy: none
+		sourceColumn: L6 EN
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Dichte Reihenfolge in Zehnerschritten. Lücken vermeiden — eine Zeile
+	/// ohne Wert fällt auf den DataView-Index zurück und sortiert falsch.
+	column SortOrder
+		dataType: int64
+		formatString: 0
+		displayFolder: Steuerung
+		lineageTag: ecc31b7d-6e2e-41c0-8213-db51dc1e49d2
+		summarizeBy: none
+		sourceColumn: SortOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Zeilentyp plus Bestandstoken: "Account stock" nimmt den Wert der
+	/// letzten Periode statt der Summe, "Account opening" den der ersten.
+	column RowType
+		dataType: string
+		displayFolder: Steuerung
+		lineageTag: 9d5e5f87-35ac-43ed-829a-2975b312c0d7
+		summarizeBy: none
+		sourceColumn: RowType
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Aus RowType abgeleitet: Summe, Bestand oder Bestand Anfang. Die
+	/// Measures mit dem Zusatz Stichtag werten diese Spalte aus.
+	column Zeitaggregation
+		dataType: string
+		displayFolder: Steuerung
+		lineageTag: 24799c37-bd74-4837-82ff-4ba9bd7a8cbe
+		summarizeBy: none
+		sourceColumn: Zeitaggregation
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Formel einer Zwischen- oder Kennzahlenzeile, Referenzen in eckigen
+	/// Klammern auf Zeilennamen.
+	column FormulaDef
+		dataType: string
+		displayFolder: Steuerung
+		lineageTag: a9d0deef-5f35-4a7c-81e9-441542747478
+		summarizeBy: none
+		sourceColumn: FormulaDef
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'FormulaDef EN'
+		dataType: string
+		displayFolder: Steuerung
+		lineageTag: 3f6166e2-9e01-4b07-8569-3b2471b0f328
+		summarizeBy: none
+		sourceColumn: FormulaDef EN
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Wird vor Summen und Formeln anmultipliziert.
+	column SignConvention
+		dataType: int64
+		formatString: 0
+		displayFolder: Steuerung
+		lineageTag: d005b912-2626-4930-8789-2bbec19f5e32
+		summarizeBy: none
+		sourceColumn: SignConvention
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Zeile mit umgekehrtem Vorzeichen anzeigen, damit Kostenzeilen
+	/// positiv erscheinen.
+	column DisplayInvert
+		dataType: string
+		displayFolder: Steuerung
+		lineageTag: cdbaf717-141c-4a4a-8f91-26cef333b059
+		summarizeBy: none
+		sourceColumn: DisplayInvert
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Weniger ist besser — Abweichung unter Plan wird grün.
+	column VarianceInvert
+		dataType: string
+		displayFolder: Steuerung
+		lineageTag: c1566012-45e4-4cbe-8df2-55272fd1a60e
+		summarizeBy: none
+		sourceColumn: VarianceInvert
+
+		annotation SummarizationSetBy = Automatic
+
+	column Kommentar
+		dataType: string
+		displayFolder: Fußnoten
+		lineageTag: 59286236-9895-4331-828a-e4346c6dbf4f
+		summarizeBy: none
+		sourceColumn: Kommentar
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Comment EN'
+		dataType: string
+		displayFolder: Fußnoten
+		lineageTag: 44b4b219-eab0-4b5c-8e32-806b7a460347
+		summarizeBy: none
+		sourceColumn: Comment EN
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Sortierschlüssel je L1-Position: kleinste SortOrder der Zeile, damit
+	/// die Core-Matrix die GuV in Bilanzreihenfolge zeigt statt alphabetisch.
+	column 'L1 Sort' =
+			CALCULATE (
+			    MIN ( 'dim-konten'[SortOrder] ),
+			    ALLEXCEPT ( 'dim-konten', 'dim-konten'[L1] )
+			)
+		dataType: int64
+		isHidden
+		formatString: 0
+		displayFolder: Steuerung
+		lineageTag: 2c11e3d9-85a9-4709-a55e-3a8ddf9386d1
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim-konten = m
+		mode: import
+		source =
+				let
+				    Quelle = Csv.Document(File.Contents(DemoPfad & "dim-konten.csv"), [Delimiter = ";", Columns = 29, Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Header = Table.PromoteHeaders(Quelle, [PromoteAllScalars = true]),
+				    Typen = Table.TransformColumnTypes(Header, {{"AccountID", type text}, {"ParentAccountID", type text}, {"Kontonummer", type text}, {"Abschluss", type text}, {"Statement", type text}, {"Name", type text}, {"Name EN", type text}, {"L1", type text}, {"L2", type text}, {"L3", type text}, {"L4", type text}, {"L5", type text}, {"L6", type text}, {"L1 EN", type text}, {"L2 EN", type text}, {"L3 EN", type text}, {"L4 EN", type text}, {"L5 EN", type text}, {"L6 EN", type text}, {"SortOrder", Int64.Type}, {"RowType", type text}, {"Zeitaggregation", type text}, {"FormulaDef", type text}, {"FormulaDef EN", type text}, {"SignConvention", Int64.Type}, {"DisplayInvert", type text}, {"VarianceInvert", type text}, {"Kommentar", type text}, {"Comment EN", type text}}, "en-US")
+				in
+				    Typen
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,229 @@
+/// Neun Gesellschaften des Konzerns DWG Industries SE mit Region, Land,
+/// Segment und Konsolidierungsinfo.
+table dim-gesellschaft
+	lineageTag: 731418cc-77e4-47da-8b64-b663890716ab
+
+	/// Schlüssel zur Faktentabelle.
+	column EntityID
+		dataType: string
+		lineageTag: e3773991-37aa-44a8-8b55-df902600a628
+		summarizeBy: none
+		sourceColumn: EntityID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Gesellschaft
+		dataType: string
+		lineageTag: eb3c3f40-8a98-43a2-85cc-e07392a5e3e4
+		summarizeBy: none
+		sourceColumn: Gesellschaft
+		sortByColumn: Sortierung
+
+		annotation SummarizationSetBy = Automatic
+
+	column Company
+		dataType: string
+		displayFolder: Englisch
+		lineageTag: ea0aab7a-69d8-4d2a-8be1-9caae8f07133
+		summarizeBy: none
+		sourceColumn: Company
+		sortByColumn: Sortierung
+
+		annotation SummarizationSetBy = Automatic
+
+	column Kurzname
+		dataType: string
+		lineageTag: 737836fc-bcbb-4e47-81a6-36ddb66c8c3e
+		summarizeBy: none
+		sourceColumn: Kurzname
+		sortByColumn: Sortierung
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Short name'
+		dataType: string
+		displayFolder: Englisch
+		lineageTag: 24392369-3746-4654-8a17-fcac1ad9fdc1
+		summarizeBy: none
+		sourceColumn: Short name
+		sortByColumn: Sortierung
+
+		annotation SummarizationSetBy = Automatic
+
+	column RegionID
+		dataType: string
+		lineageTag: c12cacc3-2cde-4e82-8e67-9fbdb0480db1
+		summarizeBy: none
+		sourceColumn: RegionID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Region
+		dataType: string
+		lineageTag: 0a60412d-dd7c-4ca1-83f4-e4018dfa05e7
+		summarizeBy: none
+		sourceColumn: Region
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Region EN'
+		dataType: string
+		displayFolder: Englisch
+		lineageTag: 5996d741-24f3-4351-8e43-f61019f39e1a
+		summarizeBy: none
+		sourceColumn: Region EN
+
+		annotation SummarizationSetBy = Automatic
+
+	column Land
+		dataType: string
+		lineageTag: b77cddcb-4241-4b56-8263-608664535308
+		summarizeBy: none
+		sourceColumn: Land
+
+		annotation SummarizationSetBy = Automatic
+
+	column Country
+		dataType: string
+		displayFolder: Englisch
+		lineageTag: 765c277d-8e68-438c-80c2-48cf41451db5
+		summarizeBy: none
+		sourceColumn: Country
+
+		annotation SummarizationSetBy = Automatic
+
+	column ISO
+		dataType: string
+		lineageTag: 063031d9-5857-49b6-86ce-5299f51097ae
+		summarizeBy: none
+		sourceColumn: ISO
+
+		annotation SummarizationSetBy = Automatic
+
+	column SegmentID
+		dataType: string
+		lineageTag: 0049b954-a8f7-499a-82d8-dad666c24364
+		summarizeBy: none
+		sourceColumn: SegmentID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Segment
+		dataType: string
+		lineageTag: 565045be-4aef-4f09-87cf-bd56783fdc77
+		summarizeBy: none
+		sourceColumn: Segment
+		sortByColumn: SegmentID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Segment EN'
+		dataType: string
+		displayFolder: Englisch
+		lineageTag: 77601277-9ef8-45a6-8d58-22542b055f4e
+		summarizeBy: none
+		sourceColumn: Segment EN
+		sortByColumn: SegmentID
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Funktionale Währung der Gesellschaft. Diese Spalte gehört auf einen
+	/// Währungsslicer — sie filtert die Gesellschaften und damit die
+	/// Fakten.
+	column Währung
+		dataType: string
+		lineageTag: 8aaf880d-b72f-4b66-826b-0d792e58ed06
+		summarizeBy: none
+		sourceColumn: Währung
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Währung Name'
+		dataType: string
+		lineageTag: 04ee808b-6368-43e3-8018-edeaa0b0988d
+		summarizeBy: none
+		sourceColumn: Währung Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Währung Name EN'
+		dataType: string
+		lineageTag: 0743688a-cac9-44a9-8921-d9116ffb0122
+		summarizeBy: none
+		sourceColumn: Währung Name EN
+
+		annotation SummarizationSetBy = Automatic
+
+	column IstKonzernwährung
+		dataType: string
+		lineageTag: 9c2d6ba2-797a-4668-8eac-bd5bd630d3eb
+		summarizeBy: none
+		sourceColumn: IstKonzernwährung
+
+		annotation SummarizationSetBy = Automatic
+
+	column Rechtsform
+		dataType: string
+		lineageTag: 28c06289-0dcb-4c2b-89f5-fff415958ebf
+		summarizeBy: none
+		sourceColumn: Rechtsform
+
+		annotation SummarizationSetBy = Automatic
+
+	column Mitarbeiter
+		dataType: int64
+		formatString: 0
+		lineageTag: 17f73711-864b-4503-89c5-be71f4edb2ac
+		summarizeBy: none
+		sourceColumn: Mitarbeiter
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Erster Monat im Konsolidierungskreis. DWG Digital Services KK kommt
+	/// erst 2026-04 hinzu und hat deshalb kein Vorjahr.
+	column Erstkonsolidierung
+		dataType: string
+		lineageTag: f09bdac9-8f2a-45ab-8dcb-18ccd9d2e002
+		summarizeBy: none
+		sourceColumn: Erstkonsolidierung
+
+		annotation SummarizationSetBy = Automatic
+
+	column Konsolidierungsart
+		dataType: string
+		lineageTag: 48331e7a-78c3-4e52-839f-bc41dd804b1a
+		summarizeBy: none
+		sourceColumn: Konsolidierungsart
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Consolidation method'
+		dataType: string
+		displayFolder: Englisch
+		lineageTag: cf618f09-3059-4ed0-8d76-b0882b1a7873
+		summarizeBy: none
+		sourceColumn: Consolidation method
+
+		annotation SummarizationSetBy = Automatic
+
+	column Sortierung
+		dataType: int64
+		formatString: 0
+		lineageTag: f0248a68-4df0-48be-89fe-2b32cde434e7
+		summarizeBy: none
+		sourceColumn: Sortierung
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim-gesellschaft = m
+		mode: import
+		source =
+				let
+				    Quelle = Csv.Document(File.Contents(DemoPfad & "dim-gesellschaft.csv"), [Delimiter = ";", Columns = 24, Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Header = Table.PromoteHeaders(Quelle, [PromoteAllScalars = true]),
+				    Typen = Table.TransformColumnTypes(Header, {{"EntityID", type text}, {"Gesellschaft", type text}, {"Company", type text}, {"Kurzname", type text}, {"Short name", type text}, {"RegionID", type text}, {"Region", type text}, {"Region EN", type text}, {"Land", type text}, {"Country", type text}, {"ISO", type text}, {"SegmentID", type text}, {"Segment", type text}, {"Segment EN", type text}, {"Währung", type text}, {"Währung Name", type text}, {"Währung Name EN", type text}, {"IstKonzernwährung", type text}, {"Rechtsform", type text}, {"Mitarbeiter", Int64.Type}, {"Erstkonsolidierung", type text}, {"Konsolidierungsart", type text}, {"Consolidation method", type text}, {"Sortierung", Int64.Type}}, "en-US")
+				in
+				    Typen
+
+	annotation PBI_ResultType = Table
+

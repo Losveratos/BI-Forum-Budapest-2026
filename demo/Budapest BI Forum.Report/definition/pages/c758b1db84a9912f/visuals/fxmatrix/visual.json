@@ -1,0 +1,215 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "fxmatrix",
+  "position": {
+    "x": 327,
+    "y": 123,
+    "width": 1566,
+    "height": 360,
+    "z": 0,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "pivotTable",
+    "query": {
+      "queryState": {
+        "Rows": {
+          "projections": [
+            {
+              "queryRef": "dim-gesellschaft.Short name",
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim-gesellschaft"
+                    }
+                  },
+                  "Property": "Short name"
+                }
+              },
+              "nativeQueryRef": "Short name"
+            }
+          ]
+        },
+        "Values": {
+          "projections": [
+            {
+              "queryRef": "fact-abschluss.Revenue AC mEUR",
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact-abschluss"
+                    }
+                  },
+                  "Property": "Revenue AC mEUR"
+                }
+              },
+              "nativeQueryRef": "Revenue AC mEUR"
+            },
+            {
+              "queryRef": "fact-abschluss.Revenue AC @BUD mEUR",
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact-abschluss"
+                    }
+                  },
+                  "Property": "Revenue AC @BUD mEUR"
+                }
+              },
+              "nativeQueryRef": "Revenue AC @BUD mEUR"
+            },
+            {
+              "queryRef": "fact-abschluss.Revenue FX effect mEUR",
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact-abschluss"
+                    }
+                  },
+                  "Property": "Revenue FX effect mEUR"
+                }
+              },
+              "nativeQueryRef": "Revenue FX effect mEUR"
+            },
+            {
+              "queryRef": "fact-abschluss.Revenue PL mEUR",
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact-abschluss"
+                    }
+                  },
+                  "Property": "Revenue PL mEUR"
+                }
+              },
+              "nativeQueryRef": "Revenue PL mEUR"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "dim-gesellschaft"
+                  }
+                },
+                "Property": "Short name"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "objects": {
+      "values": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "10D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTotals": [
+        {
+          "properties": {
+            "rowSubtotals": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "rowSubtotalsLabel": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Total'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "rowHeaders": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "10D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "10D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Revenue in EUR m, by company | Jan..Oct 2026 AC at actual rate, at budget rate, FX effect'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": []
+  }
+}

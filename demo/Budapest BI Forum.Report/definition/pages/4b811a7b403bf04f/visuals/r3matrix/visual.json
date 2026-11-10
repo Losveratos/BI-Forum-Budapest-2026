@@ -1,0 +1,330 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "r3matrix",
+  "position": {
+    "x": 327,
+    "y": 123,
+    "width": 1000,
+    "height": 894,
+    "z": 0,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "pivotTable",
+    "query": {
+      "queryState": {
+        "Rows": {
+          "projections": [
+            {
+              "queryRef": "pnl-lines.Line",
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "pnl-lines"
+                    }
+                  },
+                  "Property": "Line"
+                }
+              },
+              "nativeQueryRef": "Line"
+            }
+          ]
+        },
+        "Values": {
+          "projections": [
+            {
+              "queryRef": "fact-abschluss.PL line",
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact-abschluss"
+                    }
+                  },
+                  "Property": "PL line"
+                }
+              },
+              "nativeQueryRef": "PL line"
+            },
+            {
+              "queryRef": "fact-abschluss.AC line",
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact-abschluss"
+                    }
+                  },
+                  "Property": "AC line"
+                }
+              },
+              "nativeQueryRef": "AC line"
+            },
+            {
+              "queryRef": "fact-abschluss.ΔPL line",
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact-abschluss"
+                    }
+                  },
+                  "Property": "ΔPL line"
+                }
+              },
+              "nativeQueryRef": "ΔPL line"
+            },
+            {
+              "queryRef": "fact-abschluss.ΔPL line SVG",
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact-abschluss"
+                    }
+                  },
+                  "Property": "ΔPL line SVG"
+                }
+              },
+              "nativeQueryRef": "ΔPL line SVG"
+            },
+            {
+              "queryRef": "fact-abschluss.ΔPL line UDF",
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact-abschluss"
+                    }
+                  },
+                  "Property": "ΔPL line UDF"
+                }
+              },
+              "nativeQueryRef": "ΔPL line UDF"
+            },
+            {
+              "queryRef": "fact-abschluss.ΔPL % line UDF",
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact-abschluss"
+                    }
+                  },
+                  "Property": "ΔPL % line UDF"
+                }
+              },
+              "nativeQueryRef": "ΔPL % line UDF"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "pnl-lines"
+                  }
+                },
+                "Property": "Line"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "objects": {
+      "grid": [
+        {
+          "properties": {
+            "imageHeight": {
+              "expr": {
+                "Literal": {
+                  "Value": "22D"
+                }
+              }
+            },
+            "imageWidth": {
+              "expr": {
+                "Literal": {
+                  "Value": "160D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "10D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTotals": [
+        {
+          "properties": {
+            "rowSubtotals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "values": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "10D"
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "fact-abschluss"
+                        }
+                      },
+                      "Property": "ΔPL line status"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 1
+                }
+              }
+            ],
+            "metadata": "fact-abschluss.ΔPL line"
+          }
+        }
+      ],
+      "rowHeaders": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "10D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "columnWidth": [
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "170D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "fact-abschluss.ΔPL line SVG"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "250D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "fact-abschluss.ΔPL line UDF"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "170D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "fact-abschluss.ΔPL % line UDF"
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Income statement in EUR m | Jan..Oct 2026 PL, AC, ΔPL · hand-written SVG next to PowerofBI.IBCS UDF, subtotals from a line table'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": []
+  }
+}

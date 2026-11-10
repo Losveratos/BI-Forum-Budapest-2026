@@ -1,0 +1,221 @@
+cultureInfo de-DE
+
+	linguisticMetadata =
+			{
+			  "Version": "2.0.0",
+			  "Language": "en-US",
+			  "Entities": {
+			    "dimdatum.jahr": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "dim-datum",
+			          "ConceptualProperty": "Jahr"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Year": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "dimgesellschaft.währung": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "dim-gesellschaft",
+			          "ConceptualProperty": "Währung"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Currency": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "dimgesellschaft.short_name": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "dim-gesellschaft",
+			          "ConceptualProperty": "Short name"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Company": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "dimgesellschaft.country": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "dim-gesellschaft",
+			          "ConceptualProperty": "Country"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Country": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "dimregion.region": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "dim-region",
+			          "ConceptualProperty": "Region"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Region": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "factabschluss.revenue_ac": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "fact-abschluss",
+			          "ConceptualProperty": "Revenue AC"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Revenue AC": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "factabschluss.revenue_py": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "fact-abschluss",
+			          "ConceptualProperty": "Revenue PY"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Revenue PY": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "factabschluss.revenue_fc": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "fact-abschluss",
+			          "ConceptualProperty": "Revenue FC"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Revenue FC": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "factabschluss.revenue_pl": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "fact-abschluss",
+			          "ConceptualProperty": "Revenue PL"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Revenue PL": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "factkurse.durchschnittskurs": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "fact-kurse",
+			          "ConceptualProperty": "Durchschnittskurs"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Durchschnittskurs": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    }
+			  }
+			}
+		contentType: json
+

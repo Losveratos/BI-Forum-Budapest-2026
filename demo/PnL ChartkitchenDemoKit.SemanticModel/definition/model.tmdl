@@ -1,0 +1,29 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: de-DE
+	valueFilterBehavior: independent
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBI_ProTooling = ["DevMode"]
+
+annotation PBI_QueryOrder = ["DemoPfad","dim-konten","dim-datum","dim-gesellschaft","dim-region","dim-waehrung","fact-kurse","fact-abschluss","fact-nachbuchung"]
+
+ref table dim-konten
+ref table dim-datum
+ref table dim-gesellschaft
+ref table dim-region
+ref table dim-waehrung
+ref table fact-kurse
+ref table fact-abschluss
+ref table fact-nachbuchung
+ref table close-status
+ref table pnl-lines
+
+ref cultureInfo en-US
+ref cultureInfo de-DE
+

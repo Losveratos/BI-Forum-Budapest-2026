@@ -1,0 +1,87 @@
+/// Die sieben Währungen des Konzerns. Konzernwährung ist der Euro. Hängt an
+/// der Kurstabelle, nicht an den Gesellschaften — siehe Kommentar bei
+/// RELATIONSHIPS.
+table dim-waehrung
+	lineageTag: 3b3deed1-4033-423e-839f-d99b4782d3fd
+
+	/// ISO-Code. Schlüssel zur Kurstabelle.
+	column Währung
+		dataType: string
+		isKey
+		lineageTag: cb146d36-f4c0-45d8-8546-56df00165945
+		summarizeBy: none
+		sourceColumn: Währung
+		sortByColumn: Sortierung
+
+		annotation SummarizationSetBy = Automatic
+
+	column Name
+		dataType: string
+		lineageTag: e81b6af3-3383-41cd-8881-4410a54eddae
+		summarizeBy: none
+		sourceColumn: Name
+		sortByColumn: Sortierung
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Name EN'
+		dataType: string
+		displayFolder: Details
+		lineageTag: 9334266e-9093-4967-88f2-b06d7c8b4458
+		summarizeBy: none
+		sourceColumn: Name EN
+
+		annotation SummarizationSetBy = Automatic
+
+	column Symbol
+		dataType: string
+		displayFolder: Details
+		lineageTag: 3f58bc4a-b8f8-4a47-874b-0cca7df26072
+		summarizeBy: none
+		sourceColumn: Symbol
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Übliche Stellenzahl der Währung — JPY hat 0.
+	column Nachkommastellen
+		dataType: int64
+		formatString: 0
+		displayFolder: Details
+		lineageTag: ebd46904-1e51-44f1-8aff-e2ae81373073
+		summarizeBy: none
+		sourceColumn: Nachkommastellen
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Nur der Euro ist die Konzernwährung.
+	column IstKonzernwährung
+		dataType: string
+		displayFolder: Details
+		lineageTag: 38d04664-d88c-4870-88a5-7a945efa6065
+		summarizeBy: none
+		sourceColumn: IstKonzernwährung
+
+		annotation SummarizationSetBy = Automatic
+
+	column Sortierung
+		dataType: int64
+		formatString: 0
+		displayFolder: Details
+		lineageTag: b60975b9-beff-44d6-8fcd-469052ee4936
+		summarizeBy: none
+		sourceColumn: Sortierung
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim-waehrung = m
+		mode: import
+		source =
+				let
+				    Quelle = Csv.Document(File.Contents(DemoPfad & "dim-waehrung.csv"), [Delimiter = ";", Columns = 7, Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Header = Table.PromoteHeaders(Quelle, [PromoteAllScalars = true]),
+				    Typen = Table.TransformColumnTypes(Header, {{"Währung", type text}, {"Name", type text}, {"Name EN", type text}, {"Symbol", type text}, {"Nachkommastellen", Int64.Type}, {"IstKonzernwährung", type text}, {"Sortierung", Int64.Type}}, "en-US")
+				in
+				    Typen
+
+	annotation PBI_ResultType = Table
+

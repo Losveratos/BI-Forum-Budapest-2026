@@ -1,0 +1,81 @@
+/// v3 Berichtszeilen für Core-Matrizen: die L1-Positionen der GuV (RowType
+/// account) plus die Zwischensummen Gross profit, EBITDA, EBIT, EBT, Net
+/// income (Formelzeilen der dim-konten) in GuV-Reihenfolge. Keine Beziehung;
+/// die Measures im Ordner "Budapest demo\Statement" lesen die Zeile per
+/// SELECTEDVALUE. Eine Zwischensumme summiert alle L1-Positionen mit
+/// 'L1 Sort' < 'Upto Sort'.
+table pnl-lines
+	lineageTag: 530da059-01fc-4af7-9658-fdfa798b5f39
+
+	/// Zeilenbeschriftung, gleich 'dim-konten'[L1 EN].
+	column Line
+		dataType: string
+		lineageTag: 6a93219b-efae-49c0-b9f6-abd4c0bc4de2
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Line]
+		sortByColumn: 'Line Sort'
+
+		annotation SummarizationSetBy = Automatic
+
+	/// GuV-Reihenfolge, gleich 'dim-konten'[L1 Sort].
+	column 'Line Sort'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: c63451b6-f04d-4881-9f6f-2fab68d5a097
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Line Sort]
+
+		annotation SummarizationSetBy = Automatic
+
+	/// "line" für eine L1-Position, "subtotal" für eine Zwischensumme.
+	column 'Line Type'
+		dataType: string
+		lineageTag: 40f84a93-7085-4a29-9d09-4d85af6401e1
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Line Type]
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Zwischensumme über alle L1-Positionen mit 'L1 Sort' kleiner als dieser
+	/// Wert. Bei "line" gleich 'Line Sort'.
+	column 'Upto Sort'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 35fbb0fd-97dd-4da9-a30d-c958cb2b7368
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Upto Sort]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition pnl-lines = calculated
+		mode: import
+		source =
+				VAR _Rows =
+				    FILTER (
+				        SUMMARIZE (
+				            'dim-konten',
+				            'dim-konten'[L1 EN],
+				            'dim-konten'[L1 Sort],
+				            'dim-konten'[RowType],
+				            'dim-konten'[Statement]
+				        ),
+				        'dim-konten'[Statement] = "Income statement"
+				            && 'dim-konten'[RowType] IN { "account", "formula" }
+				            && 'dim-konten'[L1 EN] <> ""
+				    )
+				RETURN
+				    SELECTCOLUMNS (
+				        _Rows,
+				        "Line", 'dim-konten'[L1 EN],
+				        "Line Sort", 'dim-konten'[L1 Sort],
+				        "Line Type", IF ( 'dim-konten'[RowType] = "formula", "subtotal", "line" ),
+				        "Upto Sort", 'dim-konten'[L1 Sort]
+				    )
+
+

@@ -1,0 +1,201 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.2.0/schema.json",
+  "name": "r4companies",
+  "position": {
+    "x": 327,
+    "y": 660,
+    "z": 10,
+    "height": 357,
+    "width": 1566,
+    "tabOrder": 10
+  },
+  "visual": {
+    "visualType": "deneb7E15AEF80B9E4D4F8E12924291ECE89A",
+    "query": {
+      "queryState": {
+        "dataset": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim-gesellschaft"
+                    }
+                  },
+                  "Property": "Short name"
+                }
+              },
+              "queryRef": "dim-gesellschaft.Short name",
+              "nativeQueryRef": "Short name"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact-abschluss"
+                    }
+                  },
+                  "Property": "Revenue ACFC mEUR"
+                }
+              },
+              "queryRef": "fact-abschluss.Revenue ACFC mEUR",
+              "nativeQueryRef": "Revenue ACFC mEUR"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact-abschluss"
+                    }
+                  },
+                  "Property": "Revenue PL mEUR"
+                }
+              },
+              "queryRef": "fact-abschluss.Revenue PL mEUR",
+              "nativeQueryRef": "Revenue PL mEUR"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact-abschluss"
+                    }
+                  },
+                  "Property": "FC flag"
+                }
+              },
+              "queryRef": "fact-abschluss.FC flag",
+              "nativeQueryRef": "FC flag"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "vega": [
+        {
+          "properties": {
+            "provider": {
+              "expr": {
+                "Literal": {
+                  "Value": "'vegaLite'"
+                }
+              }
+            },
+            "renderMode": {
+              "expr": {
+                "Literal": {
+                  "Value": "'svg'"
+                }
+              }
+            },
+            "jsonSpec": {
+              "expr": {
+                "Literal": {
+                  "Value": "'{\"$schema\":\"https://vega.github.io/schema/vega-lite/v6.json\",\"config\":{\"background\":\"transparent\",\"font\":\"Segoe UI\",\"view\":{\"stroke\":null},\"axis\":{\"domainColor\":\"#404040\",\"domainWidth\":1.5,\"ticks\":false,\"grid\":false,\"labelColor\":\"#555555\",\"labelFont\":\"Segoe UI\",\"labelFontSize\":11,\"title\":null},\"legend\":{\"disable\":true}},\"title\":{\"anchor\":\"start\",\"font\":\"Segoe UI\",\"fontSize\":14,\"color\":\"#404040\",\"subtitleFont\":\"Segoe UI\",\"subtitleFontSize\":12,\"subtitleColor\":\"#404040\",\"offset\":16,\"text\":\"DWG Industries · Revenue by company, mEUR\",\"subtitle\":[\"2026 AC&FC vs PL, ΔPL and ΔPL % · Business Chart Builder template \\\"Structural variance analysis\\\"\"]},\"hconcat\":[{\"width\":800,\"height\":{\"step\":26},\"data\":{\"name\":\"dataset\"},\"transform\":[],\"encoding\":{\"y\":{\"field\":\"Short name\",\"type\":\"nominal\",\"sort\":null,\"axis\":{\"labelPadding\":8}}},\"layer\":[{\"mark\":{\"type\":\"bar\",\"size\":11,\"yOffset\":-4.5,\"fill\":\"#ffffff\",\"stroke\":\"#404040\",\"strokeWidth\":1.3,\"tooltip\":{\"content\":\"data\"}},\"encoding\":{\"x\":{\"field\":\"Revenue PL mEUR\",\"type\":\"quantitative\",\"axis\":{\"domain\":false,\"ticks\":false,\"labels\":false,\"grid\":false,\"title\":null}}}},{\"mark\":{\"type\":\"bar\",\"size\":11,\"yOffset\":4.5,\"tooltip\":{\"content\":\"data\"}},\"encoding\":{\"fill\":{\"condition\":{\"test\":\"datum[\\\"FC flag\\\"]\",\"value\":\"#ffffff\"},\"value\":\"#404040\"},\"stroke\":{\"condition\":{\"test\":\"datum[\\\"FC flag\\\"]\",\"value\":\"#404040\"},\"value\":\"transparent\"},\"strokeWidth\":{\"condition\":{\"test\":\"datum[\\\"FC flag\\\"]\",\"value\":1.2},\"value\":0},\"strokeDash\":{\"condition\":{\"test\":\"datum[\\\"FC flag\\\"]\",\"value\":[3,2]},\"value\":[1,0]},\"x\":{\"field\":\"Revenue ACFC mEUR\",\"type\":\"quantitative\",\"axis\":{\"domain\":false,\"ticks\":false,\"labels\":false,\"grid\":false,\"title\":null}}}},{\"transform\":[{\"filter\":\"datum[\\\"Revenue ACFC mEUR\\\"] >= 0\"}],\"mark\":{\"type\":\"text\",\"dx\":6,\"align\":\"left\",\"fontSize\":11,\"font\":\"Arial\",\"yOffset\":4.5,\"color\":\"#404040\"},\"encoding\":{\"x\":{\"field\":\"Revenue ACFC mEUR\",\"type\":\"quantitative\",\"axis\":{\"domain\":false,\"ticks\":false,\"labels\":false,\"grid\":false,\"title\":null}},\"text\":{\"field\":\"Revenue ACFC mEUR\",\"type\":\"quantitative\",\"format\":\",.1f\"}}},{\"transform\":[{\"filter\":\"datum[\\\"Revenue ACFC mEUR\\\"] < 0\"}],\"mark\":{\"type\":\"text\",\"dx\":-6,\"align\":\"right\",\"fontSize\":11,\"font\":\"Arial\",\"yOffset\":4.5,\"color\":\"#404040\"},\"encoding\":{\"x\":{\"field\":\"Revenue ACFC mEUR\",\"type\":\"quantitative\",\"axis\":{\"domain\":false,\"ticks\":false,\"labels\":false,\"grid\":false,\"title\":null}},\"text\":{\"field\":\"Revenue ACFC mEUR\",\"type\":\"quantitative\",\"format\":\",.1f\"}}}]},{\"width\":260,\"height\":{\"step\":26},\"data\":{\"name\":\"dataset\"},\"transform\":[{\"calculate\":\"datum[\\\"Revenue ACFC mEUR\\\"] - datum[\\\"Revenue PL mEUR\\\"]\",\"as\":\"d\"}],\"encoding\":{\"y\":{\"field\":\"Short name\",\"type\":\"nominal\",\"sort\":null,\"axis\":{\"domain\":false,\"ticks\":false,\"labels\":false,\"grid\":false,\"title\":null}}},\"layer\":[{\"mark\":{\"type\":\"point\",\"size\":0,\"opacity\":0,\"tooltip\":{\"content\":\"data\"}},\"encoding\":{}},{\"mark\":{\"type\":\"rule\",\"color\":\"#404040\",\"strokeWidth\":1},\"encoding\":{\"xOffset\":{\"value\":-1.6},\"x\":{\"datum\":0},\"y\":null}},{\"mark\":{\"type\":\"rule\",\"color\":\"#404040\",\"strokeWidth\":1},\"encoding\":{\"xOffset\":{\"value\":1.6},\"x\":{\"datum\":0},\"y\":null}},{\"mark\":{\"type\":\"bar\",\"size\":11,\"tooltip\":{\"content\":\"data\"}},\"encoding\":{\"x\":{\"field\":\"d\",\"type\":\"quantitative\",\"axis\":{\"domain\":false,\"ticks\":false,\"labels\":false,\"grid\":false,\"title\":null}},\"fill\":{\"condition\":{\"test\":\"datum.d >= 0\",\"value\":\"#2E8B7A\"},\"value\":\"#c0392b\"}}},{\"transform\":[{\"filter\":\"datum.d >= 0\"}],\"mark\":{\"type\":\"text\",\"dx\":6,\"align\":\"left\",\"fontSize\":11,\"font\":\"Arial\"},\"encoding\":{\"x\":{\"field\":\"d\",\"type\":\"quantitative\",\"axis\":{\"domain\":false,\"ticks\":false,\"labels\":false,\"grid\":false,\"title\":null}},\"text\":{\"field\":\"d\",\"type\":\"quantitative\",\"format\":\"+,.0f\"},\"color\":{\"condition\":{\"test\":\"datum.d >= 0\",\"value\":\"#2E8B7A\"},\"value\":\"#c0392b\"}}},{\"transform\":[{\"filter\":\"datum.d < 0\"}],\"mark\":{\"type\":\"text\",\"dx\":-6,\"align\":\"right\",\"fontSize\":11,\"font\":\"Arial\"},\"encoding\":{\"x\":{\"field\":\"d\",\"type\":\"quantitative\",\"axis\":{\"domain\":false,\"ticks\":false,\"labels\":false,\"grid\":false,\"title\":null}},\"text\":{\"field\":\"d\",\"type\":\"quantitative\",\"format\":\"+,.0f\"},\"color\":{\"condition\":{\"test\":\"datum.d >= 0\",\"value\":\"#2E8B7A\"},\"value\":\"#c0392b\"}}}]},{\"width\":220,\"height\":{\"step\":26},\"data\":{\"name\":\"dataset\"},\"transform\":[{\"calculate\":\"datum[\\\"Revenue PL mEUR\\\"] > 0 ? (datum[\\\"Revenue ACFC mEUR\\\"] - datum[\\\"Revenue PL mEUR\\\"])/datum[\\\"Revenue PL mEUR\\\"]*100 : null\",\"as\":\"rv\"}],\"encoding\":{\"y\":{\"field\":\"Short name\",\"type\":\"nominal\",\"sort\":null,\"axis\":{\"domain\":false,\"ticks\":false,\"labels\":false,\"grid\":false,\"title\":null}}},\"layer\":[{\"mark\":{\"type\":\"point\",\"size\":0,\"opacity\":0,\"tooltip\":{\"content\":\"data\"}},\"encoding\":{}},{\"mark\":{\"type\":\"rule\",\"color\":\"#404040\",\"strokeWidth\":1},\"encoding\":{\"xOffset\":{\"value\":-1.6},\"x\":{\"datum\":0},\"y\":null}},{\"mark\":{\"type\":\"rule\",\"color\":\"#404040\",\"strokeWidth\":1},\"encoding\":{\"xOffset\":{\"value\":1.6},\"x\":{\"datum\":0},\"y\":null}},{\"mark\":{\"type\":\"rule\",\"strokeWidth\":2},\"encoding\":{\"x\":{\"field\":\"rv\",\"type\":\"quantitative\",\"axis\":{\"domain\":false,\"ticks\":false,\"labels\":false,\"grid\":false,\"title\":null}},\"x2\":{\"datum\":0},\"color\":{\"condition\":{\"test\":\"datum.rv >= 0\",\"value\":\"#2E8B7A\"},\"value\":\"#c0392b\"}}},{\"mark\":{\"type\":\"point\",\"filled\":true,\"size\":48,\"tooltip\":{\"content\":\"data\"}},\"encoding\":{\"x\":{\"field\":\"rv\",\"type\":\"quantitative\",\"axis\":{\"domain\":false,\"ticks\":false,\"labels\":false,\"grid\":false,\"title\":null}},\"color\":{\"condition\":{\"test\":\"datum.rv >= 0\",\"value\":\"#2E8B7A\"},\"value\":\"#c0392b\"}}},{\"transform\":[{\"filter\":\"datum.rv >= 0\"}],\"mark\":{\"type\":\"text\",\"dx\":10,\"align\":\"left\",\"fontSize\":11,\"font\":\"Arial\"},\"encoding\":{\"x\":{\"field\":\"rv\",\"type\":\"quantitative\",\"axis\":{\"domain\":false,\"ticks\":false,\"labels\":false,\"grid\":false,\"title\":null}},\"text\":{\"field\":\"rv\",\"type\":\"quantitative\",\"format\":\"+.1f\"},\"color\":{\"condition\":{\"test\":\"datum.rv >= 0\",\"value\":\"#2E8B7A\"},\"value\":\"#c0392b\"}}},{\"transform\":[{\"filter\":\"datum.rv < 0\"}],\"mark\":{\"type\":\"text\",\"dx\":-10,\"align\":\"right\",\"fontSize\":11,\"font\":\"Arial\"},\"encoding\":{\"x\":{\"field\":\"rv\",\"type\":\"quantitative\",\"axis\":{\"domain\":false,\"ticks\":false,\"labels\":false,\"grid\":false,\"title\":null}},\"text\":{\"field\":\"rv\",\"type\":\"quantitative\",\"format\":\"+.1f\"},\"color\":{\"condition\":{\"test\":\"datum.rv >= 0\",\"value\":\"#2E8B7A\"},\"value\":\"#c0392b\"}}}]}],\"spacing\":26,\"resolve\":{\"scale\":{\"y\":\"independent\"}}}'"
+                }
+              }
+            },
+            "jsonConfig": {
+              "expr": {
+                "Literal": {
+                  "Value": "'{\"autosize\":{\"type\":\"fit\",\"contains\":\"padding\"}}'"
+                }
+              }
+            },
+            "enableTooltips": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "enableContextMenu": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "enableSelection": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "enableHighlight": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#FFFFFF'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#E6E3DD'"
+                    }
+                  }
+                }
+              }
+            },
+            "radius": {
+              "expr": {
+                "Literal": {
+                  "Value": "8D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

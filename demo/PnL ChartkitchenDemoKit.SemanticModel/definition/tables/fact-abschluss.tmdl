@@ -1,0 +1,1267 @@
+/// Werte je Konto, Gesellschaft und Monat in mEUR. Szenarien AC (Ist), PY
+/// (Vorjahr), PL (Plan), FC (Forecast) plus die Jahresskalare FC_FY und
+/// PL_FY.
+table fact-abschluss
+	lineageTag: aa1ddf8e-7e8e-405e-87c0-33f2fda07361
+
+	/// Ist in Konzernwährung EUR. Erfolgsposten zum Durchschnittskurs des
+	/// Monats, Bilanzposten zum Stichtagskurs. Bestandszeilen regelt das
+	/// Visual selbst über das Token "stock" in RowType. v3: plus die
+	/// Nachbuchung aus fact-nachbuchung, wenn 'close-status' auf "Incl. day-3
+	/// adjustment" steht (sonst unverändert).
+	measure AC = SUM ( 'fact-abschluss'[AC Wert] ) + [AC adjustment]
+		formatString: #,##0
+		displayFolder: Szenarien (EUR)
+		lineageTag: f894edd2-d181-48f5-84f2-784690f1eaad
+
+	/// Vorjahr in EUR, monatsgenau verschoben. Für 2026 ist PY gleich dem
+	/// Ist 2025 — jeweils zum Kurs des damaligen Monats.
+	measure PY = SUM ( 'fact-abschluss'[PY Wert] )
+		formatString: #,##0
+		displayFolder: Szenarien (EUR)
+		lineageTag: c9b3ac54-a861-4259-8725-c50ae9e80294
+
+	/// Plan in EUR.
+	measure PL = SUM ( 'fact-abschluss'[PL Wert] )
+		formatString: #,##0
+		displayFolder: Szenarien (EUR)
+		lineageTag: 1b64b778-4fe5-457a-8e79-4e011a6b1a9b
+
+	/// Forecast in EUR: Ist für die geschlossenen Monate, Hochrechnung für
+	/// November und Dezember 2026.
+	measure FC = SUM ( 'fact-abschluss'[FC Wert] )
+		formatString: #,##0
+		displayFolder: Szenarien (EUR)
+		lineageTag: 6f95b199-b3da-4fae-87b3-fd6af80fbf2d
+
+	/// Ist in der Landeswährung der Gesellschaft. Liefert BLANK, sobald
+	/// mehr als eine Währung im Filter liegt — eine Summe über CHF und JPY
+	/// wäre bedeutungslos.
+	measure 'AC LW' =
+			IF (
+			    HASONEVALUE ( 'dim-gesellschaft'[Währung] ),
+			    SUM ( 'fact-abschluss'[AC LW Wert] ) + [AC LW adjustment]
+			)
+		formatString: #,##0
+		displayFolder: Szenarien (Landeswährung)
+		lineageTag: 379f23f9-07f3-4dba-8cdb-4111c886a90b
+
+	/// Vorjahr in der Landeswährung der Gesellschaft. Liefert BLANK, sobald
+	/// mehr als eine Währung im Filter liegt — eine Summe über CHF und JPY
+	/// wäre bedeutungslos.
+	measure 'PY LW' =
+			IF (
+			    HASONEVALUE ( 'dim-gesellschaft'[Währung] ),
+			    SUM ( 'fact-abschluss'[PY LW Wert] )
+			)
+		formatString: #,##0
+		displayFolder: Szenarien (Landeswährung)
+		lineageTag: 91dafa38-cf97-4b9d-8dae-0980ae5c0733
+
+	/// Plan in der Landeswährung der Gesellschaft. Liefert BLANK, sobald
+	/// mehr als eine Währung im Filter liegt — eine Summe über CHF und JPY
+	/// wäre bedeutungslos.
+	measure 'PL LW' =
+			IF (
+			    HASONEVALUE ( 'dim-gesellschaft'[Währung] ),
+			    SUM ( 'fact-abschluss'[PL LW Wert] )
+			)
+		formatString: #,##0
+		displayFolder: Szenarien (Landeswährung)
+		lineageTag: 3232c7c7-7eed-434a-8741-4c79effa53b0
+
+	/// Forecast in der Landeswährung der Gesellschaft. Liefert BLANK,
+	/// sobald mehr als eine Währung im Filter liegt — eine Summe über CHF
+	/// und JPY wäre bedeutungslos.
+	measure 'FC LW' =
+			IF (
+			    HASONEVALUE ( 'dim-gesellschaft'[Währung] ),
+			    SUM ( 'fact-abschluss'[FC LW Wert] )
+			)
+		formatString: #,##0
+		displayFolder: Szenarien (Landeswährung)
+		lineageTag: faa121dd-7a9d-4dfb-85b3-ab4345f63281
+
+	/// Forecast für das ganze Geschäftsjahr in EUR. Der Wert steht
+	/// identisch auf jeder Monatszeile, deshalb MAX je Gesellschaft und
+	/// Jahr statt SUM.
+	measure 'FC FY' =
+			VAR _Scope =
+			    SUMMARIZE (
+			        'fact-abschluss',
+			        'fact-abschluss'[AccountID],
+			        'fact-abschluss'[EntityID],
+			        'dim-datum'[Jahr]
+			    )
+			RETURN
+			    SUMX ( _Scope, CALCULATE ( MAX ( 'fact-abschluss'[FC_FY] ) ) )
+		formatString: #,##0
+		displayFolder: Jahresskalare
+		lineageTag: 25cf730f-af9d-4853-821f-75224bec1dcd
+
+	/// Plan für das ganze Geschäftsjahr in EUR, gleiche Logik wie FC FY.
+	measure 'PL FY' =
+			VAR _Scope =
+			    SUMMARIZE (
+			        'fact-abschluss',
+			        'fact-abschluss'[AccountID],
+			        'fact-abschluss'[EntityID],
+			        'dim-datum'[Jahr]
+			    )
+			RETURN
+			    SUMX ( _Scope, CALCULATE ( MAX ( 'fact-abschluss'[PL_FY] ) ) )
+		formatString: #,##0
+		displayFolder: Jahresskalare
+		lineageTag: c98dc26a-ffa2-41c2-84bf-3a0989ef81a9
+
+	/// Forecast für das Geschäftsjahr in Landeswährung.
+	measure 'FC FY LW' =
+			VAR _Scope =
+			    SUMMARIZE (
+			        'fact-abschluss',
+			        'fact-abschluss'[AccountID],
+			        'fact-abschluss'[EntityID],
+			        'dim-datum'[Jahr]
+			    )
+			RETURN
+			    SUMX ( _Scope, CALCULATE ( MAX ( 'fact-abschluss'[FC_FY_LW] ) ) )
+		formatString: #,##0
+		displayFolder: Jahresskalare
+		lineageTag: c0f2a272-c43e-49b0-807d-2563545295ad
+
+	/// Plan für das Geschäftsjahr in Landeswährung.
+	measure 'PL FY LW' =
+			VAR _Scope =
+			    SUMMARIZE (
+			        'fact-abschluss',
+			        'fact-abschluss'[AccountID],
+			        'fact-abschluss'[EntityID],
+			        'dim-datum'[Jahr]
+			    )
+			RETURN
+			    SUMX ( _Scope, CALCULATE ( MAX ( 'fact-abschluss'[PL_FY_LW] ) ) )
+		formatString: #,##0
+		displayFolder: Jahresskalare
+		lineageTag: 6195e91a-5cf8-4930-8ca0-ae62ea338c4d
+
+	/// Revenue — Szenario AC. Umsatzerlöse als Skalar, Erlösschmälerungen
+	/// korrekt abgezogen. Für ChartKitchen und Karten — das P&L-Visual
+	/// braucht sie nicht, es rechnet das Vorzeichen selbst.
+	measure 'Revenue AC' =
+			CALCULATE (
+			    SUMX (
+			        'fact-abschluss',
+			        'fact-abschluss'[AC Wert] * RELATED ( 'dim-konten'[SignConvention] )
+			    ),
+			    KEEPFILTERS ( 'dim-konten'[L1 EN] = "Net revenue" )
+			)
+		formatString: #,##0
+		displayFolder: ChartKitchen (vorzeichenrichtig)
+		lineageTag: 5d0a8ead-9fc8-4a9a-87e0-4170e987d4e8
+
+	/// Revenue — Szenario PY. Umsatzerlöse als Skalar, Erlösschmälerungen
+	/// korrekt abgezogen. Für ChartKitchen und Karten — das P&L-Visual
+	/// braucht sie nicht, es rechnet das Vorzeichen selbst.
+	measure 'Revenue PY' =
+			CALCULATE (
+			    SUMX (
+			        'fact-abschluss',
+			        'fact-abschluss'[PY Wert] * RELATED ( 'dim-konten'[SignConvention] )
+			    ),
+			    KEEPFILTERS ( 'dim-konten'[L1 EN] = "Net revenue" )
+			)
+		formatString: #,##0
+		displayFolder: ChartKitchen (vorzeichenrichtig)
+		lineageTag: 853aea18-89f5-448b-86f6-aa4282435cd9
+
+	/// Revenue — Szenario PL. Umsatzerlöse als Skalar, Erlösschmälerungen
+	/// korrekt abgezogen. Für ChartKitchen und Karten — das P&L-Visual
+	/// braucht sie nicht, es rechnet das Vorzeichen selbst.
+	measure 'Revenue PL' =
+			CALCULATE (
+			    SUMX (
+			        'fact-abschluss',
+			        'fact-abschluss'[PL Wert] * RELATED ( 'dim-konten'[SignConvention] )
+			    ),
+			    KEEPFILTERS ( 'dim-konten'[L1 EN] = "Net revenue" )
+			)
+		formatString: #,##0
+		displayFolder: ChartKitchen (vorzeichenrichtig)
+		lineageTag: 5033ceb2-69fe-4f91-843b-9d26a7953c4b
+
+	/// Revenue — Szenario FC. Umsatzerlöse als Skalar, Erlösschmälerungen
+	/// korrekt abgezogen. Für ChartKitchen und Karten — das P&L-Visual
+	/// braucht sie nicht, es rechnet das Vorzeichen selbst.
+	measure 'Revenue FC' =
+			CALCULATE (
+			    SUMX (
+			        'fact-abschluss',
+			        'fact-abschluss'[FC Wert] * RELATED ( 'dim-konten'[SignConvention] )
+			    ),
+			    KEEPFILTERS ( 'dim-konten'[L1 EN] = "Net revenue" )
+			)
+		formatString: #,##0
+		displayFolder: ChartKitchen (vorzeichenrichtig)
+		lineageTag: 53b78227-b859-4ea9-853b-b6720038f2f1
+
+	/// EBITDA — Szenario AC. EBITDA als Skalar: die Summe der sechs
+	/// operativen GuV-Blöcke. Geht auf, weil SignConvention die Kosten
+	/// negativ trägt. Formelzeilen fließen nicht ein, sie liegen in der
+	/// Faktentabelle auf 0. v3: über [AC], also inklusive Nachbuchung bei Schalter an.
+	measure 'EBITDA AC' =
+			CALCULATE (
+			    SUMX (
+			        VALUES ( 'dim-konten'[SignConvention] ),
+			        'dim-konten'[SignConvention] * [AC]
+			    ),
+			    KEEPFILTERS ( 'dim-konten'[L1 EN] IN { "Net revenue", "Cost of sales", "Selling expenses", "Administrative expenses", "Research & development", "Other operating result" } )
+			)
+		formatString: #,##0
+		displayFolder: ChartKitchen (vorzeichenrichtig)
+		lineageTag: bb2b81bf-a5b6-4959-8b22-6a34db74801d
+
+	/// EBITDA — Szenario PY. EBITDA als Skalar: die Summe der sechs
+	/// operativen GuV-Blöcke. Geht auf, weil SignConvention die Kosten
+	/// negativ trägt. Formelzeilen fließen nicht ein, sie liegen in der
+	/// Faktentabelle auf 0.
+	measure 'EBITDA PY' =
+			CALCULATE (
+			    SUMX (
+			        'fact-abschluss',
+			        'fact-abschluss'[PY Wert] * RELATED ( 'dim-konten'[SignConvention] )
+			    ),
+			    KEEPFILTERS ( 'dim-konten'[L1 EN] IN { "Net revenue", "Cost of sales", "Selling expenses", "Administrative expenses", "Research & development", "Other operating result" } )
+			)
+		formatString: #,##0
+		displayFolder: ChartKitchen (vorzeichenrichtig)
+		lineageTag: 14aa84c1-b2e8-458c-8239-81508d9fe5bd
+
+	/// EBITDA — Szenario PL. EBITDA als Skalar: die Summe der sechs
+	/// operativen GuV-Blöcke. Geht auf, weil SignConvention die Kosten
+	/// negativ trägt. Formelzeilen fließen nicht ein, sie liegen in der
+	/// Faktentabelle auf 0.
+	measure 'EBITDA PL' =
+			CALCULATE (
+			    SUMX (
+			        'fact-abschluss',
+			        'fact-abschluss'[PL Wert] * RELATED ( 'dim-konten'[SignConvention] )
+			    ),
+			    KEEPFILTERS ( 'dim-konten'[L1 EN] IN { "Net revenue", "Cost of sales", "Selling expenses", "Administrative expenses", "Research & development", "Other operating result" } )
+			)
+		formatString: #,##0
+		displayFolder: ChartKitchen (vorzeichenrichtig)
+		lineageTag: 11d9992d-0d2f-4991-88e2-f6bb7c92ded7
+
+	/// EBITDA — Szenario FC. EBITDA als Skalar: die Summe der sechs
+	/// operativen GuV-Blöcke. Geht auf, weil SignConvention die Kosten
+	/// negativ trägt. Formelzeilen fließen nicht ein, sie liegen in der
+	/// Faktentabelle auf 0.
+	measure 'EBITDA FC' =
+			CALCULATE (
+			    SUMX (
+			        'fact-abschluss',
+			        'fact-abschluss'[FC Wert] * RELATED ( 'dim-konten'[SignConvention] )
+			    ),
+			    KEEPFILTERS ( 'dim-konten'[L1 EN] IN { "Net revenue", "Cost of sales", "Selling expenses", "Administrative expenses", "Research & development", "Other operating result" } )
+			)
+		formatString: #,##0
+		displayFolder: ChartKitchen (vorzeichenrichtig)
+		lineageTag: 512b02e7-460d-44e8-854e-092ad07ac0e7
+
+	/// Wie AC, aber bestandsrichtig: Bilanzzeilen werden nicht über die
+	/// Perioden summiert, sondern mit dem Wert des Stichtags gezeigt. Für
+	/// Karten und Matrizen außerhalb des P&L-Visuals — das Visual selbst
+	/// braucht das nicht.
+	measure 'AC Stichtag' =
+			VAR _Fluss =
+			    CALCULATE (
+			        SUM ( 'fact-abschluss'[AC Wert] ),
+			        KEEPFILTERS ( 'dim-konten'[Zeitaggregation] = "Summe" )
+			    )
+			VAR _Erste = CALCULATE ( MIN ( 'fact-abschluss'[Datum] ), REMOVEFILTERS ( 'dim-konten' ) )
+			VAR _Letzte = CALCULATE ( MAX ( 'fact-abschluss'[Datum] ), REMOVEFILTERS ( 'dim-konten' ) )
+			VAR _Bestand =
+			    CALCULATE (
+			        SUM ( 'fact-abschluss'[AC Wert] ),
+			        KEEPFILTERS ( 'dim-konten'[Zeitaggregation] = "Bestand" ),
+			        'fact-abschluss'[Datum] = _Letzte
+			    )
+			VAR _Anfang =
+			    CALCULATE (
+			        SUM ( 'fact-abschluss'[AC Wert] ),
+			        KEEPFILTERS ( 'dim-konten'[Zeitaggregation] = "Bestand Anfang" ),
+			        'fact-abschluss'[Datum] = _Erste
+			    )
+			RETURN
+			    _Fluss + _Bestand + _Anfang
+		formatString: #,##0
+		displayFolder: Bestandssicher
+		lineageTag: 414f0ce5-41ea-4ade-8158-77d0fd9e58d5
+
+	/// Wie PY, aber bestandsrichtig: Bilanzzeilen werden nicht über die
+	/// Perioden summiert, sondern mit dem Wert des Stichtags gezeigt. Für
+	/// Karten und Matrizen außerhalb des P&L-Visuals — das Visual selbst
+	/// braucht das nicht.
+	measure 'PY Stichtag' =
+			VAR _Fluss =
+			    CALCULATE (
+			        SUM ( 'fact-abschluss'[PY Wert] ),
+			        KEEPFILTERS ( 'dim-konten'[Zeitaggregation] = "Summe" )
+			    )
+			VAR _Erste = CALCULATE ( MIN ( 'fact-abschluss'[Datum] ), REMOVEFILTERS ( 'dim-konten' ) )
+			VAR _Letzte = CALCULATE ( MAX ( 'fact-abschluss'[Datum] ), REMOVEFILTERS ( 'dim-konten' ) )
+			VAR _Bestand =
+			    CALCULATE (
+			        SUM ( 'fact-abschluss'[PY Wert] ),
+			        KEEPFILTERS ( 'dim-konten'[Zeitaggregation] = "Bestand" ),
+			        'fact-abschluss'[Datum] = _Letzte
+			    )
+			VAR _Anfang =
+			    CALCULATE (
+			        SUM ( 'fact-abschluss'[PY Wert] ),
+			        KEEPFILTERS ( 'dim-konten'[Zeitaggregation] = "Bestand Anfang" ),
+			        'fact-abschluss'[Datum] = _Erste
+			    )
+			RETURN
+			    _Fluss + _Bestand + _Anfang
+		formatString: #,##0
+		displayFolder: Bestandssicher
+		lineageTag: 8bc610f0-6e8a-4c2f-887d-b1d77137f842
+
+	/// Wie PL, aber bestandsrichtig: Bilanzzeilen werden nicht über die
+	/// Perioden summiert, sondern mit dem Wert des Stichtags gezeigt. Für
+	/// Karten und Matrizen außerhalb des P&L-Visuals — das Visual selbst
+	/// braucht das nicht.
+	measure 'PL Stichtag' =
+			VAR _Fluss =
+			    CALCULATE (
+			        SUM ( 'fact-abschluss'[PL Wert] ),
+			        KEEPFILTERS ( 'dim-konten'[Zeitaggregation] = "Summe" )
+			    )
+			VAR _Erste = CALCULATE ( MIN ( 'fact-abschluss'[Datum] ), REMOVEFILTERS ( 'dim-konten' ) )
+			VAR _Letzte = CALCULATE ( MAX ( 'fact-abschluss'[Datum] ), REMOVEFILTERS ( 'dim-konten' ) )
+			VAR _Bestand =
+			    CALCULATE (
+			        SUM ( 'fact-abschluss'[PL Wert] ),
+			        KEEPFILTERS ( 'dim-konten'[Zeitaggregation] = "Bestand" ),
+			        'fact-abschluss'[Datum] = _Letzte
+			    )
+			VAR _Anfang =
+			    CALCULATE (
+			        SUM ( 'fact-abschluss'[PL Wert] ),
+			        KEEPFILTERS ( 'dim-konten'[Zeitaggregation] = "Bestand Anfang" ),
+			        'fact-abschluss'[Datum] = _Erste
+			    )
+			RETURN
+			    _Fluss + _Bestand + _Anfang
+		formatString: #,##0
+		displayFolder: Bestandssicher
+		lineageTag: bfc0c5ff-3bbb-4c16-8660-1b8c03a81878
+
+	/// Wie FC, aber bestandsrichtig: Bilanzzeilen werden nicht über die
+	/// Perioden summiert, sondern mit dem Wert des Stichtags gezeigt. Für
+	/// Karten und Matrizen außerhalb des P&L-Visuals — das Visual selbst
+	/// braucht das nicht.
+	measure 'FC Stichtag' =
+			VAR _Fluss =
+			    CALCULATE (
+			        SUM ( 'fact-abschluss'[FC Wert] ),
+			        KEEPFILTERS ( 'dim-konten'[Zeitaggregation] = "Summe" )
+			    )
+			VAR _Erste = CALCULATE ( MIN ( 'fact-abschluss'[Datum] ), REMOVEFILTERS ( 'dim-konten' ) )
+			VAR _Letzte = CALCULATE ( MAX ( 'fact-abschluss'[Datum] ), REMOVEFILTERS ( 'dim-konten' ) )
+			VAR _Bestand =
+			    CALCULATE (
+			        SUM ( 'fact-abschluss'[FC Wert] ),
+			        KEEPFILTERS ( 'dim-konten'[Zeitaggregation] = "Bestand" ),
+			        'fact-abschluss'[Datum] = _Letzte
+			    )
+			VAR _Anfang =
+			    CALCULATE (
+			        SUM ( 'fact-abschluss'[FC Wert] ),
+			        KEEPFILTERS ( 'dim-konten'[Zeitaggregation] = "Bestand Anfang" ),
+			        'fact-abschluss'[Datum] = _Erste
+			    )
+			RETURN
+			    _Fluss + _Bestand + _Anfang
+		formatString: #,##0
+		displayFolder: Bestandssicher
+		lineageTag: 281e57b4-4d1f-426b-81b0-498afbbb6240
+
+	/// Textmeasure für die Rolle "Filter info" des Visuals: zeigt
+	/// Gesellschaft, Region und Zeitraum in der Fußzeile. Muss Text
+	/// liefern, Zahlen würden unformatiert ausgegeben.
+	measure Filterinfo =
+			VAR _Wae =
+			    IF (
+			        HASONEVALUE ( 'dim-gesellschaft'[Währung] ),
+			        VALUES ( 'dim-gesellschaft'[Währung] ),
+			        "EUR"
+			    )
+			VAR _Ges =
+			    IF (
+			        ISCROSSFILTERED ( 'dim-gesellschaft' ),
+			        CONCATENATEX (
+			            VALUES ( 'dim-gesellschaft'[Kurzname] ),
+			            'dim-gesellschaft'[Kurzname],
+			            ", ",
+			            'dim-gesellschaft'[Kurzname]
+			        ),
+			        "Group"
+			    )
+			VAR _Reg =
+			    IF (
+			        ISFILTERED ( 'dim-region'[Region] ),
+			        " · " & CONCATENATEX (
+			            VALUES ( 'dim-region'[Region] ),
+			            'dim-region'[Region],
+			            ", ",
+			            'dim-region'[Region]
+			        ),
+			        ""
+			    )
+			VAR _Von = MIN ( 'fact-abschluss'[Monat] )
+			VAR _Bis = MAX ( 'fact-abschluss'[Monat] )
+			VAR _Per = " · " & IF ( _Von = _Bis, _Von, _Von & " to " & _Bis )
+			RETURN
+			    _Ges & _Reg & _Per & " · " & _Wae
+		displayFolder: Beschriftung
+		lineageTag: 38e32dad-6fd3-401a-8fc3-8d4324b59502
+
+	/// GuV only. Ist vorzeichenrichtig: Kontenzeilen mal SignConvention, nur RowType "account"
+	/// und Statement "Income statement". Erlöse positiv, Kosten negativ, damit Core-Visuals ohne
+	/// Vorzeichen-Wissen auskommen. Ergebnis in Mio. EUR (durch 1.000.000 geteilt).
+	/// v3: über [AC], zieht also die Nachbuchung mit, wenn der Schalter an ist.
+	measure 'AC signed' =
+			CALCULATE (
+			    SUMX (
+			        VALUES ( 'dim-konten'[SignConvention] ),
+			        'dim-konten'[SignConvention] * [AC]
+			    ) / 1000000,
+			    KEEPFILTERS ( 'dim-konten'[RowType] = "account" ),
+			    KEEPFILTERS ( 'dim-konten'[Statement] = "Income statement" )
+			)
+		formatString: #,##0.0;-#,##0.0;-
+		displayFolder: Budapest demo
+		lineageTag: 2018637a-0635-40c9-a523-f6093cf2fecc
+
+	/// GuV only. Vorjahr vorzeichenrichtig: Kontenzeilen mal SignConvention, nur RowType "account"
+	/// und Statement "Income statement". Erlöse positiv, Kosten negativ, damit Core-Visuals ohne
+	/// Vorzeichen-Wissen auskommen. Ergebnis in Mio. EUR (durch 1.000.000 geteilt).
+	measure 'PY signed' =
+			CALCULATE (
+			    SUMX (
+			        VALUES ( 'dim-konten'[SignConvention] ),
+			        'dim-konten'[SignConvention] * CALCULATE ( SUM ( 'fact-abschluss'[PY Wert] ) )
+			    ) / 1000000,
+			    KEEPFILTERS ( 'dim-konten'[RowType] = "account" ),
+			    KEEPFILTERS ( 'dim-konten'[Statement] = "Income statement" )
+			)
+		formatString: #,##0.0;-#,##0.0;-
+		displayFolder: Budapest demo
+		lineageTag: 46662be2-587d-4be8-995a-356bbfc5d3cc
+
+	/// GuV only. Plan vorzeichenrichtig: Kontenzeilen mal SignConvention, nur RowType "account"
+	/// und Statement "Income statement". Erlöse positiv, Kosten negativ, damit Core-Visuals ohne
+	/// Vorzeichen-Wissen auskommen. Ergebnis in Mio. EUR (durch 1.000.000 geteilt).
+	measure 'PL signed' =
+			CALCULATE (
+			    SUMX (
+			        VALUES ( 'dim-konten'[SignConvention] ),
+			        'dim-konten'[SignConvention] * CALCULATE ( SUM ( 'fact-abschluss'[PL Wert] ) )
+			    ) / 1000000,
+			    KEEPFILTERS ( 'dim-konten'[RowType] = "account" ),
+			    KEEPFILTERS ( 'dim-konten'[Statement] = "Income statement" )
+			)
+		formatString: #,##0.0;-#,##0.0;-
+		displayFolder: Budapest demo
+		lineageTag: 58c91f52-d639-4401-9080-ab4c21931f81
+
+	/// GuV only. Forecast vorzeichenrichtig: Kontenzeilen mal SignConvention, nur RowType "account"
+	/// und Statement "Income statement". Erlöse positiv, Kosten negativ, damit Core-Visuals ohne
+	/// Vorzeichen-Wissen auskommen. Ergebnis in Mio. EUR (durch 1.000.000 geteilt).
+	measure 'FC signed' =
+			CALCULATE (
+			    SUMX (
+			        VALUES ( 'dim-konten'[SignConvention] ),
+			        'dim-konten'[SignConvention] * CALCULATE ( SUM ( 'fact-abschluss'[FC Wert] ) )
+			    ) / 1000000,
+			    KEEPFILTERS ( 'dim-konten'[RowType] = "account" ),
+			    KEEPFILTERS ( 'dim-konten'[Statement] = "Income statement" )
+			)
+		formatString: #,##0.0;-#,##0.0;-
+		displayFolder: Budapest demo
+		lineageTag: 2def2bba-fecf-41ef-b0ec-1e06ca886a05
+
+	/// Abweichung Ist gegen Plan, vorzeichenrichtig: positiv ist gut. Plan nur für Monate mit
+	/// Ist (Period Status = Actual), damit ohne Seitenfilter nicht 10 Ist- gegen 12 Planmonate stehen.
+	measure 'ΔPL' =
+			VAR _Ac = [AC signed]
+			VAR _Pl = CALCULATE ( [PL signed], KEEPFILTERS ( 'dim-datum'[Period Status] = "Actual" ) )
+			RETURN
+			    IF ( NOT ISBLANK ( _Ac ), _Ac - _Pl )
+		formatString: +#,##0.0;-#,##0.0;-
+		displayFolder: Budapest demo
+		lineageTag: b80f5744-6aa0-441d-ac99-857048119a8c
+
+	/// Abweichung Ist gegen Plan in Prozent des Plans der Ist-Monate.
+	measure 'ΔPL %' = DIVIDE ( [ΔPL], ABS ( CALCULATE ( [PL signed], KEEPFILTERS ( 'dim-datum'[Period Status] = "Actual" ) ) ) )
+		formatString: +0.0%;-0.0%;-
+		displayFolder: Budapest demo
+		lineageTag: 160bd892-ba89-4734-83d3-6f317c4981cc
+
+	/// Abweichung Ist gegen Vorjahr, vorzeichenrichtig: positiv ist gut. Vorjahr nur für Ist-Monate.
+	measure 'ΔPY' =
+			VAR _Ac = [AC signed]
+			VAR _Py = CALCULATE ( [PY signed], KEEPFILTERS ( 'dim-datum'[Period Status] = "Actual" ) )
+			RETURN
+			    IF ( NOT ISBLANK ( _Ac ), _Ac - _Py )
+		formatString: +#,##0.0;-#,##0.0;-
+		displayFolder: Budapest demo
+		lineageTag: d1cbed2d-b925-441c-8f8e-62ab58e244de
+
+	/// Abweichung Ist gegen Vorjahr in Prozent des Vorjahres der Ist-Monate.
+	measure 'ΔPY %' = DIVIDE ( [ΔPY], ABS ( CALCULATE ( [PY signed], KEEPFILTERS ( 'dim-datum'[Period Status] = "Actual" ) ) ) )
+		formatString: +0.0%;-0.0%;-
+		displayFolder: Budapest demo
+		lineageTag: 1c057e4d-f02d-451d-b035-866ffd7c5001
+
+	/// Kopie von ΔPL für eine eigene Datenbalken-Spalte in der Core-Matrix (Sprosse 1), damit der
+	/// Balken die Zahl nicht überdeckt.
+	measure 'ΔPL (bar)' = [ΔPL]
+		formatString: +#,##0.0;-#,##0.0;-
+		displayFolder: Budapest demo
+		lineageTag: 15757d9c-1683-49f5-89bd-1fa256fc07b4
+
+	/// Sprosse 2, nur DAX: Abweichungsbalken aus Unicode-Blöcken, skaliert auf die größte Abweichung
+	/// der sichtbaren Zeilen (Summenzeile auf 10 Blöcke begrenzt). Links vom Trennstrich negativ,
+	/// rechts positiv. Monospace-Schrift im Visual nötig.
+	measure 'ΔPL bar (text)' =
+			VAR _D = [ΔPL]
+			VAR _Max =
+			    MAXX ( ALLSELECTED ( 'dim-konten'[L1 EN], 'dim-konten'[L1 Sort] ), ABS ( [ΔPL] ) )
+			VAR _N = MIN ( 10, ROUND ( DIVIDE ( ABS ( _D ), _Max, 0 ) * 10, 0 ) )
+			VAR _Neg = REPT ( " ", 10 - _N ) & REPT ( "█", _N )
+			VAR _Pos = REPT ( "█", _N ) & REPT ( " ", 10 - _N )
+			RETURN
+			    IF (
+			        ISBLANK ( _D ),
+			        BLANK (),
+			        IF ( _D < 0, _Neg & "│" & REPT ( " ", 10 ), REPT ( " ", 10 ) & "│" & _Pos )
+			    )
+		displayFolder: Budapest demo
+		lineageTag: 4c283a3e-bbd8-4722-87a5-8889acbf9382
+
+	/// Sprosse 2, nur DAX: Umsatz je Monat als Unicode-Säulen, ein Zeichen je Monat (PeriodeSort,
+	/// damit Jahr und Monat eindeutig sind), skaliert auf den höchsten Monat der Zeile.
+	measure 'Revenue sparkline (text)' =
+			VAR _Months = VALUES ( 'dim-datum'[PeriodeSort] )
+			VAR _Max = MAXX ( _Months, [Revenue AC] )
+			RETURN
+			    CONCATENATEX (
+			        _Months,
+			        VAR _V = [Revenue AC]
+			        VAR _I = ROUND ( DIVIDE ( _V, _Max, 0 ) * 7, 0 ) + 1
+			        RETURN
+			            IF ( ISBLANK ( _V ), " ", MID ( "▁▂▃▄▅▆▇█", _I, 1 ) ),
+			        "",
+			        'dim-datum'[PeriodeSort]
+			    )
+		displayFolder: Budapest demo
+		lineageTag: 1fa7c781-528d-4a57-a1ec-c921f3b92c03
+
+	/// Sprosse 2, nur DAX: Farbcode für bedingte Formatierung. Teal (dokumentierte IBCS-Abweichung
+	/// wie in ChartKitchen) bei günstiger, Rot bei ungünstiger Abweichung.
+	measure 'ΔPL status' =
+			SWITCH (
+			    TRUE (),
+			    ISBLANK ( [ΔPL] ), BLANK (),
+			    [ΔPL] >= 0, "#2E8B7A",
+			    "#C0392B"
+			)
+		displayFolder: Budapest demo
+		lineageTag: 221a3618-ad0a-44a9-8f3b-1d3a153dccec
+
+	/// Sprosse 4, Deneb-Vorlage: Ist für Monate mit Period Status Actual, Forecast für Forecast-
+	/// Monate, als eine Reihe für AC&FC-Säulen gegen den Plan-Umriss. Robust auf jeder Ebene.
+	measure 'Revenue AC&FC' =
+			CALCULATE ( [Revenue AC], KEEPFILTERS ( 'dim-datum'[Period Status] = "Actual" ) )
+			    + CALCULATE ( [Revenue FC], KEEPFILTERS ( 'dim-datum'[Period Status] = "Forecast" ) )
+		formatString: #,##0
+		displayFolder: Budapest demo
+		lineageTag: 04eed300-3064-4aac-8939-88dda53ed722
+
+	/// Revenue AC&FC in Millionen EUR für Core-Charts, Tabellen und Deneb (Feldname ohne Klammern, weil Deneb
+	/// Felder mit Klammern nicht per Ausdruck lesen kann).
+	measure 'Revenue ACFC mEUR' = DIVIDE ( [Revenue AC&FC], 1000000 )
+		formatString: #,##0.0
+		displayFolder: Budapest demo
+		lineageTag: e50e831e-492e-4df9-a040-3071d3cf039a
+
+	/// Revenue AC in Millionen EUR für Core-Charts, Tabellen und Deneb (Feldname ohne Klammern, weil Deneb
+	/// Felder mit Klammern nicht per Ausdruck lesen kann).
+	measure 'Revenue AC mEUR' = DIVIDE ( [Revenue AC], 1000000 )
+		formatString: #,##0.0
+		displayFolder: Budapest demo
+		lineageTag: 3e4aea48-c781-4a75-be05-b03aa4d248fe
+
+	/// Revenue PY in Millionen EUR für Core-Charts, Tabellen und Deneb (Feldname ohne Klammern, weil Deneb
+	/// Felder mit Klammern nicht per Ausdruck lesen kann).
+	measure 'Revenue PY mEUR' = DIVIDE ( [Revenue PY], 1000000 )
+		formatString: #,##0.0
+		displayFolder: Budapest demo
+		lineageTag: 1a6ec6c1-1896-4003-bb69-fae17c24ab79
+
+	/// Revenue PL in Millionen EUR für Core-Charts, Tabellen und Deneb (Feldname ohne Klammern, weil Deneb
+	/// Felder mit Klammern nicht per Ausdruck lesen kann).
+	measure 'Revenue PL mEUR' = DIVIDE ( [Revenue PL], 1000000 )
+		formatString: #,##0.0
+		displayFolder: Budapest demo
+		lineageTag: e4640265-1b8c-42ff-a37a-fbb9d97c0e48
+
+	/// Sprosse 4, Deneb-Vorlage: 1 für Forecast-Monate (Period Status = Forecast), sonst 0. Steuert
+	/// Umriss und Strichelung der FC-Säulen in der Vega-Lite-Vorlage.
+	measure 'FC flag' = IF ( SELECTEDVALUE ( 'dim-datum'[Period Status] ) = "Forecast", 1, 0 )
+		formatString: 0
+		displayFolder: Budapest demo
+		lineageTag: 90e6b3d8-cf9d-47c2-a1bf-d1a7f6a7b7c2
+
+	/// Sprosse 3, SVG-Measure: Abweichungsbalken auf Basisskala mit Doppellinie als Plan-Referenz,
+	/// Teal gut, Rot schlecht, Wert in Mio. EUR als Label. Datenkategorie ImageUrl, in der Matrix als
+	/// Bild. Balken auf die Zellbreite begrenzt, Koordinaten mit en-US-Format.
+	measure 'ΔPL SVG' =
+			VAR _D = [ΔPL]
+			VAR _Max =
+			    MAXX ( ALLSELECTED ( 'dim-konten'[L1 EN], 'dim-konten'[L1 Sort] ), ABS ( [ΔPL] ) )
+			VAR _W = 160
+			VAR _H = 18
+			VAR _Mid = _W / 2
+			VAR _Len = MIN ( 1, DIVIDE ( ABS ( _D ), _Max, 0 ) ) * ( _Mid - 44 )
+			VAR _X = IF ( _D < 0, _Mid - _Len, _Mid )
+			VAR _Col = IF ( _D >= 0, "%232E8B7A", "%23C0392B" )
+			VAR _Lbl = FORMAT ( _D, "+#,##0.0;-#,##0.0", "en-US" )
+			VAR _LblX = IF ( _D < 0, _Mid + 5, _Mid - 5 )
+			VAR _Anchor = IF ( _D < 0, "start", "end" )
+			VAR _Svg =
+			    "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='" & _W & "' height='" & _H & "' viewBox='0 0 " & _W & " " & _H & "'>"
+			        & "<line x1='" & ( _Mid - 1.5 ) & "' y1='0' x2='" & ( _Mid - 1.5 ) & "' y2='" & _H & "' stroke='%23404040' stroke-width='1'/>"
+			        & "<line x1='" & ( _Mid + 1.5 ) & "' y1='0' x2='" & ( _Mid + 1.5 ) & "' y2='" & _H & "' stroke='%23404040' stroke-width='1'/>"
+			        & "<rect x='" & FORMAT ( _X, "0.0", "en-US" ) & "' y='3' width='" & FORMAT ( _Len, "0.0", "en-US" ) & "' height='" & ( _H - 6 ) & "' fill='" & _Col & "'/>"
+			        & "<text x='" & _LblX & "' y='13' font-family='Segoe UI' font-size='10' text-anchor='" & _Anchor & "' fill='%23222'>" & _Lbl & "</text>"
+			        & "</svg>"
+			RETURN
+			    IF ( ISBLANK ( _D ), BLANK (), _Svg )
+		displayFolder: Budapest demo
+		lineageTag: 1ebc2016-2a62-4686-ad9e-a21de923920e
+		dataCategory: ImageUrl
+
+	/// Sprosse 3, SVG-Measure: Umsatz je Monat als Säulen (AC gefüllt) mit Plan-Umriss, 160 px breit,
+	/// ein Slot je Monat (PeriodeSort), skaliert auf den höchsten Wert der Zeile. Datenkategorie ImageUrl.
+	measure 'Revenue AC vs PL SVG' =
+			VAR _Months = VALUES ( 'dim-datum'[PeriodeSort] )
+			VAR _Max =
+			    MAXX ( _Months, MAX ( [Revenue AC], [Revenue PL] ) )
+			VAR _W = 160
+			VAR _H = 28
+			VAR _N = COUNTROWS ( _Months )
+			VAR _Slot = DIVIDE ( _W, _N )
+			VAR _Bars =
+			    CONCATENATEX (
+			        _Months,
+			        VAR _I = RANKX ( _Months, 'dim-datum'[PeriodeSort], , ASC ) - 1
+			        VAR _Ac = DIVIDE ( [Revenue AC], _Max ) * ( _H - 2 )
+			        VAR _Pl = DIVIDE ( [Revenue PL], _Max ) * ( _H - 2 )
+			        VAR _X = _I * _Slot + 1
+			        VAR _Bw = _Slot - 3
+			        RETURN
+			            "<rect x='" & FORMAT ( _X, "0.0", "en-US" ) & "' y='" & FORMAT ( _H - _Ac, "0.0", "en-US" ) & "' width='" & FORMAT ( _Bw, "0.0", "en-US" ) & "' height='" & FORMAT ( _Ac, "0.0", "en-US" ) & "' fill='%23404040'/>"
+			                & "<rect x='" & FORMAT ( _X, "0.0", "en-US" ) & "' y='" & FORMAT ( _H - _Pl, "0.0", "en-US" ) & "' width='" & FORMAT ( _Bw, "0.0", "en-US" ) & "' height='" & FORMAT ( _Pl, "0.0", "en-US" ) & "' fill='none' stroke='%23404040' stroke-width='1'/>",
+			        "",
+			        'dim-datum'[PeriodeSort]
+			    )
+			RETURN
+			    IF (
+			        ISBLANK ( [Revenue AC] ),
+			        BLANK (),
+			        "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='" & _W & "' height='" & _H & "' viewBox='0 0 " & _W & " " & _H & "'>" & _Bars & "</svg>"
+			    )
+		displayFolder: Budapest demo
+		lineageTag: 8af91ac0-4948-4486-962e-22f8f43bdb67
+		dataCategory: ImageUrl
+
+	/// Datenstand-Stempel für jede Demo-Seite (Karte unter dem Titel): letzter Ist-Monat, Plan- und
+	/// Forecast-Version, Einheit, Vorzeichenkonvention. v3: mit Abschlussstatus aus 'close-status'.
+	measure 'Data as of' =
+			VAR _LastAct =
+			    CALCULATE (
+			        MAX ( 'dim-datum'[Monatsende] ),
+			        REMOVEFILTERS ( 'dim-datum' ),
+			        'dim-datum'[Period Status] = "Actual"
+			    )
+			VAR _Close =
+			    IF ( [Adjustment on], " · incl. day-3 adjustment", " · close status: closed WD3" )
+			RETURN
+			    "DWG Industries · actuals to " & FORMAT ( _LastAct, "mmm yyyy", "en-US" ) & _Close
+			        & " · plan v2026-1 and forecast 10+2 to Dec 2026 · EUR m · variances signed, positive is favourable"
+		displayFolder: Budapest demo
+		lineageTag: c13ac924-6319-4dff-ab95-68352ec386e2
+
+	/// Revenue FC in Millionen EUR für die UDF-Säulen (Forecast schraffiert, wo kein Ist).
+	measure 'Revenue FC mEUR' =
+			DIVIDE ( [Revenue FC], 1000000 )
+		formatString: #,##0.0
+		displayFolder: Budapest demo\UDF
+		lineageTag: d17f1585-7294-417e-a96a-834218d658f9
+
+	/// Sprosse 3 mit UDF-Bibliothek PowerofBI.IBCS 0.11.0 (daxlib.org, MIT): absolute Abweichung als
+	/// IBCS-Balken. Hauptwert = |PL| + ΔPL, Basis = |PL|, damit die Funktion genau ΔPL (positiv = gut)
+	/// zeichnet; Skalierung über alle sichtbaren Zeilen (beide Sortierspalten), Summenzeile fett.
+	measure 'ΔPL UDF' =
+			IF (
+			    ISBLANK ( [ΔPL] ),
+			    BLANK (),
+			    PowerofBI.IBCS.BarChart.AbsoluteVariance (
+			        'dim-konten'[L1 EN],
+			        ABS ( [PL signed] ) + [ΔPL],
+			        BLANK (),
+			        ABS ( [PL signed] ),
+			        MAXX ( ALLSELECTED ( 'dim-konten'[L1 EN], 'dim-konten'[L1 Sort] ), ABS ( [ΔPL] ) ),
+			        "outlined",
+			        NOT ISINSCOPE ( 'dim-konten'[L1 EN] ),
+			        FORMAT ( [ΔPL], "+#,##0.0;-#,##0.0;=", "en-US" ),
+			        240,
+			        22,
+			        1
+			    )
+			)
+		displayFolder: Budapest demo\UDF
+		lineageTag: b0de9ae6-e37d-462a-81a6-de84a9e71452
+		dataCategory: ImageUrl
+
+	/// Sprosse 3 mit UDF-Bibliothek PowerofBI.IBCS: relative Abweichung als Pin mit Szenario-Kopf.
+	/// Gleiche Konvention wie ΔPL UDF (Basis = |PL|), Label aus ΔPL %.
+	measure 'ΔPL % UDF' =
+			IF (
+			    ISBLANK ( [ΔPL] ),
+			    BLANK (),
+			    PowerofBI.IBCS.BarChart.RelativeVariance (
+			        'dim-konten'[L1 EN],
+			        ABS ( [PL signed] ) + [ΔPL],
+			        BLANK (),
+			        ABS ( [PL signed] ),
+			        "outlined",
+			        NOT ISINSCOPE ( 'dim-konten'[L1 EN] ),
+			        FORMAT ( [ΔPL %] * 100, "+#,##0.0;-#,##0.0;=", "en-US" ),
+			        160,
+			        22,
+			        1
+			    )
+			)
+		displayFolder: Budapest demo\UDF
+		lineageTag: 8b8351b2-41c3-4f85-b5a6-dfe4f7871096
+		dataCategory: ImageUrl
+
+	/// Sprosse 3 mit UDF-Bibliothek PowerofBI.IBCS: eine Säule je Monat (Matrix mit Monaten in den
+	/// Spalten): AC gefüllt, PL Umriss, PY als graues Dreieck, Abweichung AC vs PL als Balken, FC
+	/// schraffiert. Ein Funktionsaufruf statt 30 Zeilen SVG-DAX.
+	measure 'Revenue months UDF' =
+			IF (
+			    ISBLANK ( [Revenue AC mEUR] + [Revenue FC mEUR] ),
+			    BLANK (),
+			    PowerofBI.IBCS.ColumnChart.WithAbsoluteVariance (
+			        [Revenue AC mEUR],
+			        [Revenue PY mEUR],
+			        [Revenue PL mEUR],
+			        [Revenue FC mEUR],
+			        'dim-datum'[Month Short],
+			        1
+			    )
+			)
+		displayFolder: Budapest demo\UDF
+		lineageTag: f91ff105-249c-4ec8-b56b-bfdac041ce3b
+		dataCategory: ImageUrl
+
+	/// v3 Monatsabschluss-Szene: TRUE, wenn im Schalter 'close-status' genau "Incl. day-3 adjustment"
+	/// gewählt ist. Ohne Auswahl oder bei "Closed WD3" FALSE, dann bleibt AC exakt wie bisher.
+	measure 'Adjustment on' = SELECTEDVALUE ( 'close-status'[Close status] ) = "Incl. day-3 adjustment"
+		displayFolder: Budapest demo\Close
+		lineageTag: 3484290e-7e30-40e9-a686-bfddb609a0d7
+
+	/// Hilfsmeasure: Nachbuchung in EUR (Basiseinheiten, Rohvorzeichen), nur bei Schalter an. Ein Filter
+	/// auf fact-abschluss[Monat] (Period-Rolle des P&L-Visuals) wird per TREATAS übertragen.
+	measure 'AC adjustment' =
+			IF (
+			    [Adjustment on],
+			    CALCULATE (
+			        SUM ( 'fact-nachbuchung'[AC Wert] ),
+			        TREATAS ( VALUES ( 'fact-abschluss'[Monat] ), 'fact-nachbuchung'[Monat] )
+			    )
+			)
+		formatString: #,##0
+		isHidden
+		displayFolder: Budapest demo\Close
+		lineageTag: 87627ac9-f6ef-455f-8c5d-7fe99cb1a7cd
+
+	/// Hilfsmeasure: Nachbuchung in Landeswährung, nur bei Schalter an. Wie AC adjustment.
+	measure 'AC LW adjustment' =
+			IF (
+			    [Adjustment on],
+			    CALCULATE (
+			        SUM ( 'fact-nachbuchung'[AC LW Wert] ),
+			        TREATAS ( VALUES ( 'fact-abschluss'[Monat] ), 'fact-nachbuchung'[Monat] )
+			    )
+			)
+		formatString: #,##0
+		isHidden
+		displayFolder: Budapest demo\Close
+		lineageTag: 16841457-1387-48db-9023-2a811791251b
+
+	/// v3 FX: Ist (GuV, vorzeichenrichtig, Mio. EUR) aus der Landeswährung zum Budgetkurs umgerechnet:
+	/// LW / 'fact-kurse'[Kurs Budget] je Gesellschaftswährung und Jahr (Kurse sind LW je 1 EUR, wie in
+	/// engine.py). Robust gegen mehrere Währungen und Jahre im Filter. Inklusive Nachbuchung bei Schalter an.
+	measure 'AC signed @BUD' =
+			CALCULATE (
+			    SUMX (
+			        SUMMARIZE ( 'fact-abschluss', 'dim-gesellschaft'[Währung], 'dim-datum'[Jahr] ),
+			        VAR _Cur = 'dim-gesellschaft'[Währung]
+			        VAR _Yr = 'dim-datum'[Jahr]
+			        VAR _Rate =
+			            CALCULATE (
+			                MAX ( 'fact-kurse'[Kurs Budget] ),
+			                REMOVEFILTERS ( 'dim-datum' ),
+			                REMOVEFILTERS ( 'dim-waehrung' ),
+			                REMOVEFILTERS ( 'fact-kurse' ),
+			                'fact-kurse'[Währung] = _Cur,
+			                'fact-kurse'[Jahr] = _Yr
+			            )
+			        VAR _Lw =
+			            CALCULATE (
+			                SUMX (
+			                    VALUES ( 'dim-konten'[SignConvention] ),
+			                    'dim-konten'[SignConvention] * CALCULATE ( SUM ( 'fact-abschluss'[AC LW Wert] ) + [AC LW adjustment] )
+			                )
+			            )
+			        RETURN
+			            DIVIDE ( _Lw, _Rate )
+			    ) / 1000000,
+			    KEEPFILTERS ( 'dim-konten'[RowType] = "account" ),
+			    KEEPFILTERS ( 'dim-konten'[Statement] = "Income statement" )
+			)
+		formatString: #,##0.0;-#,##0.0;-
+		displayFolder: Budapest demo\FX
+		lineageTag: e53d643b-c259-4274-9148-088569f2162c
+
+	/// v3 FX: Plan (GuV, vorzeichenrichtig, Mio. EUR) aus der Plan-Landeswährung zum Budgetkurs. Der Plan
+	/// in EUR (PL signed) ist im Demo zum Ist-Durchschnittskurs umgerechnet; erst diese Fassung ist ein
+	/// Plan zum Budgetkurs.
+	measure 'PL signed @BUD' =
+			CALCULATE (
+			    SUMX (
+			        SUMMARIZE ( 'fact-abschluss', 'dim-gesellschaft'[Währung], 'dim-datum'[Jahr] ),
+			        VAR _Cur = 'dim-gesellschaft'[Währung]
+			        VAR _Yr = 'dim-datum'[Jahr]
+			        VAR _Rate =
+			            CALCULATE (
+			                MAX ( 'fact-kurse'[Kurs Budget] ),
+			                REMOVEFILTERS ( 'dim-datum' ),
+			                REMOVEFILTERS ( 'dim-waehrung' ),
+			                REMOVEFILTERS ( 'fact-kurse' ),
+			                'fact-kurse'[Währung] = _Cur,
+			                'fact-kurse'[Jahr] = _Yr
+			            )
+			        VAR _Lw =
+			            CALCULATE (
+			                SUMX (
+			                    VALUES ( 'dim-konten'[SignConvention] ),
+			                    'dim-konten'[SignConvention] * CALCULATE ( SUM ( 'fact-abschluss'[PL LW Wert] ) )
+			                )
+			            )
+			        RETURN
+			            DIVIDE ( _Lw, _Rate )
+			    ) / 1000000,
+			    KEEPFILTERS ( 'dim-konten'[RowType] = "account" ),
+			    KEEPFILTERS ( 'dim-konten'[Statement] = "Income statement" )
+			)
+		formatString: #,##0.0;-#,##0.0;-
+		displayFolder: Budapest demo\FX
+		lineageTag: 271369a3-4f23-4b07-8f76-05284075dd5e
+
+	/// v3 FX: Währungseffekt = Ist zum Ist-Kurs minus Ist zum Budgetkurs. Positiv = der Euro war
+	/// schwächer als budgetiert, Fremdwährungsergebnisse zählen in EUR mehr.
+	measure 'FX effect' =
+			VAR _Ac = [AC signed]
+			RETURN
+			    IF ( NOT ISBLANK ( _Ac ), _Ac - [AC signed @BUD] )
+		formatString: +#,##0.0;-#,##0.0;-
+		displayFolder: Budapest demo\FX
+		lineageTag: 635c969b-cbbf-40fc-9528-7c466f4559cd
+
+	/// v3 FX: operative Abweichung ohne Währungseinfluss: Ist zum Budgetkurs minus Plan zum Budgetkurs,
+	/// Plan nur für Ist-Monate (wie ΔPL). Positiv ist gut.
+	measure 'ΔPL @BUD' =
+			VAR _Ac = [AC signed @BUD]
+			VAR _Pl = CALCULATE ( [PL signed @BUD], KEEPFILTERS ( 'dim-datum'[Period Status] = "Actual" ) )
+			RETURN
+			    IF ( NOT ISBLANK ( _Ac ), _Ac - _Pl )
+		formatString: +#,##0.0;-#,##0.0;-
+		displayFolder: Budapest demo\FX
+		lineageTag: 0fc70b27-c39b-4153-9afc-3f9241f70b82
+
+	/// v3 FX: Net revenue Ist zum Budgetkurs in Mio. EUR.
+	measure 'Revenue AC @BUD mEUR' = CALCULATE ( [AC signed @BUD], KEEPFILTERS ( 'dim-konten'[L1 EN] = "Net revenue" ) )
+		formatString: #,##0.0
+		displayFolder: Budapest demo\FX
+		lineageTag: a593f014-a385-4538-ab25-3cec89fdf312
+
+	/// v3 FX: Währungseffekt auf Net revenue in Mio. EUR (Revenue AC mEUR minus Revenue AC @BUD mEUR).
+	measure 'Revenue FX effect mEUR' = CALCULATE ( [FX effect], KEEPFILTERS ( 'dim-konten'[L1 EN] = "Net revenue" ) )
+		formatString: +#,##0.0;-#,##0.0;-
+		displayFolder: Budapest demo\FX
+		lineageTag: bd463acc-5e51-4df5-90e4-7ea3cccc1e25
+
+	/// v3 Statement: Ist je Zeile der Tabelle pnl-lines (Mio. EUR, vorzeichenrichtig). "line" = AC signed
+	/// der L1-Position, "subtotal" = Summe aller L1-Positionen mit L1 Sort kleiner Upto Sort. Ohne
+	/// eindeutige Zeile (Gesamtzeile) BLANK, Net income steht als eigene Zeile.
+	measure 'AC line' =
+			VAR _Type = SELECTEDVALUE ( 'pnl-lines'[Line Type] )
+			VAR _Line = SELECTEDVALUE ( 'pnl-lines'[Line] )
+			VAR _Upto = SELECTEDVALUE ( 'pnl-lines'[Upto Sort] )
+			RETURN
+			    SWITCH (
+			        _Type,
+			        "line", CALCULATE ( [AC signed], KEEPFILTERS ( TREATAS ( { _Line }, 'dim-konten'[L1 EN] ) ) ),
+			        "subtotal", CALCULATE ( [AC signed], KEEPFILTERS ( 'dim-konten'[L1 Sort] < _Upto ) )
+			    )
+		formatString: #,##0.0;-#,##0.0;-
+		displayFolder: Budapest demo\Statement
+		lineageTag: da2970c6-4724-42ed-8b17-0cfd17bc48f4
+
+	/// v3 Statement: Plan je Zeile von pnl-lines, nur Ist-Monate (Period Status = Actual), damit AC line,
+	/// PL line und ΔPL line vergleichbar sind.
+	measure 'PL line' =
+			VAR _Type = SELECTEDVALUE ( 'pnl-lines'[Line Type] )
+			VAR _Line = SELECTEDVALUE ( 'pnl-lines'[Line] )
+			VAR _Upto = SELECTEDVALUE ( 'pnl-lines'[Upto Sort] )
+			RETURN
+			    SWITCH (
+			        _Type,
+			        "line", CALCULATE ( CALCULATE ( [PL signed], KEEPFILTERS ( 'dim-datum'[Period Status] = "Actual" ) ), KEEPFILTERS ( TREATAS ( { _Line }, 'dim-konten'[L1 EN] ) ) ),
+			        "subtotal", CALCULATE ( CALCULATE ( [PL signed], KEEPFILTERS ( 'dim-datum'[Period Status] = "Actual" ) ), KEEPFILTERS ( 'dim-konten'[L1 Sort] < _Upto ) )
+			    )
+		formatString: #,##0.0;-#,##0.0;-
+		displayFolder: Budapest demo\Statement
+		lineageTag: 4fb7e2a6-699b-4c9d-ba3e-e72491fed227
+
+	/// v3 Statement: Vorjahr je Zeile von pnl-lines, nur Ist-Monate (Period Status = Actual).
+	measure 'PY line' =
+			VAR _Type = SELECTEDVALUE ( 'pnl-lines'[Line Type] )
+			VAR _Line = SELECTEDVALUE ( 'pnl-lines'[Line] )
+			VAR _Upto = SELECTEDVALUE ( 'pnl-lines'[Upto Sort] )
+			RETURN
+			    SWITCH (
+			        _Type,
+			        "line", CALCULATE ( CALCULATE ( [PY signed], KEEPFILTERS ( 'dim-datum'[Period Status] = "Actual" ) ), KEEPFILTERS ( TREATAS ( { _Line }, 'dim-konten'[L1 EN] ) ) ),
+			        "subtotal", CALCULATE ( CALCULATE ( [PY signed], KEEPFILTERS ( 'dim-datum'[Period Status] = "Actual" ) ), KEEPFILTERS ( 'dim-konten'[L1 Sort] < _Upto ) )
+			    )
+		formatString: #,##0.0;-#,##0.0;-
+		displayFolder: Budapest demo\Statement
+		lineageTag: 95179901-a5f8-498b-86b7-d66ba41e9148
+
+	/// v3 Statement: Abweichung Ist gegen Plan je Zeile von pnl-lines, positiv ist gut.
+	measure 'ΔPL line' =
+			VAR _Ac = [AC line]
+			RETURN
+			    IF ( NOT ISBLANK ( _Ac ), _Ac - [PL line] )
+		formatString: +#,##0.0;-#,##0.0;-
+		displayFolder: Budapest demo\Statement
+		lineageTag: a2254b11-e5bf-463b-bfe5-017a9165649e
+
+	/// v3 Statement: Abweichung Ist gegen Plan in Prozent des Plans je Zeile von pnl-lines.
+	measure 'ΔPL % line' = DIVIDE ( [ΔPL line], ABS ( [PL line] ) )
+		formatString: +0.0%;-0.0%;-
+		displayFolder: Budapest demo\Statement
+		lineageTag: 7f811aae-5d50-4d1a-82ce-fb6ef1c11f98
+
+	/// v3 Statement: Farbcode für bedingte Formatierung je Zeile von pnl-lines, Teal günstig, Rot ungünstig.
+	measure 'ΔPL line status' =
+			SWITCH (
+			    TRUE (),
+			    ISBLANK ( [ΔPL line] ), BLANK (),
+			    [ΔPL line] >= 0, "#2E8B7A",
+			    "#C0392B"
+			)
+		displayFolder: Budapest demo\Statement
+		lineageTag: 4e19db1b-754b-45e7-9c7e-186a11bf6e53
+
+	/// v3b Sprosse 2, nur DAX: Abweichungsbalken aus Unicode-Blöcken je Zeile von pnl-lines, skaliert auf die
+	/// größte ΔPL line der sichtbaren Zeilen (Line und Line Sort in ALLSELECTED). Links negativ, rechts positiv;
+	/// Füllzeichen UNICHAR(160), weil die Matrix normale führende Leerzeichen entfernt.
+	measure 'ΔPL line bar (text)' =
+			VAR _D = [ΔPL line]
+			VAR _Max =
+			    MAXX ( ALLSELECTED ( 'pnl-lines'[Line], 'pnl-lines'[Line Sort] ), ABS ( [ΔPL line] ) )
+			VAR _N = MIN ( 10, ROUND ( DIVIDE ( ABS ( _D ), _Max, 0 ) * 10, 0 ) )
+			VAR _Neg = REPT ( UNICHAR ( 160 ), 10 - _N ) & REPT ( "█", _N )
+			VAR _Pos = REPT ( "█", _N ) & REPT ( UNICHAR ( 160 ), 10 - _N )
+			RETURN
+			    IF (
+			        ISBLANK ( _D ),
+			        BLANK (),
+			        IF ( _D < 0, _Neg & "│" & REPT ( UNICHAR ( 160 ), 10 ), REPT ( UNICHAR ( 160 ), 10 ) & "│" & _Pos )
+			    )
+		displayFolder: Budapest demo\Statement
+		lineageTag: 6caec63f-518b-4bf9-8028-8bcfb41f8c79
+
+	/// v3b Sprosse 3, SVG-Measure je Zeile von pnl-lines: Abweichungsbalken mit Doppellinie als Plan-Referenz,
+	/// Teal gut, Rot schlecht, Label fett bei Zwischensummen. Datenkategorie ImageUrl.
+	measure 'ΔPL line SVG' =
+			VAR _D = [ΔPL line]
+			VAR _Max =
+			    MAXX ( ALLSELECTED ( 'pnl-lines'[Line], 'pnl-lines'[Line Sort] ), ABS ( [ΔPL line] ) )
+			VAR _W = 160
+			VAR _H = 18
+			VAR _Mid = _W / 2
+			VAR _Len = MIN ( 1, DIVIDE ( ABS ( _D ), _Max, 0 ) ) * ( _Mid - 44 )
+			VAR _X = IF ( _D < 0, _Mid - _Len, _Mid )
+			VAR _Col = IF ( _D >= 0, "%232E8B7A", "%23C0392B" )
+			VAR _Lbl = FORMAT ( _D, "+#,##0.0;-#,##0.0", "en-US" )
+			VAR _LblX = IF ( _D < 0, _Mid + 5, _Mid - 5 )
+			VAR _Anchor = IF ( _D < 0, "start", "end" )
+			VAR _Weight = IF ( SELECTEDVALUE ( 'pnl-lines'[Line Type] ) = "subtotal", "bold", "normal" )
+			VAR _Svg =
+			    "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='" & _W & "' height='" & _H & "' viewBox='0 0 " & _W & " " & _H & "'>"
+			        & "<line x1='" & ( _Mid - 1.5 ) & "' y1='0' x2='" & ( _Mid - 1.5 ) & "' y2='" & _H & "' stroke='%23404040' stroke-width='1'/>"
+			        & "<line x1='" & ( _Mid + 1.5 ) & "' y1='0' x2='" & ( _Mid + 1.5 ) & "' y2='" & _H & "' stroke='%23404040' stroke-width='1'/>"
+			        & "<rect x='" & FORMAT ( _X, "0.0", "en-US" ) & "' y='3' width='" & FORMAT ( _Len, "0.0", "en-US" ) & "' height='" & ( _H - 6 ) & "' fill='" & _Col & "'/>"
+			        & "<text x='" & _LblX & "' y='13' font-family='Segoe UI' font-size='10' font-weight='" & _Weight & "' text-anchor='" & _Anchor & "' fill='%23222'>" & _Lbl & "</text>"
+			        & "</svg>"
+			RETURN
+			    IF ( ISBLANK ( _D ), BLANK (), _Svg )
+		displayFolder: Budapest demo\Statement
+		lineageTag: 55d8ea23-b111-463a-93bc-48ef3421ae5e
+		dataCategory: ImageUrl
+
+	/// v3b Sprosse 3 mit UDF-Bibliothek PowerofBI.IBCS je Zeile von pnl-lines: absolute Abweichung als IBCS-Balken,
+	/// Hauptwert = |PL line| + ΔPL line, Basis = |PL line|, Skalierung über Line und Line Sort, Zwischensummen fett.
+	measure 'ΔPL line UDF' =
+			IF (
+			    ISBLANK ( [ΔPL line] ),
+			    BLANK (),
+			    PowerofBI.IBCS.BarChart.AbsoluteVariance (
+			        'pnl-lines'[Line],
+			        ABS ( [PL line] ) + [ΔPL line],
+			        BLANK (),
+			        ABS ( [PL line] ),
+			        MAXX ( ALLSELECTED ( 'pnl-lines'[Line], 'pnl-lines'[Line Sort] ), ABS ( [ΔPL line] ) ),
+			        "outlined",
+			        SELECTEDVALUE ( 'pnl-lines'[Line Type] ) = "subtotal",
+			        FORMAT ( [ΔPL line], "+#,##0.0;-#,##0.0;=", "en-US" ),
+			        240,
+			        22,
+			        1
+			    )
+			)
+		displayFolder: Budapest demo\Statement
+		lineageTag: ce5278ad-463a-4510-8b10-6ed27caa3251
+		dataCategory: ImageUrl
+
+	/// v3b Sprosse 3 mit UDF-Bibliothek PowerofBI.IBCS je Zeile von pnl-lines: relative Abweichung als Pin,
+	/// gleiche Konvention wie ΔPL line UDF, Label aus ΔPL % line, Zwischensummen fett.
+	measure 'ΔPL % line UDF' =
+			IF (
+			    ISBLANK ( [ΔPL line] ),
+			    BLANK (),
+			    PowerofBI.IBCS.BarChart.RelativeVariance (
+			        'pnl-lines'[Line],
+			        ABS ( [PL line] ) + [ΔPL line],
+			        BLANK (),
+			        ABS ( [PL line] ),
+			        "outlined",
+			        SELECTEDVALUE ( 'pnl-lines'[Line Type] ) = "subtotal",
+			        FORMAT ( [ΔPL % line] * 100, "+#,##0.0;-#,##0.0;=", "en-US" ),
+			        160,
+			        22,
+			        1
+			    )
+			)
+		displayFolder: Budapest demo\Statement
+		lineageTag: 8142bc95-6791-454d-bd73-70be5dcd1f67
+		dataCategory: ImageUrl
+
+	column AccountID
+		dataType: string
+		lineageTag: 42ff4336-d570-49d3-844d-baf29f140c15
+		summarizeBy: none
+		sourceColumn: AccountID
+
+		annotation SummarizationSetBy = Automatic
+
+	column EntityID
+		dataType: string
+		lineageTag: 83e682b1-a78d-4cb0-8312-3e5b64ec2f92
+		summarizeBy: none
+		sourceColumn: EntityID
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Monatsletzter, Bezug zur Datumsdimension.
+	column Datum
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: dcfd8fe6-0e4b-41b9-85b5-376cf7097ed9
+		summarizeBy: none
+		sourceColumn: Datum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	/// Periodenschlüssel als Text JJJJ-MM. Diese Spalte gehört in die Rolle
+	/// "Period" des Visuals.
+	column Monat
+		dataType: string
+		lineageTag: dd6be4eb-de2d-4116-81d9-7e919e901639
+		summarizeBy: none
+		sourceColumn: Monat
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Ist in EUR, Basiseinheiten. Die Spalten ohne Zusatz sind
+	/// Konzernwährung, die mit "_LW" Landeswährung.
+	column 'AC Wert'
+		dataType: double
+		isHidden
+		formatString: #,##0
+		lineageTag: 8185d803-10c7-4a31-8575-d43f69a0fcb4
+		summarizeBy: sum
+		sourceColumn: AC
+
+		annotation SummarizationSetBy = User
+
+	/// Ist in der Landeswährung der Gesellschaft, Basiseinheiten.
+	column 'AC LW Wert'
+		dataType: double
+		isHidden
+		formatString: #,##0
+		lineageTag: 38a05b30-a035-481a-8839-83cb508a2893
+		summarizeBy: sum
+		sourceColumn: AC_LW
+
+		annotation SummarizationSetBy = User
+
+	column 'PY Wert'
+		dataType: double
+		isHidden
+		formatString: #,##0
+		lineageTag: ccb1d11e-cadf-4d6f-85ef-c3c89b864db4
+		summarizeBy: sum
+		sourceColumn: PY
+
+		annotation SummarizationSetBy = User
+
+	column 'PY LW Wert'
+		dataType: double
+		isHidden
+		formatString: #,##0
+		lineageTag: 7159be2c-98d5-4328-8e68-90defa7fcf44
+		summarizeBy: sum
+		sourceColumn: PY_LW
+
+		annotation SummarizationSetBy = User
+
+	column 'PL Wert'
+		dataType: double
+		isHidden
+		formatString: #,##0
+		lineageTag: 667b3434-aad9-4e89-883e-b5d516346957
+		summarizeBy: sum
+		sourceColumn: PL
+
+		annotation SummarizationSetBy = User
+
+	column 'PL LW Wert'
+		dataType: double
+		isHidden
+		formatString: #,##0
+		lineageTag: 781bac07-5fec-45f8-8197-8663d461fc85
+		summarizeBy: sum
+		sourceColumn: PL_LW
+
+		annotation SummarizationSetBy = User
+
+	column 'FC Wert'
+		dataType: double
+		isHidden
+		formatString: #,##0
+		lineageTag: 8615dadd-9c63-40cf-8f68-f37ee76e18ce
+		summarizeBy: sum
+		sourceColumn: FC
+
+		annotation SummarizationSetBy = User
+
+	column 'FC LW Wert'
+		dataType: double
+		isHidden
+		formatString: #,##0
+		lineageTag: e25b9c7a-67f9-4f25-8b47-3314569e5cf9
+		summarizeBy: sum
+		sourceColumn: FC_LW
+
+		annotation SummarizationSetBy = User
+
+	/// Jahresskalar, auf jeder Monatszeile des Jahres gleich. Nur mit MAX
+	/// aggregieren, nie mit SUM.
+	column FC_FY
+		dataType: double
+		isHidden
+		formatString: #,##0
+		lineageTag: f0756245-da14-496c-8b51-93f83a68b516
+		summarizeBy: sum
+		sourceColumn: FC_FY
+
+		annotation SummarizationSetBy = User
+
+	column FC_FY_LW
+		dataType: double
+		isHidden
+		formatString: #,##0
+		lineageTag: 8f59c48f-ccd8-47ca-8372-ffdb04de4d30
+		summarizeBy: sum
+		sourceColumn: FC_FY_LW
+
+		annotation SummarizationSetBy = User
+
+	/// Jahresskalar, auf jeder Monatszeile des Jahres gleich. Nur mit MAX
+	/// aggregieren, nie mit SUM.
+	column PL_FY
+		dataType: double
+		isHidden
+		formatString: #,##0
+		lineageTag: 40847ea7-e866-47f2-81fb-ed909ae810ed
+		summarizeBy: sum
+		sourceColumn: PL_FY
+
+		annotation SummarizationSetBy = User
+
+	column PL_FY_LW
+		dataType: double
+		isHidden
+		formatString: #,##0
+		lineageTag: db2464de-9870-4ff3-8958-a3c5dd23417c
+		summarizeBy: sum
+		sourceColumn: PL_FY_LW
+
+		annotation SummarizationSetBy = User
+
+	partition fact-abschluss = m
+		mode: import
+		source =
+				let
+				    Quelle = Csv.Document(File.Contents(DemoPfad & "fact-abschluss.csv"), [Delimiter = ";", Columns = 16, Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Header = Table.PromoteHeaders(Quelle, [PromoteAllScalars = true]),
+				    Typen = Table.TransformColumnTypes(Header, {{"AccountID", type text}, {"EntityID", type text}, {"Datum", type date}, {"Monat", type text}, {"AC", type number}, {"AC_LW", type number}, {"PY", type number}, {"PY_LW", type number}, {"PL", type number}, {"PL_LW", type number}, {"FC", type number}, {"FC_LW", type number}, {"FC_FY", type number}, {"FC_FY_LW", type number}, {"PL_FY", type number}, {"PL_FY_LW", type number}}, "en-US")
+				in
+				    Typen
+
+	annotation PBI_ResultType = Table
+

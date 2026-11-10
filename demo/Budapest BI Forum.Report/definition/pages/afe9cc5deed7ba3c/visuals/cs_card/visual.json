@@ -1,0 +1,125 @@
+{
+  "name": "cs_card",
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "queryRef": "fact-abschluss.Revenue AC mEUR",
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact-abschluss"
+                    }
+                  },
+                  "Property": "Revenue AC mEUR"
+                }
+              },
+              "nativeQueryRef": "Revenue AC mEUR"
+            },
+            {
+              "queryRef": "fact-abschluss.Revenue PL mEUR",
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact-abschluss"
+                    }
+                  },
+                  "Property": "Revenue PL mEUR"
+                }
+              },
+              "nativeQueryRef": "Revenue PL mEUR"
+            }
+          ]
+        },
+        "Rows": {
+          "projections": [
+            {
+              "queryRef": "dim-gesellschaft.Short name",
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim-gesellschaft"
+                    }
+                  },
+                  "Property": "Short name"
+                }
+              },
+              "nativeQueryRef": "Short name"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "fact-abschluss"
+                  }
+                },
+                "Property": "Revenue AC mEUR"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "objects": {
+      "layout": [
+        {
+          "properties": {
+            "columnCount": {
+              "expr": {
+                "Literal": {
+                  "Value": "2D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Revenue in EUR m, by company | Jan..Oct 2026 AC and PL (new card, small multiples)'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "position": {
+    "x": 1047,
+    "y": 123,
+    "width": 846,
+    "height": 894,
+    "z": 0,
+    "tabOrder": 0
+  },
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json"
+}

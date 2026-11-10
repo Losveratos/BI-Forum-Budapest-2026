@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "PnL ChartkitchenDemoKit"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "1df19f6a-a28b-4ab1-a7fe-6997fa7c78b5"
+  }
+}

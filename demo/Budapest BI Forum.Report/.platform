@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "Budapest BI Forum"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "68f2f195-8109-4255-95a8-518291c1dd2a"
+  }
+}

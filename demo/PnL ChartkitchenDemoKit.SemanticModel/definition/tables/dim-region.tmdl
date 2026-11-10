@@ -1,0 +1,87 @@
+/// Drei Regionen. Hängt an dim-gesellschaft, nicht direkt an den Fakten.
+table dim-region
+	lineageTag: 1e9edc10-a80f-42be-8b8a-ef556ac2968b
+
+	/// Schlüssel zu dim-gesellschaft — ein Schneeflocken-Ast, Region
+	/// filtert über die Gesellschaft auf die Fakten.
+	column RegionID
+		dataType: string
+		lineageTag: bb6472e9-8303-44aa-8cfc-7c23e2f0739b
+		summarizeBy: none
+		sourceColumn: RegionID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Region
+		dataType: string
+		lineageTag: 2ed8e5ed-a713-4ad8-80bb-bce7528f2cce
+		summarizeBy: none
+		sourceColumn: Region
+		sortByColumn: Sortierung
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Region DE'
+		dataType: string
+		lineageTag: 6acba1f6-c832-4ce3-8014-10fc318b98be
+		summarizeBy: none
+		sourceColumn: Region DE
+		sortByColumn: Sortierung
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Region EN'
+		dataType: string
+		lineageTag: 0d38f1de-9860-42c5-8c4c-07bff7d4f2ba
+		summarizeBy: none
+		sourceColumn: Region EN
+		sortByColumn: Sortierung
+
+		annotation SummarizationSetBy = Automatic
+
+	column Sortierung
+		dataType: int64
+		formatString: 0
+		lineageTag: 7e5af2ec-e366-47d5-8acb-7501ff46d447
+		summarizeBy: none
+		sourceColumn: Sortierung
+
+		annotation SummarizationSetBy = Automatic
+
+	column Hauptsitz
+		dataType: string
+		lineageTag: 0b3bd134-8809-466d-85ed-2affb6909a41
+		summarizeBy: none
+		sourceColumn: Hauptsitz
+
+		annotation SummarizationSetBy = Automatic
+
+	column Zeitzone
+		dataType: string
+		lineageTag: 70c0733a-014b-4d04-86fa-38502eb6c76f
+		summarizeBy: none
+		sourceColumn: Zeitzone
+
+		annotation SummarizationSetBy = Automatic
+
+	column Gesellschaften
+		dataType: int64
+		formatString: 0
+		lineageTag: 911fc410-9c9a-4845-8a3e-f5d4970999d6
+		summarizeBy: none
+		sourceColumn: Gesellschaften
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim-region = m
+		mode: import
+		source =
+				let
+				    Quelle = Csv.Document(File.Contents(DemoPfad & "dim-region.csv"), [Delimiter = ";", Columns = 8, Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Header = Table.PromoteHeaders(Quelle, [PromoteAllScalars = true]),
+				    Typen = Table.TransformColumnTypes(Header, {{"RegionID", type text}, {"Region", type text}, {"Region DE", type text}, {"Region EN", type text}, {"Sortierung", Int64.Type}, {"Hauptsitz", type text}, {"Zeitzone", type text}, {"Gesellschaften", Int64.Type}}, "en-US")
+				in
+				    Typen
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,128 @@
+/// Monatskurse je Währung, in Einheiten der Landeswährung je 1 EUR.
+/// Durchschnittskurs für Erfolgsposten und Zahlungsströme, Stichtagskurs
+/// für Bilanzposten (IAS 21). Die Umrechnung ist in der Faktentabelle
+/// bereits vollzogen; diese Tabelle macht sie nachvollziehbar.
+table fact-kurse
+	lineageTag: 1073e1d2-0bd3-477f-8a60-be9cb2d8727a
+
+	/// Mittlerer Durchschnittskurs der gewählten Monate, Einheiten der
+	/// Landeswährung je 1 EUR. Für Erfolgsposten und Zahlungsströme.
+	measure Durchschnittskurs = AVERAGE ( 'fact-kurse'[Kurs Durchschnitt] )
+		formatString: #,##0.0000
+		displayFolder: Kurse
+		lineageTag: 815597d5-b796-4fbd-8ffe-381193930661
+
+	/// Kurs am letzten Tag der Auswahl, Einheiten der Landeswährung je 1
+	/// EUR. Für Bilanzposten.
+	measure Stichtagskurs = LASTNONBLANKVALUE ( 'dim-datum'[Datum], MAX ( 'fact-kurse'[Kurs Stichtag] ) )
+		formatString: #,##0.0000
+		displayFolder: Kurse
+		lineageTag: 59fce8a2-fc20-4017-8f8e-1de10ab37cd6
+
+	/// ISO-Code der Landeswährung.
+	column Währung
+		dataType: string
+		lineageTag: 839a6642-a1ed-4e6e-8204-3179fc4245b1
+		summarizeBy: none
+		sourceColumn: Währung
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Monatsletzter, Bezug zur Datumsdimension.
+	column Datum
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		displayFolder: Periode
+		lineageTag: 944d0271-433d-44b2-8220-8961bb2cc7e4
+		summarizeBy: none
+		sourceColumn: Datum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Monat
+		dataType: string
+		displayFolder: Periode
+		lineageTag: aa003a9b-f963-42eb-8b8a-919e1597b15e
+		summarizeBy: none
+		sourceColumn: Monat
+
+		annotation SummarizationSetBy = Automatic
+
+	column Jahr
+		dataType: int64
+		formatString: 0
+		displayFolder: Periode
+		lineageTag: eee29172-39cf-46b2-8678-f72fc0dc3d9f
+		summarizeBy: none
+		sourceColumn: Jahr
+
+		annotation SummarizationSetBy = Automatic
+
+	column Periode
+		dataType: string
+		displayFolder: Periode
+		lineageTag: ad707c71-6d61-4ecb-880c-7f97b280a99d
+		summarizeBy: none
+		sourceColumn: Periode
+		sortByColumn: PeriodeSort
+
+		annotation SummarizationSetBy = Automatic
+
+	column PeriodeSort
+		dataType: int64
+		formatString: 0
+		displayFolder: Periode
+		lineageTag: 2d315db6-99a9-46e9-83b0-2f52bd48fb8a
+		summarizeBy: none
+		sourceColumn: PeriodeSort
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Durchschnittskurs des Monats, Einheiten der Landeswährung je 1 EUR.
+	/// Für Erfolgsposten und Zahlungsströme.
+	column 'Kurs Durchschnitt'
+		dataType: double
+		formatString: #,##0.0000
+		lineageTag: 093647bb-14bf-4a22-8b5b-27c90f205ef4
+		summarizeBy: none
+		sourceColumn: Kurs Durchschnitt
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Kurs am Monatsletzten, Einheiten der Landeswährung je 1 EUR. Für
+	/// Bilanzposten.
+	column 'Kurs Stichtag'
+		dataType: double
+		formatString: #,##0.0000
+		lineageTag: 3753f347-d430-4645-8f21-fb440cc67f68
+		summarizeBy: none
+		sourceColumn: Kurs Stichtag
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Budgetkurs (v3), Landeswährung je 1 EUR, fest je Währung und Jahr:
+	/// Mittel der Durchschnittskurse Okt bis Dez des Vorjahres, für 2025 der
+	/// Januar-Durchschnittskurs. EUR = 1. Basis für 'AC signed @BUD'.
+	column 'Kurs Budget'
+		dataType: double
+		formatString: #,##0.0000
+		lineageTag: 800e32cd-4c41-4c48-bd8c-4c0837c7c14e
+		summarizeBy: none
+		sourceColumn: Kurs Budget
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact-kurse = m
+		mode: import
+		source =
+				let
+				    Quelle = Csv.Document(File.Contents(DemoPfad & "fact-kurse.csv"), [Delimiter = ";", Columns = 9, Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Header = Table.PromoteHeaders(Quelle, [PromoteAllScalars = true]),
+				    Typen = Table.TransformColumnTypes(Header, {{"Währung", type text}, {"Datum", type date}, {"Monat", type text}, {"Jahr", Int64.Type}, {"Periode", type text}, {"PeriodeSort", Int64.Type}, {"Kurs Durchschnitt", type number}, {"Kurs Stichtag", type number}, {"Kurs Budget", type number}}, "en-US")
+				in
+				    Typen
+
+	annotation PBI_ResultType = Table
+

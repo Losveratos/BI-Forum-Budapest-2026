@@ -1,0 +1,22 @@
+# Claude Code local settings
+.claude/
+
+# Python
+__pycache__/
+*.pyc
+
+# Power BI local cache and settings
+.pbi/
+*.abf
+
+# OS / Office temp files
+Thumbs.db
+.DS_Store
+~$*
+
+# Review control renders (the review texts as .md stay in the repo)
+working/budapest-bi26/reviews-v2/*.png
+
+# not for the public repo: submissions for other events, organiser template
+material/andere-sessions/
+material/bi26_template.pptx

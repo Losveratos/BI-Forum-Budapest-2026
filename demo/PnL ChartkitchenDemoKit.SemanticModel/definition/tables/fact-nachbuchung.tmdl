@@ -1,0 +1,87 @@
+/// v3 Monatsabschluss-Szene: Nachbuchung nach dem Close am Arbeitstag 3 (eine
+/// Zeile). Fließt nur in AC ein, wenn 'close-status' auf "Incl. day-3
+/// adjustment" steht. Basiseinheiten, Rohvorzeichen wie fact-abschluss.
+table fact-nachbuchung
+	lineageTag: 8d6bd3ce-ce1d-4471-85c4-e17a2ed8225a
+
+	column AccountID
+		dataType: string
+		lineageTag: adf1de62-eac8-4ce3-8b6e-555f9104e4f5
+		summarizeBy: none
+		sourceColumn: AccountID
+
+		annotation SummarizationSetBy = Automatic
+
+	column EntityID
+		dataType: string
+		lineageTag: 349c3fae-8df5-4370-afcf-192063c29f6d
+		summarizeBy: none
+		sourceColumn: EntityID
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Monatsletzter, Bezug zur Datumsdimension.
+	column Datum
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: d7e7c120-df8e-47df-b68c-9ecfbdc3fd65
+		summarizeBy: none
+		sourceColumn: Datum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	/// Periodenschlüssel JJJJ-MM wie fact-abschluss[Monat]; die AC-Measures
+	/// übertragen darüber einen Filter auf fact-abschluss[Monat].
+	column Monat
+		dataType: string
+		lineageTag: 8dd088ee-e258-48ef-b5df-ba51475e8447
+		summarizeBy: none
+		sourceColumn: Monat
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Nachbuchung in EUR, Basiseinheiten, Rohvorzeichen (mal SignConvention).
+	column 'AC Wert'
+		dataType: double
+		isHidden
+		formatString: #,##0
+		lineageTag: bdcf307b-7d45-4e14-9614-c9c12981c9d6
+		summarizeBy: sum
+		sourceColumn: AC Wert
+
+		annotation SummarizationSetBy = User
+
+	/// Nachbuchung in Landeswährung, Basiseinheiten.
+	column 'AC LW Wert'
+		dataType: double
+		isHidden
+		formatString: #,##0
+		lineageTag: e14a8c8a-06ea-4562-a244-aa2e4f458ce5
+		summarizeBy: sum
+		sourceColumn: AC LW Wert
+
+		annotation SummarizationSetBy = User
+
+	/// Buchungstext.
+	column Text
+		dataType: string
+		lineageTag: e9cb7a9c-a3e5-4a80-8f32-69145024323e
+		summarizeBy: none
+		sourceColumn: Text
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact-nachbuchung = m
+		mode: import
+		source =
+				let
+				    Quelle = Csv.Document(File.Contents(DemoPfad & "fact-nachbuchung.csv"), [Delimiter = ";", Columns = 7, Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Header = Table.PromoteHeaders(Quelle, [PromoteAllScalars = true]),
+				    Typen = Table.TransformColumnTypes(Header, {{"AccountID", type text}, {"EntityID", type text}, {"Datum", type date}, {"Monat", type text}, {"AC Wert", type number}, {"AC LW Wert", type number}, {"Text", type text}}, "en-US")
+				in
+				    Typen
+
+	annotation PBI_ResultType = Table
+

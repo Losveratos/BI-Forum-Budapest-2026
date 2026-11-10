@@ -1,0 +1,375 @@
+/// Datumsdimension, tagesgenau vom 1.1.2025 bis 31.12.2026. Als
+/// Datumstabelle markiert, Schlüssel ist Datum.
+table dim-datum
+	lineageTag: 7950f0fd-54f6-4ede-8c05-12ce6a4a048f
+	dataCategory: Time
+
+	/// Monatsletzter der Periode. Der Faktbezug liegt auf diesem Tag.
+	column Datum
+		dataType: dateTime
+		isKey
+		formatString: yyyy-mm-dd
+		lineageTag: df879778-8b54-448a-8b3c-078e4a125cb3
+		summarizeBy: none
+		sourceColumn: Datum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column DatumKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: c09e01e3-6f01-4857-8457-4f2d38b06eac
+		summarizeBy: none
+		sourceColumn: DatumKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column Jahr
+		dataType: int64
+		formatString: 0
+		displayFolder: Jahr und Quartal
+		lineageTag: d95e971a-cdd0-4666-8748-4295a23cf469
+		summarizeBy: none
+		sourceColumn: Jahr
+
+		annotation SummarizationSetBy = Automatic
+
+	column Halbjahr
+		dataType: string
+		displayFolder: Jahr und Quartal
+		lineageTag: e461e3fe-516c-4f1d-8b12-e6ba9f332359
+		summarizeBy: none
+		sourceColumn: Halbjahr
+
+		annotation SummarizationSetBy = Automatic
+
+	column HalbjahrNr
+		dataType: int64
+		formatString: 0
+		displayFolder: Jahr und Quartal
+		lineageTag: f5df3cbb-7356-41aa-8831-6f6c6c916909
+		summarizeBy: none
+		sourceColumn: HalbjahrNr
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quartal
+		dataType: string
+		displayFolder: Jahr und Quartal
+		lineageTag: d567f92f-8a1a-4db1-8281-1ff1ab62c57e
+		summarizeBy: none
+		sourceColumn: Quartal
+
+		annotation SummarizationSetBy = Automatic
+
+	column QuartalNr
+		dataType: int64
+		formatString: 0
+		displayFolder: Jahr und Quartal
+		lineageTag: 700ac62c-e2b9-4707-8e90-407be6ca268b
+		summarizeBy: none
+		sourceColumn: QuartalNr
+
+		annotation SummarizationSetBy = Automatic
+
+	column JahrQuartal
+		dataType: string
+		displayFolder: Jahr und Quartal
+		lineageTag: 90fbf60c-a7b3-43d1-85a9-9502570db685
+		summarizeBy: none
+		sourceColumn: JahrQuartal
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonatNr
+		dataType: int64
+		formatString: 0
+		displayFolder: Monat
+		lineageTag: 3f3548b9-7db7-4f53-8433-d0516f97dbe4
+		summarizeBy: none
+		sourceColumn: MonatNr
+
+		annotation SummarizationSetBy = Automatic
+
+	column Monat
+		dataType: string
+		displayFolder: Monat
+		lineageTag: 297085db-5f6a-4e1c-854f-00cf2796c64d
+		summarizeBy: none
+		sourceColumn: Monat
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Monat Lang'
+		dataType: string
+		displayFolder: Monat
+		lineageTag: bdf73855-716d-45ad-8944-343d521b1133
+		summarizeBy: none
+		sourceColumn: Monat Lang
+		sortByColumn: MonatNr
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Monat Kurz'
+		dataType: string
+		displayFolder: Monat
+		lineageTag: da643fea-e00c-497a-84be-05998af9289e
+		summarizeBy: none
+		sourceColumn: Monat Kurz
+		sortByColumn: MonatNr
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Long'
+		dataType: string
+		displayFolder: Monat
+		lineageTag: cbfbabc5-f851-49c2-8094-e93a962852e2
+		summarizeBy: none
+		sourceColumn: Month Long
+		sortByColumn: MonatNr
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Short'
+		dataType: string
+		displayFolder: Monat
+		lineageTag: 29a0016e-ec4b-48f6-8eda-dcf3faddd227
+		summarizeBy: none
+		sourceColumn: Month Short
+		sortByColumn: MonatNr
+
+		annotation SummarizationSetBy = Automatic
+
+	column Periode
+		dataType: string
+		displayFolder: Monat
+		lineageTag: ff0405d4-50fd-4098-8640-ab333f9ba5ca
+		summarizeBy: none
+		sourceColumn: Periode
+		sortByColumn: PeriodeSort
+
+		annotation SummarizationSetBy = Automatic
+
+	column Period
+		dataType: string
+		displayFolder: Monat
+		lineageTag: bcb528ff-22b4-4de1-8844-8b82645528b5
+		summarizeBy: none
+		sourceColumn: Period
+		sortByColumn: PeriodeSort
+
+		annotation SummarizationSetBy = Automatic
+
+	column PeriodeSort
+		dataType: int64
+		formatString: 0
+		displayFolder: Monat
+		lineageTag: ad4e015d-f9dd-4c27-8661-f994f02e2520
+		summarizeBy: none
+		sourceColumn: PeriodeSort
+
+		annotation SummarizationSetBy = Automatic
+
+	column Monatsende
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		displayFolder: Monat
+		lineageTag: 3f7077de-112d-4e2c-8d20-d896108ad85a
+		summarizeBy: none
+		sourceColumn: Monatsende
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Tag
+		dataType: int64
+		formatString: 0
+		displayFolder: Tag
+		lineageTag: e3796205-75c4-428f-8d95-0689a7695280
+		summarizeBy: none
+		sourceColumn: Tag
+
+		annotation SummarizationSetBy = Automatic
+
+	column TagImJahr
+		dataType: int64
+		formatString: 0
+		displayFolder: Tag
+		lineageTag: b1b8febc-1127-4736-8345-2b67f5e8e97d
+		summarizeBy: none
+		sourceColumn: TagImJahr
+
+		annotation SummarizationSetBy = Automatic
+
+	column TagImMonat
+		dataType: int64
+		formatString: 0
+		displayFolder: Tag
+		lineageTag: 6989e7bc-b623-4885-878b-2da09c23a594
+		summarizeBy: none
+		sourceColumn: TagImMonat
+
+		annotation SummarizationSetBy = Automatic
+
+	column Wochentag
+		dataType: string
+		displayFolder: Tag
+		lineageTag: b9164561-b267-416d-8225-73ebf9ff8444
+		summarizeBy: none
+		sourceColumn: Wochentag
+		sortByColumn: WochentagNr
+
+		annotation SummarizationSetBy = Automatic
+
+	column Weekday
+		dataType: string
+		displayFolder: Tag
+		lineageTag: 08b918cd-93a2-4f19-8f0a-49229bbb1ad8
+		summarizeBy: none
+		sourceColumn: Weekday
+		sortByColumn: WochentagNr
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Wochentag Kurz'
+		dataType: string
+		displayFolder: Tag
+		lineageTag: 3feb0494-1add-4d95-800d-790182bc6618
+		summarizeBy: none
+		sourceColumn: Wochentag Kurz
+		sortByColumn: WochentagNr
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Weekday Short'
+		dataType: string
+		displayFolder: Tag
+		lineageTag: 5640eaa4-d47e-4585-8d19-37093ab733d1
+		summarizeBy: none
+		sourceColumn: Weekday Short
+		sortByColumn: WochentagNr
+
+		annotation SummarizationSetBy = Automatic
+
+	column WochentagNr
+		dataType: int64
+		formatString: 0
+		displayFolder: Tag
+		lineageTag: 5626ea58-f790-44b1-8db3-2e7cf96bf901
+		summarizeBy: none
+		sourceColumn: WochentagNr
+
+		annotation SummarizationSetBy = Automatic
+
+	column ISO-Woche
+		dataType: string
+		displayFolder: Woche
+		lineageTag: 39d27cad-4580-4065-8d21-3e269e6ba8ff
+		summarizeBy: none
+		sourceColumn: ISO-Woche
+
+		annotation SummarizationSetBy = Automatic
+
+	column Woche
+		dataType: int64
+		formatString: 0
+		displayFolder: Woche
+		lineageTag: 794e6482-3041-4fa8-84ac-a37f5ef3a36b
+		summarizeBy: none
+		sourceColumn: Woche
+
+		annotation SummarizationSetBy = Automatic
+
+	column IstWerktag
+		dataType: string
+		displayFolder: Tag
+		lineageTag: 146236cd-01df-4ebe-84d9-c378965d1d75
+		summarizeBy: none
+		sourceColumn: IstWerktag
+
+		annotation SummarizationSetBy = Automatic
+
+	column IstMonatsletzter
+		dataType: string
+		displayFolder: Tag
+		lineageTag: 3323883f-2f00-4c71-838d-064ff71b9635
+		summarizeBy: none
+		sourceColumn: IstMonatsletzter
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Ist, Forecast oder Plan — je Monat.
+	column Periodenstatus
+		dataType: string
+		displayFolder: Status
+		lineageTag: 4e36f998-04b9-45e7-8538-1d1f7e91a084
+		summarizeBy: none
+		sourceColumn: Periodenstatus
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Period Status'
+		dataType: string
+		displayFolder: Status
+		lineageTag: d8a295a4-8d7a-4fa4-8a66-fb3bf2dc936c
+		summarizeBy: none
+		sourceColumn: Period Status
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Relatives Jahr'
+		dataType: int64
+		formatString: 0
+		displayFolder: Status
+		lineageTag: 575c7a2e-e988-44cf-8da4-3ed8e55f1d01
+		summarizeBy: none
+		sourceColumn: Relatives Jahr
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Abstand in Monaten zum Stichtag, 0 = Oktober 2026.
+	column 'Relativer Monat'
+		dataType: int64
+		formatString: 0
+		displayFolder: Status
+		lineageTag: 2007d947-0d8c-4bc4-86e1-692b198fbf83
+		summarizeBy: none
+		sourceColumn: Relativer Monat
+
+		annotation SummarizationSetBy = Automatic
+
+	column IstIstPeriode
+		dataType: string
+		displayFolder: Status
+		lineageTag: a387aaff-4ed2-45f8-856a-13b0941f5598
+		summarizeBy: none
+		sourceColumn: IstIstPeriode
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Monat liegt vollständig vor dem Stichtag 30.10.2026.
+	column IstAbgeschlossen
+		dataType: string
+		displayFolder: Status
+		lineageTag: 26c71aed-3515-43a6-8f39-849b1a7270f6
+		summarizeBy: none
+		sourceColumn: IstAbgeschlossen
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim-datum = m
+		mode: import
+		source =
+				let
+				    Quelle = Csv.Document(File.Contents(DemoPfad & "dim-datum.csv"), [Delimiter = ";", Columns = 36, Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Header = Table.PromoteHeaders(Quelle, [PromoteAllScalars = true]),
+				    Typen = Table.TransformColumnTypes(Header, {{"Datum", type date}, {"DatumKey", Int64.Type}, {"Jahr", Int64.Type}, {"Halbjahr", type text}, {"HalbjahrNr", Int64.Type}, {"Quartal", type text}, {"QuartalNr", Int64.Type}, {"JahrQuartal", type text}, {"MonatNr", Int64.Type}, {"Monat", type text}, {"Monat Lang", type text}, {"Monat Kurz", type text}, {"Month Long", type text}, {"Month Short", type text}, {"Periode", type text}, {"Period", type text}, {"PeriodeSort", Int64.Type}, {"Monatsende", type date}, {"Tag", Int64.Type}, {"TagImJahr", Int64.Type}, {"TagImMonat", Int64.Type}, {"Wochentag", type text}, {"Weekday", type text}, {"Wochentag Kurz", type text}, {"Weekday Short", type text}, {"WochentagNr", Int64.Type}, {"ISO-Woche", type text}, {"Woche", Int64.Type}, {"IstWerktag", type text}, {"IstMonatsletzter", type text}, {"Periodenstatus", type text}, {"Period Status", type text}, {"Relatives Jahr", Int64.Type}, {"Relativer Monat", Int64.Type}, {"IstIstPeriode", type text}, {"IstAbgeschlossen", type text}}, "en-US")
+				in
+				    Typen
+
+	annotation PBI_ResultType = Table
+

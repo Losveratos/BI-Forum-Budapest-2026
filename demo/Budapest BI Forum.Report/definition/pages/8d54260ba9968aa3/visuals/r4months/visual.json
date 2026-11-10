@@ -1,0 +1,201 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.2.0/schema.json",
+  "name": "r4months",
+  "position": {
+    "x": 327,
+    "y": 123,
+    "z": 10,
+    "height": 520,
+    "width": 1566,
+    "tabOrder": 10
+  },
+  "visual": {
+    "visualType": "deneb7E15AEF80B9E4D4F8E12924291ECE89A",
+    "query": {
+      "queryState": {
+        "dataset": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim-datum"
+                    }
+                  },
+                  "Property": "Month Short"
+                }
+              },
+              "queryRef": "dim-datum.Month Short",
+              "nativeQueryRef": "Month Short"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact-abschluss"
+                    }
+                  },
+                  "Property": "Revenue ACFC mEUR"
+                }
+              },
+              "queryRef": "fact-abschluss.Revenue ACFC mEUR",
+              "nativeQueryRef": "Revenue ACFC mEUR"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact-abschluss"
+                    }
+                  },
+                  "Property": "Revenue PL mEUR"
+                }
+              },
+              "queryRef": "fact-abschluss.Revenue PL mEUR",
+              "nativeQueryRef": "Revenue PL mEUR"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact-abschluss"
+                    }
+                  },
+                  "Property": "FC flag"
+                }
+              },
+              "queryRef": "fact-abschluss.FC flag",
+              "nativeQueryRef": "FC flag"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "vega": [
+        {
+          "properties": {
+            "provider": {
+              "expr": {
+                "Literal": {
+                  "Value": "'vegaLite'"
+                }
+              }
+            },
+            "renderMode": {
+              "expr": {
+                "Literal": {
+                  "Value": "'svg'"
+                }
+              }
+            },
+            "jsonSpec": {
+              "expr": {
+                "Literal": {
+                  "Value": "'{\"$schema\":\"https://vega.github.io/schema/vega-lite/v6.json\",\"config\":{\"background\":\"transparent\",\"font\":\"Segoe UI\",\"view\":{\"stroke\":null},\"axis\":{\"domainColor\":\"#404040\",\"domainWidth\":1.5,\"ticks\":false,\"grid\":false,\"labelColor\":\"#555555\",\"labelFont\":\"Segoe UI\",\"labelFontSize\":11,\"title\":null},\"legend\":{\"disable\":true}},\"title\":{\"anchor\":\"start\",\"font\":\"Segoe UI\",\"fontSize\":14,\"color\":\"#404040\",\"subtitleFont\":\"Segoe UI\",\"subtitleFontSize\":12,\"subtitleColor\":\"#404040\",\"offset\":10,\"text\":\"DWG Industries · Revenue, mEUR\",\"subtitle\":[\"2026 AC&FC vs PL · Business Chart Builder template \\\"Integrated variance\\\"\",\"ΔPL % YTD · ΔPL % per month · ΔPL bridge · AC&FC columns with PL outline\"]},\"vconcat\":[{\"width\":1380,\"height\":32,\"data\":{\"name\":\"dataset\"},\"transform\":[{\"window\":[{\"op\":\"row_number\",\"as\":\"vord\"}]},{\"window\":[{\"op\":\"sum\",\"field\":\"Revenue ACFC mEUR\",\"as\":\"cumP\"},{\"op\":\"sum\",\"field\":\"Revenue PL mEUR\",\"as\":\"cumR\"}],\"sort\":[{\"field\":\"vord\"}],\"frame\":[null,0],\"ignorePeers\":true},{\"calculate\":\"datum.cumR != 0 ? (datum.cumP - datum.cumR)/datum.cumR*100 : null\",\"as\":\"rvy\"},{\"calculate\":\"datum.cumR != 0 ? format((datum.cumP - datum.cumR)/datum.cumR, ''+.1%'') : ''n.a.''\",\"as\":\"Lrvy\"}],\"encoding\":{\"x\":{\"field\":\"Month Short\",\"type\":\"nominal\",\"sort\":null,\"axis\":{\"domain\":false,\"ticks\":false,\"labels\":false,\"grid\":false,\"title\":null}}},\"layer\":[{\"mark\":{\"type\":\"rule\",\"color\":\"#404040\",\"strokeWidth\":1},\"encoding\":{\"yOffset\":{\"value\":-1.6},\"y\":{\"datum\":0},\"x\":null}},{\"mark\":{\"type\":\"rule\",\"color\":\"#404040\",\"strokeWidth\":1},\"encoding\":{\"yOffset\":{\"value\":1.6},\"y\":{\"datum\":0},\"x\":null}},{\"mark\":{\"type\":\"rule\",\"strokeWidth\":2},\"encoding\":{\"y\":{\"field\":\"rvy\",\"type\":\"quantitative\",\"axis\":{\"domain\":false,\"ticks\":false,\"labels\":false,\"grid\":false,\"title\":null}},\"y2\":{\"datum\":0},\"color\":{\"condition\":{\"test\":\"datum.rvy >= 0\",\"value\":\"#2E8B7A\"},\"value\":\"#c0392b\"}}},{\"mark\":{\"type\":\"point\",\"filled\":true,\"size\":55,\"tooltip\":{\"content\":\"data\"}},\"encoding\":{\"y\":{\"field\":\"rvy\",\"type\":\"quantitative\",\"axis\":{\"domain\":false,\"ticks\":false,\"labels\":false,\"grid\":false,\"title\":null}},\"fill\":{\"condition\":[{\"test\":\"datum[\\\"FC flag\\\"]\",\"value\":\"#ffffff\"},{\"test\":\"datum.rvy >= 0\",\"value\":\"#2E8B7A\"}],\"value\":\"#c0392b\"},\"stroke\":{\"condition\":[{\"test\":\"datum[\\\"FC flag\\\"] && datum.rvy >= 0\",\"value\":\"#2E8B7A\"},{\"test\":\"datum[\\\"FC flag\\\"]\",\"value\":\"#c0392b\"}],\"value\":\"transparent\"},\"strokeWidth\":{\"condition\":{\"test\":\"datum[\\\"FC flag\\\"]\",\"value\":1.4},\"value\":0}}},{\"transform\":[{\"filter\":\"datum.rvy >= 0\"}],\"mark\":{\"type\":\"text\",\"dy\":-12,\"fontSize\":11,\"font\":\"Arial\",\"color\":\"#404040\"},\"encoding\":{\"y\":{\"field\":\"rvy\",\"type\":\"quantitative\",\"axis\":{\"domain\":false,\"ticks\":false,\"labels\":false,\"grid\":false,\"title\":null}},\"text\":{\"field\":\"Lrvy\",\"type\":\"nominal\"}}},{\"transform\":[{\"filter\":\"datum.rvy < 0\"}],\"mark\":{\"type\":\"text\",\"dy\":17,\"fontSize\":11,\"font\":\"Arial\",\"color\":\"#404040\"},\"encoding\":{\"y\":{\"field\":\"rvy\",\"type\":\"quantitative\",\"axis\":{\"domain\":false,\"ticks\":false,\"labels\":false,\"grid\":false,\"title\":null}},\"text\":{\"field\":\"Lrvy\",\"type\":\"nominal\"}}}]},{\"width\":1380,\"height\":32,\"data\":{\"name\":\"dataset\"},\"transform\":[{\"calculate\":\"datum[\\\"Revenue PL mEUR\\\"] != 0 ? (datum[\\\"Revenue ACFC mEUR\\\"] - datum[\\\"Revenue PL mEUR\\\"])/datum[\\\"Revenue PL mEUR\\\"]*100 : null\",\"as\":\"rv\"},{\"calculate\":\"datum[\\\"Revenue PL mEUR\\\"] != 0 ? format((datum[\\\"Revenue ACFC mEUR\\\"] - datum[\\\"Revenue PL mEUR\\\"])/datum[\\\"Revenue PL mEUR\\\"], ''+.1%'') : ''n.a.''\",\"as\":\"Lrv\"}],\"encoding\":{\"x\":{\"field\":\"Month Short\",\"type\":\"nominal\",\"sort\":null,\"axis\":{\"domain\":false,\"ticks\":false,\"labels\":false,\"grid\":false,\"title\":null}}},\"layer\":[{\"mark\":{\"type\":\"rule\",\"color\":\"#404040\",\"strokeWidth\":1},\"encoding\":{\"yOffset\":{\"value\":-1.6},\"y\":{\"datum\":0},\"x\":null}},{\"mark\":{\"type\":\"rule\",\"color\":\"#404040\",\"strokeWidth\":1},\"encoding\":{\"yOffset\":{\"value\":1.6},\"y\":{\"datum\":0},\"x\":null}},{\"mark\":{\"type\":\"rule\",\"strokeWidth\":2},\"encoding\":{\"y\":{\"field\":\"rv\",\"type\":\"quantitative\",\"axis\":{\"domain\":false,\"ticks\":false,\"labels\":false,\"grid\":false,\"title\":null}},\"y2\":{\"datum\":0},\"color\":{\"condition\":{\"test\":\"datum.rv >= 0\",\"value\":\"#2E8B7A\"},\"value\":\"#c0392b\"}}},{\"mark\":{\"type\":\"point\",\"filled\":true,\"size\":55,\"tooltip\":{\"content\":\"data\"}},\"encoding\":{\"y\":{\"field\":\"rv\",\"type\":\"quantitative\",\"axis\":{\"domain\":false,\"ticks\":false,\"labels\":false,\"grid\":false,\"title\":null}},\"fill\":{\"condition\":[{\"test\":\"datum[\\\"FC flag\\\"]\",\"value\":\"#ffffff\"},{\"test\":\"datum.rv >= 0\",\"value\":\"#2E8B7A\"}],\"value\":\"#c0392b\"},\"stroke\":{\"condition\":[{\"test\":\"datum[\\\"FC flag\\\"] && datum.rv >= 0\",\"value\":\"#2E8B7A\"},{\"test\":\"datum[\\\"FC flag\\\"]\",\"value\":\"#c0392b\"}],\"value\":\"transparent\"},\"strokeWidth\":{\"condition\":{\"test\":\"datum[\\\"FC flag\\\"]\",\"value\":1.4},\"value\":0}}},{\"transform\":[{\"filter\":\"datum.rv >= 0\"}],\"mark\":{\"type\":\"text\",\"dy\":-12,\"fontSize\":11,\"font\":\"Arial\",\"color\":\"#404040\"},\"encoding\":{\"y\":{\"field\":\"rv\",\"type\":\"quantitative\",\"axis\":{\"domain\":false,\"ticks\":false,\"labels\":false,\"grid\":false,\"title\":null}},\"text\":{\"field\":\"Lrv\",\"type\":\"nominal\"}}},{\"transform\":[{\"filter\":\"datum.rv < 0\"}],\"mark\":{\"type\":\"text\",\"dy\":17,\"fontSize\":11,\"font\":\"Arial\",\"color\":\"#404040\"},\"encoding\":{\"y\":{\"field\":\"rv\",\"type\":\"quantitative\",\"axis\":{\"domain\":false,\"ticks\":false,\"labels\":false,\"grid\":false,\"title\":null}},\"text\":{\"field\":\"Lrv\",\"type\":\"nominal\"}}}]},{\"width\":1380,\"height\":60,\"layer\":[{\"data\":{\"name\":\"dataset\"},\"transform\":[{\"window\":[{\"op\":\"row_number\",\"as\":\"vord\"}]},{\"calculate\":\"(isValid(datum[\\\"Revenue ACFC mEUR\\\"])?datum[\\\"Revenue ACFC mEUR\\\"]:0) - (isValid(datum[\\\"Revenue PL mEUR\\\"])?datum[\\\"Revenue PL mEUR\\\"]:0)\",\"as\":\"d\"},{\"window\":[{\"op\":\"sum\",\"field\":\"d\",\"as\":\"cum\"}],\"sort\":[{\"field\":\"vord\"}],\"frame\":[null,0],\"ignorePeers\":true},{\"calculate\":\"datum.cum - datum.d\",\"as\":\"s\"},{\"calculate\":\"datum.cum\",\"as\":\"e\"},{\"calculate\":\"datum[\\\"Month Short\\\"]\",\"as\":\"xlab\"},{\"calculate\":\"datum.vord\",\"as\":\"ord\"},{\"calculate\":\"format(datum.d, ''+,.1f'')\",\"as\":\"L\"}],\"mark\":{\"type\":\"bar\",\"size\":22,\"tooltip\":{\"content\":\"data\"}},\"encoding\":{\"x\":{\"field\":\"xlab\",\"type\":\"nominal\",\"sort\":{\"field\":\"ord\",\"op\":\"min\"},\"axis\":{\"domain\":false,\"ticks\":false,\"labels\":false,\"grid\":false,\"title\":null}},\"y\":{\"field\":\"s\",\"type\":\"quantitative\",\"axis\":{\"domain\":false,\"ticks\":false,\"labels\":false,\"grid\":false,\"title\":null}},\"y2\":{\"field\":\"e\"},\"fill\":{\"condition\":{\"test\":\"datum.d >= 0\",\"value\":\"#2E8B7A\"},\"value\":\"#c0392b\"}}},{\"data\":{\"name\":\"dataset\"},\"transform\":[{\"window\":[{\"op\":\"row_number\",\"as\":\"vord\"}]},{\"calculate\":\"(isValid(datum[\\\"Revenue ACFC mEUR\\\"])?datum[\\\"Revenue ACFC mEUR\\\"]:0) - (isValid(datum[\\\"Revenue PL mEUR\\\"])?datum[\\\"Revenue PL mEUR\\\"]:0)\",\"as\":\"d\"},{\"joinaggregate\":[{\"op\":\"sum\",\"field\":\"d\",\"as\":\"sumD\"}]},{\"filter\":\"datum.vord === 1\"},{\"calculate\":\"0\",\"as\":\"s\"},{\"calculate\":\"datum.sumD\",\"as\":\"e\"},{\"calculate\":\"\\\"\\\\u03a3\\\"\",\"as\":\"xlab\"},{\"calculate\":\"999999\",\"as\":\"ord\"},{\"calculate\":\"format(datum.sumD, ''+,.1f'')\",\"as\":\"L\"}],\"mark\":{\"type\":\"bar\",\"size\":22,\"fill\":\"#404040\",\"tooltip\":{\"content\":\"data\"}},\"encoding\":{\"x\":{\"field\":\"xlab\",\"type\":\"nominal\",\"sort\":{\"field\":\"ord\",\"op\":\"min\"},\"axis\":{\"domain\":false,\"ticks\":false,\"labels\":false,\"grid\":false,\"title\":null}},\"y\":{\"field\":\"s\",\"type\":\"quantitative\",\"axis\":{\"domain\":false,\"ticks\":false,\"labels\":false,\"grid\":false,\"title\":null}},\"y2\":{\"field\":\"e\"}}},{\"data\":{\"name\":\"dataset\"},\"transform\":[{\"window\":[{\"op\":\"row_number\",\"as\":\"vord\"}]},{\"calculate\":\"(isValid(datum[\\\"Revenue ACFC mEUR\\\"])?datum[\\\"Revenue ACFC mEUR\\\"]:0) - (isValid(datum[\\\"Revenue PL mEUR\\\"])?datum[\\\"Revenue PL mEUR\\\"]:0)\",\"as\":\"d\"},{\"window\":[{\"op\":\"sum\",\"field\":\"d\",\"as\":\"cum\"}],\"sort\":[{\"field\":\"vord\"}],\"frame\":[null,0],\"ignorePeers\":true},{\"calculate\":\"datum.cum - datum.d\",\"as\":\"s\"},{\"calculate\":\"datum.cum\",\"as\":\"e\"},{\"calculate\":\"datum[\\\"Month Short\\\"]\",\"as\":\"xlab\"},{\"calculate\":\"datum.vord\",\"as\":\"ord\"},{\"calculate\":\"format(datum.d, ''+,.1f'')\",\"as\":\"L\"},{\"filter\":\"datum.e >= datum.s\"}],\"mark\":{\"type\":\"text\",\"dy\":-8,\"fontSize\":10.5,\"font\":\"Arial\",\"color\":\"#404040\"},\"encoding\":{\"x\":{\"field\":\"xlab\",\"type\":\"nominal\",\"sort\":{\"field\":\"ord\",\"op\":\"min\"},\"axis\":{\"domain\":false,\"ticks\":false,\"labels\":false,\"grid\":false,\"title\":null}},\"y\":{\"field\":\"e\",\"type\":\"quantitative\",\"axis\":{\"domain\":false,\"ticks\":false,\"labels\":false,\"grid\":false,\"title\":null}},\"text\":{\"field\":\"L\",\"type\":\"nominal\"}}},{\"data\":{\"name\":\"dataset\"},\"transform\":[{\"window\":[{\"op\":\"row_number\",\"as\":\"vord\"}]},{\"calculate\":\"(isValid(datum[\\\"Revenue ACFC mEUR\\\"])?datum[\\\"Revenue ACFC mEUR\\\"]:0) - (isValid(datum[\\\"Revenue PL mEUR\\\"])?datum[\\\"Revenue PL mEUR\\\"]:0)\",\"as\":\"d\"},{\"window\":[{\"op\":\"sum\",\"field\":\"d\",\"as\":\"cum\"}],\"sort\":[{\"field\":\"vord\"}],\"frame\":[null,0],\"ignorePeers\":true},{\"calculate\":\"datum.cum - datum.d\",\"as\":\"s\"},{\"calculate\":\"datum.cum\",\"as\":\"e\"},{\"calculate\":\"datum[\\\"Month Short\\\"]\",\"as\":\"xlab\"},{\"calculate\":\"datum.vord\",\"as\":\"ord\"},{\"calculate\":\"format(datum.d, ''+,.1f'')\",\"as\":\"L\"},{\"filter\":\"datum.e < datum.s\"}],\"mark\":{\"type\":\"text\",\"dy\":13,\"fontSize\":10.5,\"font\":\"Arial\",\"color\":\"#404040\"},\"encoding\":{\"x\":{\"field\":\"xlab\",\"type\":\"nominal\",\"sort\":{\"field\":\"ord\",\"op\":\"min\"},\"axis\":{\"domain\":false,\"ticks\":false,\"labels\":false,\"grid\":false,\"title\":null}},\"y\":{\"field\":\"e\",\"type\":\"quantitative\",\"axis\":{\"domain\":false,\"ticks\":false,\"labels\":false,\"grid\":false,\"title\":null}},\"text\":{\"field\":\"L\",\"type\":\"nominal\"}}},{\"data\":{\"name\":\"dataset\"},\"transform\":[{\"window\":[{\"op\":\"row_number\",\"as\":\"vord\"}]},{\"calculate\":\"(isValid(datum[\\\"Revenue ACFC mEUR\\\"])?datum[\\\"Revenue ACFC mEUR\\\"]:0) - (isValid(datum[\\\"Revenue PL mEUR\\\"])?datum[\\\"Revenue PL mEUR\\\"]:0)\",\"as\":\"d\"},{\"joinaggregate\":[{\"op\":\"sum\",\"field\":\"d\",\"as\":\"sumD\"}]},{\"filter\":\"datum.vord === 1\"},{\"calculate\":\"0\",\"as\":\"s\"},{\"calculate\":\"datum.sumD\",\"as\":\"e\"},{\"calculate\":\"\\\"\\\\u03a3\\\"\",\"as\":\"xlab\"},{\"calculate\":\"999999\",\"as\":\"ord\"},{\"calculate\":\"format(datum.sumD, ''+,.1f'')\",\"as\":\"L\"},{\"filter\":\"datum.e >= datum.s\"}],\"mark\":{\"type\":\"text\",\"dy\":-8,\"fontSize\":11,\"font\":\"Arial\",\"color\":\"#404040\",\"fontWeight\":\"bold\"},\"encoding\":{\"x\":{\"field\":\"xlab\",\"type\":\"nominal\",\"sort\":{\"field\":\"ord\",\"op\":\"min\"},\"axis\":{\"domain\":false,\"ticks\":false,\"labels\":false,\"grid\":false,\"title\":null}},\"y\":{\"field\":\"e\",\"type\":\"quantitative\",\"axis\":{\"domain\":false,\"ticks\":false,\"labels\":false,\"grid\":false,\"title\":null}},\"text\":{\"field\":\"L\",\"type\":\"nominal\"}}},{\"data\":{\"name\":\"dataset\"},\"transform\":[{\"window\":[{\"op\":\"row_number\",\"as\":\"vord\"}]},{\"calculate\":\"(isValid(datum[\\\"Revenue ACFC mEUR\\\"])?datum[\\\"Revenue ACFC mEUR\\\"]:0) - (isValid(datum[\\\"Revenue PL mEUR\\\"])?datum[\\\"Revenue PL mEUR\\\"]:0)\",\"as\":\"d\"},{\"joinaggregate\":[{\"op\":\"sum\",\"field\":\"d\",\"as\":\"sumD\"}]},{\"filter\":\"datum.vord === 1\"},{\"calculate\":\"0\",\"as\":\"s\"},{\"calculate\":\"datum.sumD\",\"as\":\"e\"},{\"calculate\":\"\\\"\\\\u03a3\\\"\",\"as\":\"xlab\"},{\"calculate\":\"999999\",\"as\":\"ord\"},{\"calculate\":\"format(datum.sumD, ''+,.1f'')\",\"as\":\"L\"},{\"filter\":\"datum.e < datum.s\"}],\"mark\":{\"type\":\"text\",\"dy\":13,\"fontSize\":11,\"font\":\"Arial\",\"color\":\"#404040\",\"fontWeight\":\"bold\"},\"encoding\":{\"x\":{\"field\":\"xlab\",\"type\":\"nominal\",\"sort\":{\"field\":\"ord\",\"op\":\"min\"},\"axis\":{\"domain\":false,\"ticks\":false,\"labels\":false,\"grid\":false,\"title\":null}},\"y\":{\"field\":\"e\",\"type\":\"quantitative\",\"axis\":{\"domain\":false,\"ticks\":false,\"labels\":false,\"grid\":false,\"title\":null}},\"text\":{\"field\":\"L\",\"type\":\"nominal\"}}}]},{\"width\":1380,\"height\":215,\"layer\":[{\"data\":{\"name\":\"dataset\"},\"transform\":[{\"window\":[{\"op\":\"row_number\",\"as\":\"vord\"}]},{\"calculate\":\"datum[\\\"Month Short\\\"]\",\"as\":\"xlab\"},{\"calculate\":\"datum.vord\",\"as\":\"ord\"}],\"mark\":{\"type\":\"bar\",\"size\":26,\"fill\":\"#ffffff\",\"stroke\":\"#404040\",\"strokeWidth\":1.3,\"tooltip\":{\"content\":\"data\"}},\"encoding\":{\"x\":{\"field\":\"xlab\",\"type\":\"nominal\",\"sort\":{\"field\":\"ord\",\"op\":\"min\"},\"axis\":{\"domain\":false,\"ticks\":false,\"labels\":false,\"grid\":false,\"title\":null}},\"y\":{\"field\":\"Revenue PL mEUR\",\"type\":\"quantitative\",\"axis\":{\"domain\":false,\"ticks\":false,\"labels\":false,\"grid\":false,\"title\":null}}}},{\"mark\":{\"type\":\"bar\",\"size\":16,\"tooltip\":{\"content\":\"data\"}},\"encoding\":{\"fill\":{\"condition\":{\"test\":\"datum[\\\"FC flag\\\"]\",\"value\":\"#ffffff\"},\"value\":\"#404040\"},\"stroke\":{\"condition\":{\"test\":\"datum[\\\"FC flag\\\"]\",\"value\":\"#404040\"},\"value\":\"transparent\"},\"strokeWidth\":{\"condition\":{\"test\":\"datum[\\\"FC flag\\\"]\",\"value\":1.2},\"value\":0},\"strokeDash\":{\"condition\":{\"test\":\"datum[\\\"FC flag\\\"]\",\"value\":[3,2]},\"value\":[1,0]},\"x\":{\"field\":\"xlab\",\"type\":\"nominal\",\"sort\":{\"field\":\"ord\",\"op\":\"min\"},\"axis\":{\"labelAngle\":0,\"labelPadding\":6}},\"y\":{\"field\":\"Revenue ACFC mEUR\",\"type\":\"quantitative\",\"axis\":{\"domain\":false,\"ticks\":false,\"labels\":false,\"grid\":false,\"title\":null}}},\"data\":{\"name\":\"dataset\"},\"transform\":[{\"window\":[{\"op\":\"row_number\",\"as\":\"vord\"}]},{\"calculate\":\"datum[\\\"Month Short\\\"]\",\"as\":\"xlab\"},{\"calculate\":\"datum.vord\",\"as\":\"ord\"}]},{\"data\":{\"name\":\"dataset\"},\"transform\":[{\"window\":[{\"op\":\"row_number\",\"as\":\"vord\"}]},{\"calculate\":\"datum[\\\"Month Short\\\"]\",\"as\":\"xlab\"},{\"calculate\":\"datum.vord\",\"as\":\"ord\"},{\"filter\":\"datum[\\\"Revenue ACFC mEUR\\\"] >= 0\"}],\"mark\":{\"type\":\"text\",\"dy\":-9,\"fontSize\":11,\"font\":\"Arial\"},\"encoding\":{\"x\":{\"field\":\"xlab\",\"type\":\"nominal\",\"sort\":{\"field\":\"ord\",\"op\":\"min\"},\"axis\":{\"domain\":false,\"ticks\":false,\"labels\":false,\"grid\":false,\"title\":null}},\"y\":{\"field\":\"Revenue ACFC mEUR\",\"type\":\"quantitative\",\"axis\":{\"domain\":false,\"ticks\":false,\"labels\":false,\"grid\":false,\"title\":null}},\"text\":{\"field\":\"Revenue ACFC mEUR\",\"type\":\"quantitative\",\"format\":\",.1f\"},\"color\":{\"condition\":{\"test\":\"datum[\\\"FC flag\\\"]\",\"value\":\"#6f6f6f\"},\"value\":\"#404040\"}}},{\"data\":{\"name\":\"dataset\"},\"transform\":[{\"window\":[{\"op\":\"row_number\",\"as\":\"vord\"}]},{\"calculate\":\"datum[\\\"Month Short\\\"]\",\"as\":\"xlab\"},{\"calculate\":\"datum.vord\",\"as\":\"ord\"},{\"filter\":\"datum[\\\"Revenue ACFC mEUR\\\"] < 0\"}],\"mark\":{\"type\":\"text\",\"dy\":14,\"fontSize\":11,\"font\":\"Arial\"},\"encoding\":{\"x\":{\"field\":\"xlab\",\"type\":\"nominal\",\"sort\":{\"field\":\"ord\",\"op\":\"min\"},\"axis\":{\"domain\":false,\"ticks\":false,\"labels\":false,\"grid\":false,\"title\":null}},\"y\":{\"field\":\"Revenue ACFC mEUR\",\"type\":\"quantitative\",\"axis\":{\"domain\":false,\"ticks\":false,\"labels\":false,\"grid\":false,\"title\":null}},\"text\":{\"field\":\"Revenue ACFC mEUR\",\"type\":\"quantitative\",\"format\":\",.1f\"},\"color\":{\"condition\":{\"test\":\"datum[\\\"FC flag\\\"]\",\"value\":\"#6f6f6f\"},\"value\":\"#404040\"}}},{\"data\":{\"name\":\"dataset\"},\"transform\":[{\"window\":[{\"op\":\"row_number\",\"as\":\"vord\"}]},{\"calculate\":\"datum[\\\"FC flag\\\"] ? 0 : (isValid(datum[\\\"Revenue ACFC mEUR\\\"])?datum[\\\"Revenue ACFC mEUR\\\"]:0)\",\"as\":\"pac\"},{\"calculate\":\"datum[\\\"FC flag\\\"] ? (isValid(datum[\\\"Revenue ACFC mEUR\\\"])?datum[\\\"Revenue ACFC mEUR\\\"]:0) : 0\",\"as\":\"pfc\"},{\"joinaggregate\":[{\"op\":\"sum\",\"field\":\"pac\",\"as\":\"acSum\"},{\"op\":\"sum\",\"field\":\"pfc\",\"as\":\"fcSum\"}]},{\"filter\":\"datum.vord === 1\"},{\"calculate\":\"\\\"AC&FC\\\"\",\"as\":\"xlab\"},{\"calculate\":\"999999\",\"as\":\"ord\"},{\"calculate\":\"0\",\"as\":\"s\"},{\"calculate\":\"datum.acSum\",\"as\":\"e\"}],\"mark\":{\"type\":\"bar\",\"size\":34,\"fill\":\"#404040\",\"tooltip\":{\"content\":\"data\"}},\"encoding\":{\"x\":{\"field\":\"xlab\",\"type\":\"nominal\",\"sort\":{\"field\":\"ord\",\"op\":\"min\"},\"axis\":{\"domain\":false,\"ticks\":false,\"labels\":false,\"grid\":false,\"title\":null}},\"y\":{\"field\":\"s\",\"type\":\"quantitative\",\"axis\":{\"domain\":false,\"ticks\":false,\"labels\":false,\"grid\":false,\"title\":null}},\"y2\":{\"field\":\"e\"}}},{\"data\":{\"name\":\"dataset\"},\"transform\":[{\"window\":[{\"op\":\"row_number\",\"as\":\"vord\"}]},{\"calculate\":\"datum[\\\"FC flag\\\"] ? 0 : (isValid(datum[\\\"Revenue ACFC mEUR\\\"])?datum[\\\"Revenue ACFC mEUR\\\"]:0)\",\"as\":\"pac\"},{\"calculate\":\"datum[\\\"FC flag\\\"] ? (isValid(datum[\\\"Revenue ACFC mEUR\\\"])?datum[\\\"Revenue ACFC mEUR\\\"]:0) : 0\",\"as\":\"pfc\"},{\"joinaggregate\":[{\"op\":\"sum\",\"field\":\"pac\",\"as\":\"acSum\"},{\"op\":\"sum\",\"field\":\"pfc\",\"as\":\"fcSum\"}]},{\"filter\":\"datum.vord === 1\"},{\"calculate\":\"\\\"AC&FC\\\"\",\"as\":\"xlab\"},{\"calculate\":\"999999\",\"as\":\"ord\"},{\"calculate\":\"datum.acSum\",\"as\":\"s\"},{\"calculate\":\"datum.acSum + datum.fcSum\",\"as\":\"e\"}],\"mark\":{\"type\":\"bar\",\"size\":34,\"fill\":\"#ffffff\",\"stroke\":\"#404040\",\"strokeWidth\":1.2,\"strokeDash\":[3,2],\"tooltip\":{\"content\":\"data\"}},\"encoding\":{\"x\":{\"field\":\"xlab\",\"type\":\"nominal\",\"sort\":{\"field\":\"ord\",\"op\":\"min\"},\"axis\":{\"domain\":false,\"ticks\":false,\"labels\":false,\"grid\":false,\"title\":null}},\"y\":{\"field\":\"s\",\"type\":\"quantitative\",\"axis\":{\"domain\":false,\"ticks\":false,\"labels\":false,\"grid\":false,\"title\":null}},\"y2\":{\"field\":\"e\"}}},{\"data\":{\"name\":\"dataset\"},\"transform\":[{\"window\":[{\"op\":\"row_number\",\"as\":\"vord\"}]},{\"calculate\":\"datum[\\\"FC flag\\\"] ? 0 : (isValid(datum[\\\"Revenue ACFC mEUR\\\"])?datum[\\\"Revenue ACFC mEUR\\\"]:0)\",\"as\":\"pac\"},{\"calculate\":\"datum[\\\"FC flag\\\"] ? (isValid(datum[\\\"Revenue ACFC mEUR\\\"])?datum[\\\"Revenue ACFC mEUR\\\"]:0) : 0\",\"as\":\"pfc\"},{\"joinaggregate\":[{\"op\":\"sum\",\"field\":\"pac\",\"as\":\"acSum\"},{\"op\":\"sum\",\"field\":\"pfc\",\"as\":\"fcSum\"}]},{\"filter\":\"datum.vord === 1\"},{\"calculate\":\"\\\"AC&FC\\\"\",\"as\":\"xlab\"},{\"calculate\":\"999999\",\"as\":\"ord\"},{\"calculate\":\"datum.acSum + datum.fcSum\",\"as\":\"e\"}],\"mark\":{\"type\":\"text\",\"dy\":-8,\"fontSize\":11,\"font\":\"Arial\",\"color\":\"#404040\",\"fontWeight\":\"bold\"},\"encoding\":{\"x\":{\"field\":\"xlab\",\"type\":\"nominal\",\"sort\":{\"field\":\"ord\",\"op\":\"min\"},\"axis\":{\"domain\":false,\"ticks\":false,\"labels\":false,\"grid\":false,\"title\":null}},\"y\":{\"field\":\"e\",\"type\":\"quantitative\",\"axis\":{\"domain\":false,\"ticks\":false,\"labels\":false,\"grid\":false,\"title\":null}},\"text\":{\"field\":\"e\",\"type\":\"quantitative\",\"format\":\",.1f\"}}}]}],\"spacing\":8}'"
+                }
+              }
+            },
+            "jsonConfig": {
+              "expr": {
+                "Literal": {
+                  "Value": "'{\"autosize\":{\"type\":\"fit\",\"contains\":\"padding\"}}'"
+                }
+              }
+            },
+            "enableTooltips": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "enableContextMenu": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "enableSelection": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "enableHighlight": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#FFFFFF'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#E6E3DD'"
+                    }
+                  }
+                }
+              }
+            },
+            "radius": {
+              "expr": {
+                "Literal": {
+                  "Value": "8D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

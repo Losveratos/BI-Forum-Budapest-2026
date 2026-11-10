@@ -1,0 +1,4 @@
+RegionID;Region;Region DE;Region EN;Sortierung;Hauptsitz;Zeitzone;Gesellschaften
+R-EMEA;EMEA;Europa, Nahost & Afrika;Europe, Middle East & Africa;10;Stuttgart;UTC+01:00;6
+R-AM;Americas;Amerika;Americas;20;Chicago;UTC-06:00;1
+R-APAC;APAC;Asien-Pazifik;Asia-Pacific;30;Singapur;UTC+08:00;2
