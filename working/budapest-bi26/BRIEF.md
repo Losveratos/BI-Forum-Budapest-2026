@@ -6,7 +6,7 @@
 |---|---|
 | Titel | Finance Reporting in Power BI: One Model, Three Visual Stacks Compared |
 | Tag | Dienstag, 17. November 2026, vor Ort (Danubius Hotel Helia) |
-| Format | **40-minute talk** laut budapestbi.hu; der Sessionize-Abstract sagt „60-minute session" → mit Orga klären |
+| Format | **40-minute talk** laut budapestbi.hu; der Sessionize-Abstract sagt „60-minute session" → **entschieden: 40 Minuten** (13.11.), Ablauf in `DEMO-RUNBOOK.md` |
 | Sprache | Englisch |
 | Tags | Power BI & Fabric · DataViz · Finance Analytics |
 | Seite | https://budapestbi.hu/bi26/sessions/finance-reporting-in-power-bi-one-model-three-visual-stacks-compared/ |
@@ -74,7 +74,7 @@ Assets liegen in `working/budapest-bi26/assets/`. Desktop-Seiten wurden mit `pbi
 
 Stand 09.11.: `story-v2.html` (25 Folien) nach sieben Expertenreviews, Synthese in REVIEWS.md, Umsetzungsliste in `reviews-v2/UMSETZUNG-DECK.md`; Modell und Report angepasst (Period-Status-Flag, EUR m, Teal, Datenstand, Deneb mit Chart-Builder-Vorlagen, UDF-Bibliothek PowerofBI.IBCS auf Sprosse 3, Modellkultur en-US). Anleitung UDF mit neuer Karte und Button-Slicer: `demo-report/udf-ibcs-anleitung.md`.
 
-Offen: 40 oder 60 Minuten · Seite „Card and slicer“ (UDF-Bilder in Karte/Button-Slicer unbestätigt) · ChartKitchen-Renders mit deutschem Zahlenformat · Zebra-P&L-Seite · „Vega kommt nach Power BI" verifizieren · Speaker-Card trägt „Daten.-WG".
+Offen: Seite „Card and slicer“ (UDF-Bilder in Karte/Button-Slicer unbestätigt) · ChartKitchen-Renders mit deutschem Zahlenformat · Zebra-P&L-Seite · „Vega kommt nach Power BI" verifizieren · Speaker-Card trägt „Daten.-WG".
 
 Reviews der vier Expert-Agenten mit Umsetzungsstand: `REVIEWS.md`. Übersicht (Taste O) jetzt als Story von links nach rechts, sechs Akte, Appendix darunter.
 

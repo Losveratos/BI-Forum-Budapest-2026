@@ -11,6 +11,8 @@ The talk builds one Power BI semantic model for finance reporting (AC, PY, PL, F
 |---|---|
 | `working/budapest-bi26/story-v2.html` | Slide deck (current version, 25 slides). Open it locally in a browser. Right arrow, space or click: next step; left arrow: back; `O` or Esc: overview; Home / End: first / last slide. `story.html` is the earlier version. |
 | `working/budapest-bi26/One-Model-Three-Visual-Stacks.pdf` | The same deck as PDF, 25 pages. |
+| `working/budapest-bi26/calculator-finance-preset-en.pdf` | The Visual Standards Calculator (v0.23) with the scenario "Finance with mandatory IBCS · 5 / 150", level 1 (overview), 7 pages. `…-level2.pdf`: the same with level 2 (volume assumptions, requirements, red flags), 28 pages. Live: [visual-standards-rechner.html?lang=en&preset=finance](https://datenwgknowledgekitchen.com/visual-standards-rechner.html?lang=en&preset=finance). |
+| `working/budapest-bi26/DEMO-RUNBOOK.md` / `.pdf` | Speaker runbook for the 40-minute slot (German): timing, pre-flight checklist, live demo page by page with the expected numbers, calculator levers, fallbacks. |
 | `working/budapest-bi26/assets/` | Images used by the deck. |
 | `working/budapest-bi26/demo-report/` | Documentation of the demo report (one page per rung), Deneb specs, the measure script and a guide for the DAX UDF library. |
 | `working/budapest-bi26/BRIEF.md`, `REVIEWS.md`, `reviews-v2/` | Session brief and the expert reviews of the deck (Markdown). The review screenshots are not versioned. |
