@@ -18,6 +18,7 @@ The talk builds one Power BI semantic model for finance reporting (AC, PY, PL, F
 | `working/budapest-bi26/BRIEF.md`, `REVIEWS.md`, `reviews-v2/` | Session brief and the expert reviews of the deck (Markdown). The review screenshots are not versioned. |
 | `demo/` | Power BI project (PBIP): semantic model (TMDL), report (PBIR, 12 pages), synthetic data as CSV and the generator that wrote it. |
 | `material/` | Speaker card. |
+| `SOURCES.md` | Sources and credits: standards, Microsoft documentation, visuals and libraries with versions, vendor pages, calculator sources, demo data, tools, reviews, image origins. |
 
 ## The six rungs
 
