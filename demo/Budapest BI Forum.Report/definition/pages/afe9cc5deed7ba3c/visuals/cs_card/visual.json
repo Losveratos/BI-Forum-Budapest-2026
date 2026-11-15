@@ -1,5 +1,14 @@
 {
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "cs_card",
+  "position": {
+    "x": 1047,
+    "y": 123,
+    "z": 0,
+    "height": 894,
+    "width": 846,
+    "tabOrder": 0
+  },
   "visual": {
     "visualType": "cardVisual",
     "query": {
@@ -7,7 +16,6 @@
         "Data": {
           "projections": [
             {
-              "queryRef": "fact-abschluss.Revenue AC mEUR",
               "field": {
                 "Measure": {
                   "Expression": {
@@ -18,10 +26,10 @@
                   "Property": "Revenue AC mEUR"
                 }
               },
+              "queryRef": "fact-abschluss.Revenue AC mEUR",
               "nativeQueryRef": "Revenue AC mEUR"
             },
             {
-              "queryRef": "fact-abschluss.Revenue PL mEUR",
               "field": {
                 "Measure": {
                   "Expression": {
@@ -32,6 +40,7 @@
                   "Property": "Revenue PL mEUR"
                 }
               },
+              "queryRef": "fact-abschluss.Revenue PL mEUR",
               "nativeQueryRef": "Revenue PL mEUR"
             }
           ]
@@ -39,7 +48,6 @@
         "Rows": {
           "projections": [
             {
-              "queryRef": "dim-gesellschaft.Short name",
               "field": {
                 "Column": {
                   "Expression": {
@@ -50,6 +58,7 @@
                   "Property": "Short name"
                 }
               },
+              "queryRef": "dim-gesellschaft.Short name",
               "nativeQueryRef": "Short name"
             }
           ]
@@ -89,7 +98,6 @@
         }
       ]
     },
-    "drillFilterOtherVisuals": true,
     "visualContainerObjects": {
       "title": [
         {
@@ -111,15 +119,53 @@
           }
         }
       ]
-    }
+    },
+    "drillFilterOtherVisuals": true
   },
-  "position": {
-    "x": 1047,
-    "y": 123,
-    "width": 846,
-    "height": 894,
-    "z": 0,
-    "tabOrder": 0
-  },
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json"
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "4ca9c1085606505b0b70",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "fact-abschluss"
+              }
+            },
+            "Property": "Revenue AC mEUR"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "a9cffaf7d0b3001ba082",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "fact-abschluss"
+              }
+            },
+            "Property": "Revenue PL mEUR"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "409ff58e127b0d516800",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim-gesellschaft"
+              }
+            },
+            "Property": "Short name"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
+  }
 }

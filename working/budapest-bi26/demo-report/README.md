@@ -133,3 +133,51 @@ Page 2 (`r2matrix`): PL, AC, ΔPL, ΔPL %, `ΔPL line bar (text)` (Consolas, col
 Stamp card (`Data as of`, `r1stamp`…`r4stamp` and the stamps on "FX and close" and "Card and slicer"): the measure was fine; the card was empty because the theme wildcard switches title and subtitle on for every visual, and in a 24 px card the (empty) title and subtitle took all the height, pushing the value out. Fix: title and subtitle off, word wrap off, container padding 0, position y 88, height 34. The stamp now reads as one line under the page title in all assets.
 
 Assets rewritten: all page images, the three tiles and `demo-close-adjusted.png`. After restarting Desktop the tables were empty; the data was loaded with a TMSL full refresh sent to the local engine (TOM from DAX Studio, port from the `msmdsrv` process).
+
+## v4: Deneb page restyled
+
+Both Deneb visuals on "4 Deneb" were rebuilt (same content: four tiers for the months, three panels for the companies). Tiles now 1566×552 (y 123) and 1566×330 (y 687). Backup of the previous visual.json files: `PnL Demo/_backup_20261107_budapest/v4_deneb_before/`. Specs: `deneb/integrated-variance.vl.json`, `deneb/structure-variance.vl.json` (standalone, config inlined), full visual: `deneb/r4months.visual.json`.
+
+- Look: Segoe UI throughout, 3-line IBCS title (DWG Industries / Revenue in mEUR / scenarios), with the legend in words and the template name in the grey subtitle line. Tier labels in grey on the left. Labels are 12 px and month names 13 px. Columns are whole millions, Δ has one decimal, and Δ% is `+0.0%`. No gridlines, no frames, transparent background.
+- Months: the x axis is now *quantitative* (row index 1..12, FY at 13.5) instead of a band scale. This lets the four `vconcat` tiers line up exactly. Columns use 60 % of the category width. PL is a white outline set 0.07 units to the right, behind AC. Nov/Dec FC is drawn as an outline with real 45° hatching. The FY column (AC part solid, FC part hatched, PL behind it) uses its own y scale: nested `layer` groups with `resolve.scale.y = independent`. The old version put FY on the month scale, which squashed the month columns to a few pixels. The ΔPL bridge has grey connectors and a coloured FY total. It keeps its own scale, as the subtitle says (+0.2 on the column scale would be invisible). Both ΔPL % tiers share one domain, with headroom computed in pixels. The pins are 3 px coloured needles with square dark heads, hollow for FC.
+- Companies: sorted by AC (`row_number` window over `ac` desc; sorting on the measure was dropped because the panels have different data sources, so `resolve.y` is now independent). Bars use `height: {band: 0.64}`, and PL is offset 2.5 px upward behind AC. ΔPL uses the **same px/unit as the AC bars**: one factor `S = max(maxV/860, max|ΔPL|/64)` drives hidden rules in both panels. The ΔPL % pins are filtered per layer, not per panel, so the rows stay aligned when PL is 0.
+- Vega-Lite tricks:
+  - **Hatching** with no pattern fill: `calculate sequence(...)` builds one stroke offset per 7 px, `flatten` expands them, and each stroke is clipped analytically to the rectangle in pixel units (px per unit from the fixed panel size and the data-driven domain max). The strokes are drawn as `rule` with x/x2/y2.
+  - **Full-width rules** inside a quantitative layer use `"x": 0, "x2": {"expr": "width"}` with their own `data: {values: [{}]}`, so no inherited encoding turns them into per-category ticks.
+  - **Full-height zero lines** in band panels are `tick` marks (`size` = row step), because `y2: {expr: "height"}` did not draw.
+  - **Tier labels** are text marks at a negative pixel x, combined with `bounds: "flush"` and title `frame: "bounds"`.
+  - **Tooltips** are explicit field lists, not `content: "data"`.
+  - **Concat cannot `autosize: fit`**, so panel sizes are fixed (sum checked against the tile height). The config is in `jsonConfig` with `autosize: pad`.
+- Known limits: titles are fixed text ("DWG Industries", 2026). Month order is Deneb row order, as before; binding `dim-datum.MonatNr` would make it robust. Company bars are AC&FC totals and so stay solid; there is no separate FC share per company.
+
+## v4: rung 5b with Zebra BI Tables (and rung 5a, own custom visuals)
+
+Two new pages after "4 Deneb", both copied from "3 SVG measures" with `pbir cp` (title textbox, stamp card, slicer column incl. `closeslicer`, footer, page filter `dim-datum.Period Status = Actual`); the matrices were removed. Page order: … 4 Deneb, 5a Custom visual, 5b Zebra BI, FX and close, Card and slicer.
+
+**5a Custom visual** (`definition/pages/f5d37df50f14fe5e`, screenshot `assets/demo-rung5a-custom.png`)
+- `r5apnl` (327/123, 1000×894): P&L Statement byDatenWG copied from "Group P&L" with all `objects` (template T03A, PY·PL·AC + ΔPY·ΔPL); "Group P&L" filters the statement at page level, so the copy carries a visual filter `dim-konten.Statement = Income statement`.
+- `r5atime` (1345/123, 548×440): ChartKitchen copied from "Plan gap" (month chart); bindings changed from PY/FC to `plan = Revenue PL`, `comparisonMode` from `py` to `plan`, KPI title "Revenue vs plan by month".
+- `r5astruct` (1345/577, 548×440): ChartKitchen "Revenue vs plan by company" from "Plan gap", unchanged except position and name.
+- Render check Jan..Oct 2026: Net revenue PL 2,782.1 / AC 2,817.6, Gross profit 957.0 / 942.8 (matches); revenue Σ 2,818M, ΔPL +35.5M / +1.3 %.
+
+**5b Zebra BI** (`definition/pages/d59f3cb2b6d2cd4e`, screenshot `assets/demo-rung5b-zebra.png`, tile `demo-rung5b-zebra-tile.png`)
+- `r5bpnl` (327/123, 1000×894): Category `pnl-lines.Line` (sorted ascending, model sorts by `Line Sort`), Values `fact-abschluss.AC line`, Plan `fact-abschluss.PL line`.
+- `r5bcompanies` (1345/123, 548×894): Category `dim-gesellschaft.Short name`, Values `Revenue AC mEUR`, Plan `Revenue PL mEUR`.
+- Visual title via Zebra's own `titleSettings.text` (container title off), e.g. "Income statement in EUR m | Jan..Oct 2026 AC, PL, ΔPL · Zebra BI Tables, free licence".
+- Inforiver Charts and Zebra BI Charts (`waterfall6C9E…`) are registered in `report.json` → `publicCustomVisuals` but not placed on any page.
+
+Zebra BI Tables data roles (visual 8.4.2.53, `visualType` `ZebraBITablesBAE31B370F254F808553548EFB35BFA5`):
+
+| name (queryState key) | displayName | kind |
+|---|---|---|
+| `Category` | Category | Grouping |
+| `Group` | Group | Grouping |
+| `Values` | Values | GroupingOrMeasure (up to 21) |
+| `PreviousYear` | Previous Year | GroupingOrMeasure (max 1) |
+| `Plan` | Plan | GroupingOrMeasure (max 3) |
+| `Forecast` | Forecast | GroupingOrMeasure (max 3) |
+| `Tooltips`, `Comments`, `Filters`, `CategoryClass` | … | Measure |
+
+How found: `pbir schema` does not know custom visuals, and Desktop keeps no unpacked AppSource visual in its cache folders. The capabilities came from Desktop's AutoRecovery file (`%USERPROFILE%\Microsoft\Power BI Desktop Store App\AutoRecovery\~$Budapest BI Forum (Recovered …).pbix`): it is a ZIP and embeds `Report/CustomVisuals/ZebraBITables…/resources/*.pbiviz.json`, whose `capabilities.dataRoles` lists the names (read only, with Python). Older TempSaves .pbix with a placed Zebra table confirm the role names in `projections`. Formatting objects include `titleSettings`, `chartSettings`, `categorySettings`, `licenseSettings`, `proFeaturesSettings`.
+
+Status / limits: `pbir validate` passes, but in every `pbir desktop screenshot` (after several refreshes, settle up to 60 s) both Zebra tiles stay **empty white**: no table, no landing page, no licence dialog, no watermark visible. ChartKitchen, P&L Statement and Deneb render in the same capture, so the bridge itself works. Likely causes (not verified): the AppSource visual does not draw in the bridge's off-screen render, or it waits for an online licence check / first interaction in the real window. Next step: open page "5b Zebra BI" in Desktop by hand and look at the visual; whatever the free licence shows there (dialog, watermark, limits) is not documented here because it was not seen.

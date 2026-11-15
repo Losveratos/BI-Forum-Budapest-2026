@@ -1,281 +1,196 @@
 {
  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
  "config": {
+  "autosize": {
+   "type": "pad",
+   "contains": "padding"
+  },
+  "padding": {
+   "left": 4,
+   "right": 8,
+   "top": 4,
+   "bottom": 2
+  },
   "background": "transparent",
   "font": "Segoe UI",
   "view": {
    "stroke": null
   },
   "axis": {
-   "domainColor": "#404040",
-   "domainWidth": 1.5,
-   "ticks": false,
    "grid": false,
-   "labelColor": "#555555",
+   "ticks": false,
+   "domain": false,
+   "title": null,
    "labelFont": "Segoe UI",
-   "labelFontSize": 11,
-   "title": null
+   "labelColor": "#404040",
+   "labelFontSize": 13
   },
   "legend": {
    "disable": true
+  },
+  "text": {
+   "font": "Segoe UI",
+   "fontSize": 12,
+   "color": "#404040"
+  },
+  "title": {
+   "font": "Segoe UI",
+   "fontSize": 15,
+   "fontWeight": 600,
+   "color": "#262626",
+   "lineHeight": 19,
+   "subtitleFont": "Segoe UI",
+   "subtitleFontSize": 12.5,
+   "subtitleColor": "#6B6B6B",
+   "subtitlePadding": 3,
+   "anchor": "start",
+   "frame": "bounds",
+   "offset": 10
   }
  },
  "title": {
-  "anchor": "start",
-  "font": "Segoe UI",
-  "fontSize": 14,
-  "color": "#404040",
-  "subtitleFont": "Segoe UI",
-  "subtitleFontSize": 12,
-  "subtitleColor": "#404040",
-  "offset": 16,
-  "text": "DWG Industries · Revenue by company, mEUR",
+  "text": [
+   "DWG Industries",
+   "Revenue in mEUR"
+  ],
   "subtitle": [
-   "2026 AC&FC vs PL, ΔPL and ΔPL % · Business Chart Builder template \"Structural variance analysis\""
+   "2026 AC&FC and PL, ΔPL and ΔPL % by company, sorted by AC  ·  ΔPL on the same scale as the bars  ·  Business Chart Builder template: Structural variance analysis"
   ]
  },
  "hconcat": [
   {
-   "width": 800,
+   "width": 860,
    "height": {
-    "step": 26
+    "step": 23
    },
-   "data": {
-    "name": "dataset"
-   },
-   "transform": [],
-   "encoding": {
-    "y": {
-     "field": "Short name",
-     "type": "nominal",
-     "sort": null,
-     "axis": {
-      "labelPadding": 8
-     }
-    }
-   },
-   "layer": [
-    {
-     "mark": {
-      "type": "bar",
-      "size": 11,
-      "yOffset": -4.5,
-      "fill": "#ffffff",
-      "stroke": "#404040",
-      "strokeWidth": 1.3,
-      "tooltip": {
-       "content": "data"
-      }
-     },
-     "encoding": {
-      "x": {
-       "field": "Revenue PL mEUR",
-       "type": "quantitative",
-       "axis": {
-        "domain": false,
-        "ticks": false,
-        "labels": false,
-        "grid": false,
-        "title": null
-       }
-      }
-     }
-    },
-    {
-     "mark": {
-      "type": "bar",
-      "size": 11,
-      "yOffset": 4.5,
-      "tooltip": {
-       "content": "data"
-      }
-     },
-     "encoding": {
-      "fill": {
-       "condition": {
-        "test": "datum[\"FC flag\"]",
-        "value": "#ffffff"
-       },
-       "value": "#404040"
-      },
-      "stroke": {
-       "condition": {
-        "test": "datum[\"FC flag\"]",
-        "value": "#404040"
-       },
-       "value": "transparent"
-      },
-      "strokeWidth": {
-       "condition": {
-        "test": "datum[\"FC flag\"]",
-        "value": 1.2
-       },
-       "value": 0
-      },
-      "strokeDash": {
-       "condition": {
-        "test": "datum[\"FC flag\"]",
-        "value": [
-         3,
-         2
-        ]
-       },
-       "value": [
-        1,
-        0
-       ]
-      },
-      "x": {
-       "field": "Revenue ACFC mEUR",
-       "type": "quantitative",
-       "axis": {
-        "domain": false,
-        "ticks": false,
-        "labels": false,
-        "grid": false,
-        "title": null
-       }
-      }
-     }
-    },
-    {
-     "transform": [
-      {
-       "filter": "datum[\"Revenue ACFC mEUR\"] >= 0"
-      }
-     ],
-     "mark": {
-      "type": "text",
-      "dx": 6,
-      "align": "left",
-      "fontSize": 11,
-      "font": "Arial",
-      "yOffset": 4.5,
-      "color": "#404040"
-     },
-     "encoding": {
-      "x": {
-       "field": "Revenue ACFC mEUR",
-       "type": "quantitative",
-       "axis": {
-        "domain": false,
-        "ticks": false,
-        "labels": false,
-        "grid": false,
-        "title": null
-       }
-      },
-      "text": {
-       "field": "Revenue ACFC mEUR",
-       "type": "quantitative",
-       "format": ",.1f"
-      }
-     }
-    },
-    {
-     "transform": [
-      {
-       "filter": "datum[\"Revenue ACFC mEUR\"] < 0"
-      }
-     ],
-     "mark": {
-      "type": "text",
-      "dx": -6,
-      "align": "right",
-      "fontSize": 11,
-      "font": "Arial",
-      "yOffset": 4.5,
-      "color": "#404040"
-     },
-     "encoding": {
-      "x": {
-       "field": "Revenue ACFC mEUR",
-       "type": "quantitative",
-       "axis": {
-        "domain": false,
-        "ticks": false,
-        "labels": false,
-        "grid": false,
-        "title": null
-       }
-      },
-      "text": {
-       "field": "Revenue ACFC mEUR",
-       "type": "quantitative",
-       "format": ",.1f"
-      }
-     }
-    }
-   ]
-  },
-  {
-   "width": 260,
-   "height": {
-    "step": 26
+   "title": {
+    "text": "AC&FC, PL",
+    "fontSize": 12,
+    "fontWeight": 400,
+    "color": "#6B6B6B",
+    "anchor": "start",
+    "frame": "group",
+    "offset": 8
    },
    "data": {
     "name": "dataset"
    },
    "transform": [
     {
-     "calculate": "datum[\"Revenue ACFC mEUR\"] - datum[\"Revenue PL mEUR\"]",
+     "calculate": "isValid(datum[\"Revenue ACFC mEUR\"]) ? datum[\"Revenue ACFC mEUR\"] : 0",
+     "as": "ac"
+    },
+    {
+     "calculate": "isValid(datum[\"Revenue PL mEUR\"]) ? datum[\"Revenue PL mEUR\"] : 0",
+     "as": "pl"
+    },
+    {
+     "calculate": "(+datum[\"FC flag\"]) > 0 ? 1 : 0",
+     "as": "fc"
+    },
+    {
+     "calculate": "datum.ac - datum.pl",
      "as": "d"
+    },
+    {
+     "calculate": "max(datum.ac, datum.pl)",
+     "as": "mxv"
+    },
+    {
+     "calculate": "datum.pl != 0 ? datum.d / datum.pl * 100 : null",
+     "as": "rv"
+    },
+    {
+     "calculate": "abs(datum.d)",
+     "as": "ad"
+    },
+    {
+     "joinaggregate": [
+      {
+       "op": "max",
+       "field": "mxv",
+       "as": "maxV"
+      },
+      {
+       "op": "max",
+       "field": "rv",
+       "as": "rmx"
+      },
+      {
+       "op": "max",
+       "field": "ad",
+       "as": "maxAD"
+      },
+      {
+       "op": "min",
+       "field": "rv",
+       "as": "rmn"
+      }
+     ]
+    },
+    {
+     "calculate": "0",
+     "as": "z"
+    },
+    {
+     "calculate": "max(datum.maxV / 860, datum.maxAD / 63.750000, 0.000001)",
+     "as": "S"
+    },
+    {
+     "window": [
+      {
+       "op": "row_number",
+       "as": "rk"
+      }
+     ],
+     "sort": [
+      {
+       "field": "ac",
+       "order": "descending"
+      }
+     ]
     }
    ],
    "encoding": {
     "y": {
      "field": "Short name",
      "type": "nominal",
-     "sort": null,
+     "sort": {
+      "field": "rk",
+      "op": "min",
+      "order": "ascending"
+     },
      "axis": {
-      "domain": false,
-      "ticks": false,
-      "labels": false,
-      "grid": false,
-      "title": null
+      "labelPadding": 10,
+      "labelFontSize": 13,
+      "labelColor": "#404040"
      }
     }
    },
    "layer": [
     {
-     "mark": {
-      "type": "point",
-      "size": 0,
-      "opacity": 0,
-      "tooltip": {
-       "content": "data"
+     "transform": [
+      {
+       "calculate": "datum.S * 860",
+       "as": "sx"
       }
-     },
-     "encoding": {}
-    },
-    {
+     ],
      "mark": {
       "type": "rule",
-      "color": "#404040",
-      "strokeWidth": 1
+      "opacity": 0
      },
      "encoding": {
-      "xOffset": {
-       "value": -1.6
-      },
       "x": {
-       "datum": 0
+       "field": "z",
+       "type": "quantitative",
+       "scale": {
+        "nice": false,
+        "zero": true
+       },
+       "axis": null
       },
-      "y": null
-     }
-    },
-    {
-     "mark": {
-      "type": "rule",
-      "color": "#404040",
-      "strokeWidth": 1
-     },
-     "encoding": {
-      "xOffset": {
-       "value": 1.6
-      },
-      "x": {
-       "datum": 0
+      "x2": {
+       "field": "sx"
       },
       "y": null
      }
@@ -283,30 +198,380 @@
     {
      "mark": {
       "type": "bar",
-      "size": 11,
-      "tooltip": {
-       "content": "data"
+      "height": {
+       "band": 0.64
+      },
+      "yOffset": -2.5,
+      "fill": "#FFFFFF",
+      "stroke": "#404040",
+      "strokeWidth": 1.4
+     },
+     "encoding": {
+      "x": {
+       "field": "pl",
+       "type": "quantitative",
+       "scale": {
+        "nice": false,
+        "zero": true
+       },
+       "axis": null
+      },
+      "tooltip": [
+       {
+        "field": "Short name",
+        "title": "Company"
+       },
+       {
+        "field": "ac",
+        "title": "AC&FC",
+        "format": ",.1f"
+       },
+       {
+        "field": "pl",
+        "title": "PL",
+        "format": ",.1f"
+       },
+       {
+        "field": "d",
+        "title": "ΔPL",
+        "format": "+,.1f"
+       },
+       {
+        "field": "rv",
+        "title": "ΔPL %",
+        "format": "+.1f"
+       }
+      ]
+     }
+    },
+    {
+     "mark": {
+      "type": "bar",
+      "height": {
+       "band": 0.64
+      },
+      "yOffset": 2.5,
+      "stroke": "#404040"
+     },
+     "encoding": {
+      "x": {
+       "field": "ac",
+       "type": "quantitative",
+       "scale": {
+        "nice": false,
+        "zero": true
+       },
+       "axis": null
+      },
+      "fill": {
+       "condition": {
+        "test": "datum.fc == 1",
+        "value": "#FFFFFF"
+       },
+       "value": "#404040"
+      },
+      "strokeWidth": {
+       "condition": {
+        "test": "datum.fc == 1",
+        "value": 1.4
+       },
+       "value": 0
+      },
+      "tooltip": [
+       {
+        "field": "Short name",
+        "title": "Company"
+       },
+       {
+        "field": "ac",
+        "title": "AC&FC",
+        "format": ",.1f"
+       },
+       {
+        "field": "pl",
+        "title": "PL",
+        "format": ",.1f"
+       },
+       {
+        "field": "d",
+        "title": "ΔPL",
+        "format": "+,.1f"
+       },
+       {
+        "field": "rv",
+        "title": "ΔPL %",
+        "format": "+.1f"
+       }
+      ]
+     }
+    },
+    {
+     "mark": {
+      "type": "text",
+      "align": "left",
+      "baseline": "middle",
+      "dx": 7,
+      "yOffset": 1
+     },
+     "encoding": {
+      "x": {
+       "field": "mxv",
+       "type": "quantitative",
+       "scale": {
+        "nice": false,
+        "zero": true
+       },
+       "axis": null
+      },
+      "text": {
+       "field": "ac",
+       "format": ",.0f"
+      }
+     }
+    },
+    {
+     "mark": {
+      "type": "tick",
+      "color": "#404040",
+      "thickness": 1.2,
+      "size": 23.5,
+      "orient": "vertical",
+      "opacity": 1
+     },
+     "encoding": {
+      "x": {
+       "datum": 0,
+       "type": "quantitative"
+      }
+     }
+    }
+   ]
+  },
+  {
+   "width": 170,
+   "height": {
+    "step": 23
+   },
+   "title": {
+    "text": "ΔPL",
+    "fontSize": 12,
+    "fontWeight": 400,
+    "color": "#6B6B6B",
+    "anchor": "middle",
+    "frame": "group",
+    "offset": 8
+   },
+   "data": {
+    "name": "dataset"
+   },
+   "transform": [
+    {
+     "calculate": "isValid(datum[\"Revenue ACFC mEUR\"]) ? datum[\"Revenue ACFC mEUR\"] : 0",
+     "as": "ac"
+    },
+    {
+     "calculate": "isValid(datum[\"Revenue PL mEUR\"]) ? datum[\"Revenue PL mEUR\"] : 0",
+     "as": "pl"
+    },
+    {
+     "calculate": "(+datum[\"FC flag\"]) > 0 ? 1 : 0",
+     "as": "fc"
+    },
+    {
+     "calculate": "datum.ac - datum.pl",
+     "as": "d"
+    },
+    {
+     "calculate": "max(datum.ac, datum.pl)",
+     "as": "mxv"
+    },
+    {
+     "calculate": "datum.pl != 0 ? datum.d / datum.pl * 100 : null",
+     "as": "rv"
+    },
+    {
+     "calculate": "abs(datum.d)",
+     "as": "ad"
+    },
+    {
+     "joinaggregate": [
+      {
+       "op": "max",
+       "field": "mxv",
+       "as": "maxV"
+      },
+      {
+       "op": "max",
+       "field": "rv",
+       "as": "rmx"
+      },
+      {
+       "op": "max",
+       "field": "ad",
+       "as": "maxAD"
+      },
+      {
+       "op": "min",
+       "field": "rv",
+       "as": "rmn"
+      }
+     ]
+    },
+    {
+     "calculate": "0",
+     "as": "z"
+    },
+    {
+     "calculate": "max(datum.maxV / 860, datum.maxAD / 63.750000, 0.000001)",
+     "as": "S"
+    },
+    {
+     "window": [
+      {
+       "op": "row_number",
+       "as": "rk"
+      }
+     ],
+     "sort": [
+      {
+       "field": "ac",
+       "order": "descending"
+      }
+     ]
+    },
+    {
+     "calculate": "datum.S * 85.000000",
+     "as": "k"
+    },
+    {
+     "calculate": "-datum.k",
+     "as": "mk"
+    },
+    {
+     "calculate": "format(datum.d, '+,.1f')",
+     "as": "L"
+    }
+   ],
+   "encoding": {
+    "y": {
+     "field": "Short name",
+     "type": "nominal",
+     "sort": {
+      "field": "rk",
+      "op": "min",
+      "order": "ascending"
+     },
+     "axis": null
+    }
+   },
+   "layer": [
+    {
+     "mark": {
+      "type": "rule",
+      "opacity": 0
+     },
+     "encoding": {
+      "x": {
+       "field": "mk",
+       "type": "quantitative",
+       "scale": {
+        "nice": false,
+        "zero": true
+       },
+       "axis": null
+      },
+      "x2": {
+       "field": "k"
+      }
+     }
+    },
+    {
+     "mark": {
+      "type": "tick",
+      "color": "#404040",
+      "thickness": 1,
+      "size": 23.5,
+      "orient": "vertical",
+      "xOffset": -1.5,
+      "opacity": 1
+     },
+     "encoding": {
+      "x": {
+       "datum": 0,
+       "type": "quantitative"
+      }
+     }
+    },
+    {
+     "mark": {
+      "type": "tick",
+      "color": "#404040",
+      "thickness": 1,
+      "size": 23.5,
+      "orient": "vertical",
+      "xOffset": 1.5,
+      "opacity": 1
+     },
+     "encoding": {
+      "x": {
+       "datum": 0,
+       "type": "quantitative"
+      }
+     }
+    },
+    {
+     "mark": {
+      "type": "bar",
+      "height": {
+       "band": 0.64
       }
      },
      "encoding": {
       "x": {
        "field": "d",
        "type": "quantitative",
-       "axis": {
-        "domain": false,
-        "ticks": false,
-        "labels": false,
-        "grid": false,
-        "title": null
-       }
+       "scale": {
+        "nice": false,
+        "zero": true
+       },
+       "axis": null
+      },
+      "x2": {
+       "datum": 0
       },
       "fill": {
        "condition": {
         "test": "datum.d >= 0",
         "value": "#2E8B7A"
        },
-       "value": "#c0392b"
-      }
+       "value": "#C0392B"
+      },
+      "tooltip": [
+       {
+        "field": "Short name",
+        "title": "Company"
+       },
+       {
+        "field": "ac",
+        "title": "AC&FC",
+        "format": ",.1f"
+       },
+       {
+        "field": "pl",
+        "title": "PL",
+        "format": ",.1f"
+       },
+       {
+        "field": "d",
+        "title": "ΔPL",
+        "format": "+,.1f"
+       },
+       {
+        "field": "rv",
+        "title": "ΔPL %",
+        "format": "+.1f"
+       }
+      ]
      }
     },
     {
@@ -317,34 +582,22 @@
      ],
      "mark": {
       "type": "text",
-      "dx": 6,
       "align": "left",
-      "fontSize": 11,
-      "font": "Arial"
+      "baseline": "middle",
+      "dx": 7
      },
      "encoding": {
       "x": {
        "field": "d",
        "type": "quantitative",
-       "axis": {
-        "domain": false,
-        "ticks": false,
-        "labels": false,
-        "grid": false,
-        "title": null
-       }
+       "scale": {
+        "nice": false,
+        "zero": true
+       },
+       "axis": null
       },
       "text": {
-       "field": "d",
-       "type": "quantitative",
-       "format": "+,.0f"
-      },
-      "color": {
-       "condition": {
-        "test": "datum.d >= 0",
-        "value": "#2E8B7A"
-       },
-       "value": "#c0392b"
+       "field": "L"
       }
      }
     },
@@ -356,127 +609,230 @@
      ],
      "mark": {
       "type": "text",
-      "dx": -6,
       "align": "right",
-      "fontSize": 11,
-      "font": "Arial"
+      "baseline": "middle",
+      "dx": -7
      },
      "encoding": {
       "x": {
        "field": "d",
        "type": "quantitative",
-       "axis": {
-        "domain": false,
-        "ticks": false,
-        "labels": false,
-        "grid": false,
-        "title": null
-       }
+       "scale": {
+        "nice": false,
+        "zero": true
+       },
+       "axis": null
       },
       "text": {
-       "field": "d",
-       "type": "quantitative",
-       "format": "+,.0f"
-      },
-      "color": {
-       "condition": {
-        "test": "datum.d >= 0",
-        "value": "#2E8B7A"
-       },
-       "value": "#c0392b"
+       "field": "L"
       }
      }
     }
    ]
   },
   {
-   "width": 220,
+   "width": 240,
    "height": {
-    "step": 26
+    "step": 23
+   },
+   "title": {
+    "text": "ΔPL %",
+    "fontSize": 12,
+    "fontWeight": 400,
+    "color": "#6B6B6B",
+    "anchor": "start",
+    "frame": "group",
+    "offset": 8
    },
    "data": {
     "name": "dataset"
    },
    "transform": [
     {
-     "calculate": "datum[\"Revenue PL mEUR\"] > 0 ? (datum[\"Revenue ACFC mEUR\"] - datum[\"Revenue PL mEUR\"])/datum[\"Revenue PL mEUR\"]*100 : null",
+     "calculate": "isValid(datum[\"Revenue ACFC mEUR\"]) ? datum[\"Revenue ACFC mEUR\"] : 0",
+     "as": "ac"
+    },
+    {
+     "calculate": "isValid(datum[\"Revenue PL mEUR\"]) ? datum[\"Revenue PL mEUR\"] : 0",
+     "as": "pl"
+    },
+    {
+     "calculate": "(+datum[\"FC flag\"]) > 0 ? 1 : 0",
+     "as": "fc"
+    },
+    {
+     "calculate": "datum.ac - datum.pl",
+     "as": "d"
+    },
+    {
+     "calculate": "max(datum.ac, datum.pl)",
+     "as": "mxv"
+    },
+    {
+     "calculate": "datum.pl != 0 ? datum.d / datum.pl * 100 : null",
      "as": "rv"
+    },
+    {
+     "calculate": "abs(datum.d)",
+     "as": "ad"
+    },
+    {
+     "joinaggregate": [
+      {
+       "op": "max",
+       "field": "mxv",
+       "as": "maxV"
+      },
+      {
+       "op": "max",
+       "field": "rv",
+       "as": "rmx"
+      },
+      {
+       "op": "max",
+       "field": "ad",
+       "as": "maxAD"
+      },
+      {
+       "op": "min",
+       "field": "rv",
+       "as": "rmn"
+      }
+     ]
+    },
+    {
+     "calculate": "0",
+     "as": "z"
+    },
+    {
+     "calculate": "max(datum.maxV / 860, datum.maxAD / 63.750000, 0.000001)",
+     "as": "S"
+    },
+    {
+     "window": [
+      {
+       "op": "row_number",
+       "as": "rk"
+      }
+     ],
+     "sort": [
+      {
+       "field": "ac",
+       "order": "descending"
+      }
+     ]
+    },
+    {
+     "calculate": "max(isValid(datum.rmx) ? datum.rmx : 0, 0)",
+     "as": "hi"
+    },
+    {
+     "calculate": "min(isValid(datum.rmn) ? datum.rmn : 0, 0)",
+     "as": "lo"
+    },
+    {
+     "calculate": "max(datum.hi - datum.lo, 0.5)",
+     "as": "rng"
+    },
+    {
+     "calculate": "datum.hi + datum.rng * 0.42",
+     "as": "r2"
+    },
+    {
+     "calculate": "datum.lo - datum.rng * 0.42",
+     "as": "r1"
+    },
+    {
+     "calculate": "format(datum.rv / 100, '+.1%')",
+     "as": "L"
     }
    ],
    "encoding": {
     "y": {
      "field": "Short name",
      "type": "nominal",
-     "sort": null,
-     "axis": {
-      "domain": false,
-      "ticks": false,
-      "labels": false,
-      "grid": false,
-      "title": null
-     }
+     "sort": {
+      "field": "rk",
+      "op": "min",
+      "order": "ascending"
+     },
+     "axis": null
     }
    },
    "layer": [
     {
      "mark": {
-      "type": "point",
-      "size": 0,
-      "opacity": 0,
-      "tooltip": {
-       "content": "data"
+      "type": "rule",
+      "opacity": 0
+     },
+     "encoding": {
+      "x": {
+       "field": "r1",
+       "type": "quantitative",
+       "scale": {
+        "nice": false,
+        "zero": true
+       },
+       "axis": null
+      },
+      "x2": {
+       "field": "r2"
       }
-     },
-     "encoding": {}
-    },
-    {
-     "mark": {
-      "type": "rule",
-      "color": "#404040",
-      "strokeWidth": 1
-     },
-     "encoding": {
-      "xOffset": {
-       "value": -1.6
-      },
-      "x": {
-       "datum": 0
-      },
-      "y": null
      }
     },
     {
      "mark": {
-      "type": "rule",
+      "type": "tick",
       "color": "#404040",
-      "strokeWidth": 1
+      "thickness": 1,
+      "size": 23.5,
+      "orient": "vertical",
+      "xOffset": -1.5,
+      "opacity": 1
      },
      "encoding": {
-      "xOffset": {
-       "value": 1.6
-      },
       "x": {
-       "datum": 0
-      },
-      "y": null
+       "datum": 0,
+       "type": "quantitative"
+      }
      }
     },
     {
      "mark": {
+      "type": "tick",
+      "color": "#404040",
+      "thickness": 1,
+      "size": 23.5,
+      "orient": "vertical",
+      "xOffset": 1.5,
+      "opacity": 1
+     },
+     "encoding": {
+      "x": {
+       "datum": 0,
+       "type": "quantitative"
+      }
+     }
+    },
+    {
+     "transform": [
+      {
+       "filter": "isValid(datum.rv)"
+      }
+     ],
+     "mark": {
       "type": "rule",
-      "strokeWidth": 2
+      "strokeWidth": 3
      },
      "encoding": {
       "x": {
        "field": "rv",
        "type": "quantitative",
-       "axis": {
-        "domain": false,
-        "ticks": false,
-        "labels": false,
-        "grid": false,
-        "title": null
-       }
+       "scale": {
+        "nice": false,
+        "zero": true
+       },
+       "axis": null
       },
       "x2": {
        "datum": 0
@@ -486,38 +842,60 @@
         "test": "datum.rv >= 0",
         "value": "#2E8B7A"
        },
-       "value": "#c0392b"
+       "value": "#C0392B"
       }
      }
     },
     {
+     "transform": [
+      {
+       "filter": "isValid(datum.rv)"
+      }
+     ],
      "mark": {
       "type": "point",
+      "shape": "square",
+      "size": 60,
       "filled": true,
-      "size": 48,
-      "tooltip": {
-       "content": "data"
-      }
+      "opacity": 1,
+      "fill": "#404040"
      },
      "encoding": {
       "x": {
        "field": "rv",
        "type": "quantitative",
-       "axis": {
-        "domain": false,
-        "ticks": false,
-        "labels": false,
-        "grid": false,
-        "title": null
-       }
-      },
-      "color": {
-       "condition": {
-        "test": "datum.rv >= 0",
-        "value": "#2E8B7A"
+       "scale": {
+        "nice": false,
+        "zero": true
        },
-       "value": "#c0392b"
-      }
+       "axis": null
+      },
+      "tooltip": [
+       {
+        "field": "Short name",
+        "title": "Company"
+       },
+       {
+        "field": "ac",
+        "title": "AC&FC",
+        "format": ",.1f"
+       },
+       {
+        "field": "pl",
+        "title": "PL",
+        "format": ",.1f"
+       },
+       {
+        "field": "d",
+        "title": "ΔPL",
+        "format": "+,.1f"
+       },
+       {
+        "field": "rv",
+        "title": "ΔPL %",
+        "format": "+.1f"
+       }
+      ]
      }
     },
     {
@@ -528,34 +906,22 @@
      ],
      "mark": {
       "type": "text",
-      "dx": 10,
       "align": "left",
-      "fontSize": 11,
-      "font": "Arial"
+      "baseline": "middle",
+      "dx": 10
      },
      "encoding": {
       "x": {
        "field": "rv",
        "type": "quantitative",
-       "axis": {
-        "domain": false,
-        "ticks": false,
-        "labels": false,
-        "grid": false,
-        "title": null
-       }
+       "scale": {
+        "nice": false,
+        "zero": true
+       },
+       "axis": null
       },
       "text": {
-       "field": "rv",
-       "type": "quantitative",
-       "format": "+.1f"
-      },
-      "color": {
-       "condition": {
-        "test": "datum.rv >= 0",
-        "value": "#2E8B7A"
-       },
-       "value": "#c0392b"
+       "field": "L"
       }
      }
     },
@@ -567,41 +933,30 @@
      ],
      "mark": {
       "type": "text",
-      "dx": -10,
       "align": "right",
-      "fontSize": 11,
-      "font": "Arial"
+      "baseline": "middle",
+      "dx": -10
      },
      "encoding": {
       "x": {
        "field": "rv",
        "type": "quantitative",
-       "axis": {
-        "domain": false,
-        "ticks": false,
-        "labels": false,
-        "grid": false,
-        "title": null
-       }
+       "scale": {
+        "nice": false,
+        "zero": true
+       },
+       "axis": null
       },
       "text": {
-       "field": "rv",
-       "type": "quantitative",
-       "format": "+.1f"
-      },
-      "color": {
-       "condition": {
-        "test": "datum.rv >= 0",
-        "value": "#2E8B7A"
-       },
-       "value": "#c0392b"
+       "field": "L"
       }
      }
     }
    ]
   }
  ],
- "spacing": 26,
+ "spacing": 56,
+ "bounds": "flush",
  "resolve": {
   "scale": {
    "y": "independent"

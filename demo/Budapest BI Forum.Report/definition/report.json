@@ -48,6 +48,12 @@
       }
     ]
   },
+  "publicCustomVisuals": [
+    "deneb7E15AEF80B9E4D4F8E12924291ECE89A",
+    "InforiverCharts582F6C55AB6442EF8FA129089285CB47",
+    "waterfall6C9ED82ABD1F44C4A0D590CE01EB5EE7",
+    "ZebraBITablesBAE31B370F254F808553548EFB35BFA5"
+  ],
   "resourcePackages": [
     {
       "name": "SharedResources",
@@ -101,8 +107,5 @@
     "allowChangeFilterTypes": true,
     "useEnhancedTooltips": true,
     "useDefaultAggregateDisplayName": true
-  },
-  "publicCustomVisuals": [
-    "deneb7E15AEF80B9E4D4F8E12924291ECE89A"
-  ]
+  }
 }

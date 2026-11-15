@@ -4,9 +4,9 @@
   "position": {
     "x": 327,
     "y": 501,
-    "width": 1566,
-    "height": 516,
     "z": 0,
+    "height": 516,
+    "width": 1566,
     "tabOrder": 0
   },
   "visual": {
@@ -16,7 +16,6 @@
         "Rows": {
           "projections": [
             {
-              "queryRef": "dim-konten.L1 EN",
               "field": {
                 "Column": {
                   "Expression": {
@@ -27,14 +26,15 @@
                   "Property": "L1 EN"
                 }
               },
-              "nativeQueryRef": "L1 EN"
+              "queryRef": "dim-konten.L1 EN",
+              "nativeQueryRef": "L1 EN",
+              "active": true
             }
           ]
         },
         "Values": {
           "projections": [
             {
-              "queryRef": "fact-abschluss.AC signed",
               "field": {
                 "Measure": {
                   "Expression": {
@@ -45,10 +45,10 @@
                   "Property": "AC signed"
                 }
               },
+              "queryRef": "fact-abschluss.AC signed",
               "nativeQueryRef": "AC signed"
             },
             {
-              "queryRef": "fact-abschluss.AC signed @BUD",
               "field": {
                 "Measure": {
                   "Expression": {
@@ -59,10 +59,10 @@
                   "Property": "AC signed @BUD"
                 }
               },
+              "queryRef": "fact-abschluss.AC signed @BUD",
               "nativeQueryRef": "AC signed @BUD"
             },
             {
-              "queryRef": "fact-abschluss.FX effect",
               "field": {
                 "Measure": {
                   "Expression": {
@@ -73,10 +73,10 @@
                   "Property": "FX effect"
                 }
               },
+              "queryRef": "fact-abschluss.FX effect",
               "nativeQueryRef": "FX effect"
             },
             {
-              "queryRef": "fact-abschluss.ΔPL",
               "field": {
                 "Measure": {
                   "Expression": {
@@ -87,10 +87,10 @@
                   "Property": "ΔPL"
                 }
               },
+              "queryRef": "fact-abschluss.ΔPL",
               "nativeQueryRef": "ΔPL"
             },
             {
-              "queryRef": "fact-abschluss.ΔPL @BUD",
               "field": {
                 "Measure": {
                   "Expression": {
@@ -101,6 +101,7 @@
                   "Property": "ΔPL @BUD"
                 }
               },
+              "queryRef": "fact-abschluss.ΔPL @BUD",
               "nativeQueryRef": "ΔPL @BUD"
             }
           ]
@@ -238,7 +239,6 @@
           }
         },
         "type": "Categorical",
-        "howCreated": "User",
         "filter": {
           "Version": 2,
           "From": [
@@ -277,7 +277,8 @@
               }
             }
           ]
-        }
+        },
+        "howCreated": "User"
       }
     ]
   }

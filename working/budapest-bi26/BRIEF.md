@@ -74,10 +74,20 @@ Assets liegen in `working/budapest-bi26/assets/`. Desktop-Seiten wurden mit `pbi
 
 Stand 09.11.: `story-v2.html` (25 Folien) nach sieben Expertenreviews, Synthese in REVIEWS.md, Umsetzungsliste in `reviews-v2/UMSETZUNG-DECK.md`; Modell und Report angepasst (Period-Status-Flag, EUR m, Teal, Datenstand, Deneb mit Chart-Builder-Vorlagen, UDF-Bibliothek PowerofBI.IBCS auf Sprosse 3, Modellkultur en-US). Anleitung UDF mit neuer Karte und Button-Slicer: `demo-report/udf-ibcs-anleitung.md`.
 
-Offen: 40 oder 60 Minuten · Seite „Card and slicer“ (UDF-Bilder in Karte/Button-Slicer unbestätigt) · ChartKitchen-Renders mit deutschem Zahlenformat · Zebra-P&L-Seite · „Vega kommt nach Power BI" verifizieren · Speaker-Card trägt „Daten.-WG".
+Dauer: 40 Minuten (bestätigt 11.11.2026).
+
+Offen: Seite „Card and slicer“ (UDF-Bilder in Karte/Button-Slicer unbestätigt) · ChartKitchen-Renders mit deutschem Zahlenformat · Zebra-P&L-Seite · „Vega kommt nach Power BI" verifizieren · Speaker-Card trägt „Daten.-WG".
 
 Reviews der vier Expert-Agenten mit Umsetzungsstand: `REVIEWS.md`. Übersicht (Taste O) jetzt als Story von links nach rechts, sechs Akte, Appendix darunter.
 
 Alle URLs im Deck sind klickbar (Rechner mit ?lang=en, GitHub, LinkedIn, Kitchen, ibcs.com, Chart Builder). 21 Folien.
 
 Renders in 3×: `pbir desktop screenshot "<Report>" --all --scale 3 --settle 1500 --output-dir <dir>` nach Daten-Refresh in Desktop; Kacheln per PIL zugeschnitten (Koordinaten ×3 der 1317-px-Aufnahme). ChartKitchen ab 1.52 zeichnet Δ-Panels auf Basisskala und markiert jede Vergrößerung mit Faktor und Skalenband.
+
+## Ablauf (40 Minuten, frei nach Publikum)
+
+Michael hält den Vortrag frei und passt die Gewichtung an das Publikum an. Kein Minutenplan. Drei Anker:
+
+- Spätestens zur Hälfte in der Demo sein.
+- Rechner, Matrix und Entscheidungsfolie brauchen zusammen etwa sieben Minuten.
+- Streichkandidaten, wenn es knapp wird: FX-Seite, Performance Analyzer. Nicht live: Fabric App, Copilot, Zebra, Seite „Card and slicer“.

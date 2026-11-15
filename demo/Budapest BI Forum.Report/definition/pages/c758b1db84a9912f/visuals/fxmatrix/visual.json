@@ -4,9 +4,9 @@
   "position": {
     "x": 327,
     "y": 123,
-    "width": 1566,
-    "height": 360,
     "z": 0,
+    "height": 360,
+    "width": 1566,
     "tabOrder": 0
   },
   "visual": {
@@ -16,7 +16,6 @@
         "Rows": {
           "projections": [
             {
-              "queryRef": "dim-gesellschaft.Short name",
               "field": {
                 "Column": {
                   "Expression": {
@@ -27,14 +26,15 @@
                   "Property": "Short name"
                 }
               },
-              "nativeQueryRef": "Short name"
+              "queryRef": "dim-gesellschaft.Short name",
+              "nativeQueryRef": "Short name",
+              "active": true
             }
           ]
         },
         "Values": {
           "projections": [
             {
-              "queryRef": "fact-abschluss.Revenue AC mEUR",
               "field": {
                 "Measure": {
                   "Expression": {
@@ -45,10 +45,10 @@
                   "Property": "Revenue AC mEUR"
                 }
               },
+              "queryRef": "fact-abschluss.Revenue AC mEUR",
               "nativeQueryRef": "Revenue AC mEUR"
             },
             {
-              "queryRef": "fact-abschluss.Revenue AC @BUD mEUR",
               "field": {
                 "Measure": {
                   "Expression": {
@@ -59,10 +59,10 @@
                   "Property": "Revenue AC @BUD mEUR"
                 }
               },
+              "queryRef": "fact-abschluss.Revenue AC @BUD mEUR",
               "nativeQueryRef": "Revenue AC @BUD mEUR"
             },
             {
-              "queryRef": "fact-abschluss.Revenue FX effect mEUR",
               "field": {
                 "Measure": {
                   "Expression": {
@@ -73,10 +73,10 @@
                   "Property": "Revenue FX effect mEUR"
                 }
               },
+              "queryRef": "fact-abschluss.Revenue FX effect mEUR",
               "nativeQueryRef": "Revenue FX effect mEUR"
             },
             {
-              "queryRef": "fact-abschluss.Revenue PL mEUR",
               "field": {
                 "Measure": {
                   "Expression": {
@@ -87,6 +87,7 @@
                   "Property": "Revenue PL mEUR"
                 }
               },
+              "queryRef": "fact-abschluss.Revenue PL mEUR",
               "nativeQueryRef": "Revenue PL mEUR"
             }
           ]
@@ -208,8 +209,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": []
   }
 }
