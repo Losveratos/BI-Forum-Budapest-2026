@@ -50,8 +50,6 @@ Things to know:
 | `working/budapest-bi26/story-v2.html`, `.pdf`, `.pptx` | The talk (see above). `assets/` holds the images. |
 | `working/budapest-bi26/build-exports.py` | Builds the PDF and PPTX from the HTML deck |
 | `working/budapest-bi26/demo-report/` | Notes on the demo report, Deneb specs and Business Chart Builder templates, UDF guide |
-| `working/budapest-bi26/story.html` | Earlier version of the deck |
-| `working/budapest-bi26/BRIEF.md`, `REVIEWS.md`, `reviews-v2/` | Working notes and expert reviews of the deck (German) |
 | `demo/` | Power BI project: semantic model (TMDL), report (PBIR), data (CSV) and generator |
 | `material/` | Speaker card |
 
