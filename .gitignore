@@ -20,3 +20,10 @@ working/budapest-bi26/reviews-v2/*.png
 # not for the public repo: submissions for other events, organiser template
 material/andere-sessions/
 material/bi26_template.pptx
+
+# Local backups, virtual environments, logs
+_backup*/
+*.bak
+.venv/
+venv/
+*.log

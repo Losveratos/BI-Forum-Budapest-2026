@@ -180,4 +180,48 @@ Zebra BI Tables data roles (visual 8.4.2.53, `visualType` `ZebraBITablesBAE31B37
 
 How found: `pbir schema` does not know custom visuals, and Desktop keeps no unpacked AppSource visual in its cache folders. The capabilities came from Desktop's AutoRecovery file (`%USERPROFILE%\Microsoft\Power BI Desktop Store App\AutoRecovery\~$Budapest BI Forum (Recovered …).pbix`): it is a ZIP and embeds `Report/CustomVisuals/ZebraBITables…/resources/*.pbiviz.json`, whose `capabilities.dataRoles` lists the names (read only, with Python). Older TempSaves .pbix with a placed Zebra table confirm the role names in `projections`. Formatting objects include `titleSettings`, `chartSettings`, `categorySettings`, `licenseSettings`, `proFeaturesSettings`.
 
-Status / limits: `pbir validate` passes, but in every `pbir desktop screenshot` (after several refreshes, settle up to 60 s) both Zebra tiles stay **empty white**: no table, no landing page, no licence dialog, no watermark visible. ChartKitchen, P&L Statement and Deneb render in the same capture, so the bridge itself works. Likely causes (not verified): the AppSource visual does not draw in the bridge's off-screen render, or it waits for an online licence check / first interaction in the real window. Next step: open page "5b Zebra BI" in Desktop by hand and look at the visual; whatever the free licence shows there (dialog, watermark, limits) is not documented here because it was not seen.
+Status / limits (v4, superseded by v5 below): `pbir validate` passes, but in every `pbir desktop screenshot` (after several refreshes, settle up to 60 s) both Zebra tiles stay **empty white**: no table, no landing page, no licence dialog, no watermark visible. ChartKitchen, P&L Statement and Deneb render in the same capture, so the bridge itself works. Likely causes (not verified): the AppSource visual does not draw in the bridge's off-screen render, or it waits for an online licence check / first interaction in the real window. Next step: open page "5b Zebra BI" in Desktop by hand and look at the visual; whatever the free licence shows there (dialog, watermark, limits) is not documented here because it was not seen.
+
+## v5: demo QA 15 Nov
+
+The demo runs live in Power BI Desktop. All 14 pages were captured through the pbir bridge and checked. Model unchanged. Backup of the report before this pass: scratchpad only (`backup-before/`); the git state of this repo is unchanged.
+
+**Bridge captures are timing-sensitive.** A page often comes back with empty or greyed tiles on the first capture and renders on a later one. Pages that looked empty in the first `--all` run all rendered on a later single-page capture, except Zebra (see below). A blank tile in a capture is therefore not proof of a broken visual.
+
+| Page | Result |
+|---|---|
+| Group P&L, Balance sheet, Cash flow, Plan gap, Nine companies, Full-year outlook | OK. Cosmetic issues in ChartKitchen: on "Nine companies" the note "Totals may differ due to rounding" overlaps the ΔPY % labels; the "☰ Start" chip shows faintly in the corner (edit mode only, so it always shows in Desktop) |
+| 1 Pure Power BI, 2 DAX only, 3 SVG measures | OK, same numbers: Net revenue 2,817.6 / 2,782.1; Gross profit 942.8 / 957.0 / −14.2; EBITDA 400.5 / 424.2 / −23.7; Net income 151.6 / 176.3 / −24.7. Rung 3: the company table shows a horizontal scrollbar |
+| 4 Deneb | OK (both visuals render) |
+| 5a Custom visual | Fixed. `r5apnl`: `toolbar.show` and `toolbar.showLegend` = false, `hierarchy.defaultLevel` 2 → 1, headline shortened to "Revenue +12.8 % vs prior year, EBITDA 5.6 % below plan". The statement now fits down to Net income margin without scrolling; values match the expected ones. `r5astruct`: `pbir visuals sort` by `fact-abschluss.Revenue AC` descending. `r5atime`: `chart.template`/`templateApplied` = 'off', which removes the "↺ Back to template" chip (it appeared because comparisonMode differs from template C04). Asset `demo-rung5a-custom.png` re-captured |
+| 5b Zebra BI | See below |
+| FX and close | OK (totals 2,817.6 / 2,803.3 / +14.3 / 2,782.1; Net income 151.6 / 150.8 / +0.8 / −24.7 / −24.5) |
+| Card and slicer | New card now shows the SVG per company: the `image` object needs two entries, `show` without a selector and `imageType`/`imageUrl` (Measure `Revenue AC vs PL SVG`) with `"selector": {"id": "default"}`. The same pattern on the button slicer (`sourceType`, `image`) still shows no image. The page promises images on the buttons, so it is **hidden** (`HiddenInViewMode`). In Desktop it stays in the tab bar with the hidden icon; skip it |
+
+### Zebra BI (5b)
+
+- Both visuals carried a pasted `licenseSettings.licenseKey` (a paid key for "BI GmbH", expiry 2026-06-03, i.e. expired). It was removed from both visuals; the old value is in the scratchpad backup. Afterwards Zebra rendered with data once in a bridge capture: AC/PL/ΔPL Gross profit 942.8 / 957.0 / −14.2, EBITDA 400.5 / 424.2 / −23.7, Net income 151.6 / 176.3 / −24.7, companies sorted by AC. In other captures (also with the visual reverted to that exact state) it stayed white or showed its landing card "Licensed to BI GmbH · Paid · Drop your data". So Zebra renders in Desktop, but the bridge cannot capture it reliably. The landing card shows that Desktop still holds a BI GmbH licence, so the page subtitle ("free licence") may not match what the audience sees.
+- `r5bpnl` was sorted by AC descending (Zebra's own sort, not the query's sortDefinition). Set to data order with `sortSettings` (`columnName 'actual'`, `chartSort 0D`, `categorySort 0D`, shape as Desktop writes it). This is **not verified** in a capture.
+- Zebra's `titleSettings.text` was ignored (the visual showed "AC line and PL line by Line"). Zebra's title is now off and the container title carries the text (no "free licence" in the tile title any more).
+- The table visual `r5bmini` added for the test was removed again.
+
+### Live checks (slicers, close switch)
+
+The bridge cannot click slicers. Checks were done with DAX against the local engine (ADOMD, `localhost:50816`; `pbir model -q` reported the local API as unreachable) and once by writing a slicer selection into `closeslicer` on 5a/5b, refreshing, capturing and reverting:
+- All rung pages have the Company slicer (`dwg-dim-gesellschaft-short-name`) and the close slicer (`dwg-close-status`) in the same sync groups. No visual-interaction overrides.
+- Line measures (rungs 1, 2, 3, 5b), group, Jan..Oct 2026: with "Incl. day-3 adjustment", EBITDA 400.5 → 404.5, Net income 151.6 → 155.6, ΔPL −24.7 → −20.7. Mobility FR: EBITDA 26.0 → 30.0, Net income −5.5 → −1.5, Net revenue 371.0 (PL 403.3).
+- 5a P&L Statement: the adjustment lands on account `G-oth_rst_aufloesung` (7.0 → 11.0) without a month field in the visual. Captured with the slicer set: EBITDA 404.5, EBIT 260.3, EBT 210.5, Net income 155.6.
+- FX and close: `AC signed` 151.6 → 155.6, `AC signed @BUD` 154.8, ΔPL −20.7. Revenue is not affected by the adjustment (correct). Automation CH: revenue 203.2, FX effect +4.4. Stamp text switches to "incl. day-3 adjustment".
+- Slicers are back to their initial state (no selection; year comes from the year slicer as saved).
+
+Landing page set to "1 Pure Power BI" (`pbir pages active-page`). Desktop writes the page it is on when saving, so it has to be on page 1 when saved.
+
+Assets: `demo-rung5a-custom.png` re-captured. The two empty Zebra captures (`demo-rung5b-zebra.png`, `demo-rung5b-zebra-tile.png`) were deleted: Zebra stayed white in all final captures, so no clean image exists. Nothing in the deck referenced them.
+
+### Before the talk (by hand, in Desktop)
+
+1. Desktop shows "Unsaved". Go to page "1 Pure Power BI" and press **Save** once. This writes the in-memory state and makes page 1 the landing page.
+2. Open "5b Zebra BI" once and wait until both tables draw. If a licence or sign-in card appears, deal with it there. Check the statement runs Net revenue → Net income in statement order (if Zebra still sorts by AC, click the AC header until the sort is off). Then Save again.
+3. Click through 1 → 2 → 3 → 4 → 5a → 5b → FX and close once, so each custom visual (ChartKitchen, P&L Statement, Deneb, Zebra) is loaded before going on stage.
+4. Try the switches once: Company = Mobility FR, then Close status = "Incl. day-3 adjustment" (Net income 151.6 → 155.6, EBITDA 400.5 → 404.5). Afterwards set both back to "All".
+5. A data refresh is not needed; the model holds data and nothing in the model changed. Open Performance Analyzer only if you plan to show it.

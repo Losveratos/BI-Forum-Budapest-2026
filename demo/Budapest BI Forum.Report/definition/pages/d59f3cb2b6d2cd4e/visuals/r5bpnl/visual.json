@@ -1,12 +1,12 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "r5bpnl",
   "position": {
     "x": 327,
     "y": 123,
     "z": 1000,
-    "width": 1000,
     "height": 894,
+    "width": 1000,
     "tabOrder": 1000
   },
   "visual": {
@@ -95,7 +95,7 @@
             "show": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
+                  "Value": "false"
                 }
               }
             },
@@ -103,6 +103,66 @@
               "expr": {
                 "Literal": {
                   "Value": "'Income statement in EUR m | Jan..Oct 2026 AC, PL, ΔPL · Zebra BI Tables, free licence'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "version": [
+        {
+          "properties": {
+            "version": {
+              "expr": {
+                "Literal": {
+                  "Value": "'8.4.2'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "previewSettings": [
+        {
+          "properties": {
+            "featureMigrationLog": {
+              "expr": {
+                "Literal": {
+                  "Value": "'{\"version\":\"1.0.0\",\"features\":{\"calculationCorrectionFeature\":\"1.0.0\"}}'"
+                }
+              }
+            },
+            "featureActivationLog": {
+              "expr": {
+                "Literal": {
+                  "Value": "'{\"version\":\"1.0.0\",\"features\":{\"calculationCorrectionFeature\":\"1.0.0\"}}'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "sortSettings": [
+        {
+          "properties": {
+            "columnName": {
+              "expr": {
+                "Literal": {
+                  "Value": "'actual'"
+                }
+              }
+            },
+            "chartSort": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "categorySort": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
                 }
               }
             }
@@ -117,7 +177,14 @@
             "show": {
               "expr": {
                 "Literal": {
-                  "Value": "false"
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Income statement in EUR m | Jan..Oct 2026 AC, PL, ΔPL · Zebra BI Tables'"
                 }
               }
             }

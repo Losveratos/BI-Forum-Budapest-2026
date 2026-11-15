@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """Rewrites the 'Budapest demo' measure block in fact-abschluss.tmdl (v2 after the seven reviews).
-Run from anywhere: python -I -X utf8 budapest_measures.py
+HISTORICAL (v2). Do NOT run against the current model: it rewrites the measure block and would drop the later UDF, FX and line measures.
 """
 import re, uuid, io, sys
-BASE = r"C:\Users\MichaelTenner\Desktop\PnL Demo\PnL ChartkitchenDemoKit.SemanticModel\definition"
+BASE = r"C:\path\to\PnL ChartkitchenDemoKit.SemanticModel\definition"  # set before use
 p = BASE + r"\tables\fact-abschluss.tmdl"
 s = io.open(p, encoding="utf-8").read()
 start = s.index("\t/// ")

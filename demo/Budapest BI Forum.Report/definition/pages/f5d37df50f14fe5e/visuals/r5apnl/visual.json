@@ -576,7 +576,7 @@
             "message": {
               "expr": {
                 "Literal": {
-                  "Value": "'Revenue +12.8 % vs prior year, EBITDA 5.6 % below plan · Mobility Solutions −8 % against plan, Energy Systems and Poland compensate in part'"
+                  "Value": "'Revenue +12.8 % vs prior year, EBITDA 5.6 % below plan'"
                 }
               }
             }
@@ -609,7 +609,7 @@
             "defaultLevel": {
               "expr": {
                 "Literal": {
-                  "Value": "2D"
+                  "Value": "1D"
                 }
               }
             }
@@ -622,14 +622,14 @@
             "show": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
+                  "Value": "false"
                 }
               }
             },
             "showLegend": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
+                  "Value": "false"
                 }
               }
             }

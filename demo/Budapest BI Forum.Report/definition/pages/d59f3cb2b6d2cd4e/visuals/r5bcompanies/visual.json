@@ -1,12 +1,12 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "r5bcompanies",
   "position": {
     "x": 1345,
     "y": 123,
     "z": 2000,
-    "width": 548,
     "height": 894,
+    "width": 548,
     "tabOrder": 2000
   },
   "visual": {
@@ -88,6 +88,61 @@
         "isDefaultSort": true
       }
     },
+    "objects": {
+      "titleSettings": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Revenue by company in EUR m | Jan..Oct 2026 AC, PL, ΔPL · Zebra BI Tables, free licence'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "version": [
+        {
+          "properties": {
+            "version": {
+              "expr": {
+                "Literal": {
+                  "Value": "'8.4.2'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "previewSettings": [
+        {
+          "properties": {
+            "featureMigrationLog": {
+              "expr": {
+                "Literal": {
+                  "Value": "'{\"version\":\"1.0.0\",\"features\":{\"calculationCorrectionFeature\":\"1.0.0\"}}'"
+                }
+              }
+            },
+            "featureActivationLog": {
+              "expr": {
+                "Literal": {
+                  "Value": "'{\"version\":\"1.0.0\",\"features\":{\"calculationCorrectionFeature\":\"1.0.0\"}}'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
     "visualContainerObjects": {
       "title": [
         {
@@ -95,7 +150,14 @@
             "show": {
               "expr": {
                 "Literal": {
-                  "Value": "false"
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Revenue by company in EUR m | Jan..Oct 2026 AC, PL, ΔPL · Zebra BI Tables'"
                 }
               }
             }
@@ -219,28 +281,6 @@
         }
       ]
     },
-    "drillFilterOtherVisuals": true,
-    "objects": {
-      "titleSettings": [
-        {
-          "properties": {
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "text": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Revenue by company in EUR m | Jan..Oct 2026 AC, PL, ΔPL · Zebra BI Tables, free licence'"
-                }
-              }
-            }
-          }
-        }
-      ]
-    }
+    "drillFilterOtherVisuals": true
   }
 }
