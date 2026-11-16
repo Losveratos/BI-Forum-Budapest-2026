@@ -3,10 +3,10 @@
   "name": "371c201f2c4c8da1d62b",
   "position": {
     "x": 1119,
-    "y": 123,
-    "z": 2000,
+    "y": 147,
     "width": 774,
-    "height": 894,
+    "height": 870,
+    "z": 2000,
     "tabOrder": 1000
   },
   "visual": {
@@ -39,13 +39,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "fact-abschluss"
+                      "Entity": "_Measures"
                     }
                   },
                   "Property": "Revenue AC"
                 }
               },
-              "queryRef": "fact-abschluss.Revenue AC",
+              "queryRef": "_Measures.Revenue AC",
               "nativeQueryRef": "Revenue AC",
               "displayName": "Revenue AC"
             }
@@ -58,13 +58,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "fact-abschluss"
+                      "Entity": "_Measures"
                     }
                   },
                   "Property": "Revenue PY"
                 }
               },
-              "queryRef": "fact-abschluss.Revenue PY",
+              "queryRef": "_Measures.Revenue PY",
               "nativeQueryRef": "Revenue PY",
               "displayName": "Revenue PY"
             }
@@ -77,13 +77,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "fact-abschluss"
+                      "Entity": "_Measures"
                     }
                   },
                   "Property": "Revenue FC"
                 }
               },
-              "queryRef": "fact-abschluss.Revenue FC",
+              "queryRef": "_Measures.Revenue FC",
               "nativeQueryRef": "Revenue FC",
               "displayName": "Revenue FC"
             }

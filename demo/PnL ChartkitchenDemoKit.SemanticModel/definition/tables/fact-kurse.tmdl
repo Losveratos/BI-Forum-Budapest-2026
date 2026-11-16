@@ -1,25 +1,11 @@
-/// Monatskurse je Währung, in Einheiten der Landeswährung je 1 EUR.
-/// Durchschnittskurs für Erfolgsposten und Zahlungsströme, Stichtagskurs
-/// für Bilanzposten (IAS 21). Die Umrechnung ist in der Faktentabelle
-/// bereits vollzogen; diese Tabelle macht sie nachvollziehbar.
+/// Monthly FX rates per currency, in units of local currency per 1 EUR.
+/// Average rate for income statement items and cash flows, closing rate
+/// for balance sheet items (IAS 21). The translation has already been done in the
+/// fact table; this table makes it traceable.
 table fact-kurse
 	lineageTag: 1073e1d2-0bd3-477f-8a60-be9cb2d8727a
 
-	/// Mittlerer Durchschnittskurs der gewählten Monate, Einheiten der
-	/// Landeswährung je 1 EUR. Für Erfolgsposten und Zahlungsströme.
-	measure Durchschnittskurs = AVERAGE ( 'fact-kurse'[Kurs Durchschnitt] )
-		formatString: #,##0.0000
-		displayFolder: Kurse
-		lineageTag: 815597d5-b796-4fbd-8ffe-381193930661
-
-	/// Kurs am letzten Tag der Auswahl, Einheiten der Landeswährung je 1
-	/// EUR. Für Bilanzposten.
-	measure Stichtagskurs = LASTNONBLANKVALUE ( 'dim-datum'[Datum], MAX ( 'fact-kurse'[Kurs Stichtag] ) )
-		formatString: #,##0.0000
-		displayFolder: Kurse
-		lineageTag: 59fce8a2-fc20-4017-8f8e-1de10ab37cd6
-
-	/// ISO-Code der Landeswährung.
+	/// ISO code of the local currency.
 	column Währung
 		dataType: string
 		lineageTag: 839a6642-a1ed-4e6e-8204-3179fc4245b1
@@ -28,7 +14,7 @@ table fact-kurse
 
 		annotation SummarizationSetBy = Automatic
 
-	/// Monatsletzter, Bezug zur Datumsdimension.
+	/// Last day of the month, link to the date dimension.
 	column Datum
 		dataType: dateTime
 		formatString: yyyy-mm-dd
@@ -80,8 +66,8 @@ table fact-kurse
 
 		annotation SummarizationSetBy = Automatic
 
-	/// Durchschnittskurs des Monats, Einheiten der Landeswährung je 1 EUR.
-	/// Für Erfolgsposten und Zahlungsströme.
+	/// Average rate of the month, units of local currency per 1 EUR.
+	/// For income statement items and cash flows.
 	column 'Kurs Durchschnitt'
 		dataType: double
 		formatString: #,##0.0000
@@ -91,8 +77,8 @@ table fact-kurse
 
 		annotation SummarizationSetBy = Automatic
 
-	/// Kurs am Monatsletzten, Einheiten der Landeswährung je 1 EUR. Für
-	/// Bilanzposten.
+	/// Rate on the last day of the month, units of local currency per 1 EUR. For
+	/// balance sheet items.
 	column 'Kurs Stichtag'
 		dataType: double
 		formatString: #,##0.0000
@@ -102,9 +88,9 @@ table fact-kurse
 
 		annotation SummarizationSetBy = Automatic
 
-	/// Budgetkurs (v3), Landeswährung je 1 EUR, fest je Währung und Jahr:
-	/// Mittel der Durchschnittskurse Okt bis Dez des Vorjahres, für 2025 der
-	/// Januar-Durchschnittskurs. EUR = 1. Basis für 'AC signed @BUD'.
+	/// Budget rate (v3), local currency per 1 EUR, fixed per currency and year:
+	/// mean of the average rates Oct to Dec of the previous year, for 2025 the
+	/// January average rate. EUR = 1. Basis for 'AC signed @BUD'.
 	column 'Kurs Budget'
 		dataType: double
 		formatString: #,##0.0000

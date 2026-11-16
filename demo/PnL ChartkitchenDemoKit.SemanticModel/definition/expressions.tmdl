@@ -1,5 +1,5 @@
-/// Ordner mit allen Demo-CSVs. Einziger Ort, an dem der Pfad steht —
-/// bei einer Ordnerverschiebung nur hier anpassen.
+/// Folder containing all demo CSVs. The only place where the path is defined —
+/// if the folder is moved, adjust it here only.
 expression DemoPfad = "C:\path\to\BI-Forum-Budapest-2026\demo\demoData\demokit\" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
 	lineageTag: 3704e4fa-8d10-4b5e-843a-d91b9d6c30d4
 

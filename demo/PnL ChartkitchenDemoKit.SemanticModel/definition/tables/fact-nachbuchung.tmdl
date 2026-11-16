@@ -1,6 +1,6 @@
-/// v3 Monatsabschluss-Szene: Nachbuchung nach dem Close am Arbeitstag 3 (eine
-/// Zeile). Fließt nur in AC ein, wenn 'close-status' auf "Incl. day-3
-/// adjustment" steht. Basiseinheiten, Rohvorzeichen wie fact-abschluss.
+/// v3 month-end close scene: late posting after the close on working day 3 (one
+/// row). Only flows into AC when 'close-status' is set to "Incl. day-3
+/// adjustment". Base units, raw sign as in fact-abschluss.
 table fact-nachbuchung
 	lineageTag: 8d6bd3ce-ce1d-4471-85c4-e17a2ed8225a
 
@@ -20,7 +20,7 @@ table fact-nachbuchung
 
 		annotation SummarizationSetBy = Automatic
 
-	/// Monatsletzter, Bezug zur Datumsdimension.
+	/// Last day of the month, link to the date dimension.
 	column Datum
 		dataType: dateTime
 		formatString: yyyy-mm-dd
@@ -32,8 +32,8 @@ table fact-nachbuchung
 
 		annotation UnderlyingDateTimeDataType = Date
 
-	/// Periodenschlüssel JJJJ-MM wie fact-abschluss[Monat]; die AC-Measures
-	/// übertragen darüber einen Filter auf fact-abschluss[Monat].
+	/// Period key YYYY-MM as in fact-abschluss[Monat]; the AC measures
+	/// use it to pass a filter on to fact-abschluss[Monat].
 	column Monat
 		dataType: string
 		lineageTag: 8dd088ee-e258-48ef-b5df-ba51475e8447
@@ -42,7 +42,7 @@ table fact-nachbuchung
 
 		annotation SummarizationSetBy = Automatic
 
-	/// Nachbuchung in EUR, Basiseinheiten, Rohvorzeichen (mal SignConvention).
+	/// Late posting in EUR, base units, raw sign (times SignConvention).
 	column 'AC Wert'
 		dataType: double
 		isHidden
@@ -53,7 +53,7 @@ table fact-nachbuchung
 
 		annotation SummarizationSetBy = User
 
-	/// Nachbuchung in Landeswährung, Basiseinheiten.
+	/// Late posting in local currency, base units.
 	column 'AC LW Wert'
 		dataType: double
 		isHidden
@@ -64,7 +64,7 @@ table fact-nachbuchung
 
 		annotation SummarizationSetBy = User
 
-	/// Buchungstext.
+	/// Posting text.
 	column Text
 		dataType: string
 		lineageTag: e9cb7a9c-a3e5-4a80-8f32-69145024323e

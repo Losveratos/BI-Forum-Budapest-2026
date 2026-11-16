@@ -110,10 +110,10 @@ cultureInfo de-DE
 			        }
 			      ]
 			    },
-			    "factabschluss.revenue_ac": {
+			    "_measures.revenue_ac": {
 			      "Definition": {
 			        "Binding": {
-			          "ConceptualEntity": "fact-abschluss",
+			          "ConceptualEntity": "_Measures",
 			          "ConceptualProperty": "Revenue AC"
 			        }
 			      },
@@ -131,10 +131,10 @@ cultureInfo de-DE
 			        }
 			      ]
 			    },
-			    "factabschluss.revenue_py": {
+			    "_measures.revenue_py": {
 			      "Definition": {
 			        "Binding": {
-			          "ConceptualEntity": "fact-abschluss",
+			          "ConceptualEntity": "_Measures",
 			          "ConceptualProperty": "Revenue PY"
 			        }
 			      },
@@ -152,10 +152,10 @@ cultureInfo de-DE
 			        }
 			      ]
 			    },
-			    "factabschluss.revenue_fc": {
+			    "_measures.revenue_fc": {
 			      "Definition": {
 			        "Binding": {
-			          "ConceptualEntity": "fact-abschluss",
+			          "ConceptualEntity": "_Measures",
 			          "ConceptualProperty": "Revenue FC"
 			        }
 			      },
@@ -173,10 +173,10 @@ cultureInfo de-DE
 			        }
 			      ]
 			    },
-			    "factabschluss.revenue_pl": {
+			    "_measures.revenue_pl": {
 			      "Definition": {
 			        "Binding": {
-			          "ConceptualEntity": "fact-abschluss",
+			          "ConceptualEntity": "_Measures",
 			          "ConceptualProperty": "Revenue PL"
 			        }
 			      },
@@ -194,10 +194,10 @@ cultureInfo de-DE
 			        }
 			      ]
 			    },
-			    "factkurse.durchschnittskurs": {
+			    "_measures.durchschnittskurs": {
 			      "Definition": {
 			        "Binding": {
-			          "ConceptualEntity": "fact-kurse",
+			          "ConceptualEntity": "_Measures",
 			          "ConceptualProperty": "Durchschnittskurs"
 			        }
 			      },

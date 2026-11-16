@@ -11,7 +11,7 @@ annotation __PBI_TimeIntelligenceEnabled = 0
 
 annotation PBI_ProTooling = ["DevMode"]
 
-annotation PBI_QueryOrder = ["DemoPfad","dim-konten","dim-datum","dim-gesellschaft","dim-region","dim-waehrung","fact-kurse","fact-abschluss","fact-nachbuchung"]
+annotation PBI_QueryOrder = ["DemoPfad","dim-konten","dim-datum","dim-gesellschaft","dim-region","dim-waehrung","fact-kurse","fact-abschluss","fact-nachbuchung","_Measures","complications"]
 
 ref table dim-konten
 ref table dim-datum
@@ -23,6 +23,8 @@ ref table fact-abschluss
 ref table fact-nachbuchung
 ref table close-status
 ref table pnl-lines
+ref table _Measures
+ref table complications
 
 ref cultureInfo en-US
 ref cultureInfo de-DE

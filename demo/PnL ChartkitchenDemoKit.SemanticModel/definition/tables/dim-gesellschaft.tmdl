@@ -1,9 +1,9 @@
-/// Neun Gesellschaften des Konzerns DWG Industries SE mit Region, Land,
-/// Segment und Konsolidierungsinfo.
+/// Nine companies of the group DWG Industries SE with region, country,
+/// segment and consolidation info.
 table dim-gesellschaft
 	lineageTag: 731418cc-77e4-47da-8b64-b663890716ab
 
-	/// Schlüssel zur Faktentabelle.
+	/// Key to the fact table.
 	column EntityID
 		dataType: string
 		lineageTag: e3773991-37aa-44a8-8b55-df902600a628
@@ -127,9 +127,9 @@ table dim-gesellschaft
 
 		annotation SummarizationSetBy = Automatic
 
-	/// Funktionale Währung der Gesellschaft. Diese Spalte gehört auf einen
-	/// Währungsslicer — sie filtert die Gesellschaften und damit die
-	/// Fakten.
+	/// Functional currency of the company. This column belongs on a
+	/// currency slicer — it filters the companies and therefore the
+	/// facts.
 	column Währung
 		dataType: string
 		lineageTag: 8aaf880d-b72f-4b66-826b-0d792e58ed06
@@ -179,8 +179,8 @@ table dim-gesellschaft
 
 		annotation SummarizationSetBy = Automatic
 
-	/// Erster Monat im Konsolidierungskreis. DWG Digital Services KK kommt
-	/// erst 2026-04 hinzu und hat deshalb kein Vorjahr.
+	/// First month in the consolidation scope. DWG Digital Services KK only joins
+	/// in 2026-04 and therefore has no previous year.
 	column Erstkonsolidierung
 		dataType: string
 		lineageTag: f09bdac9-8f2a-45ab-8dcb-18ccd9d2e002

@@ -3,10 +3,10 @@
   "name": "34fd63b94b1051077581",
   "position": {
     "x": 327,
-    "y": 123,
-    "z": 1000,
-    "height": 894,
+    "y": 147,
     "width": 1566,
+    "height": 870,
+    "z": 1000,
     "tabOrder": 0
   },
   "visual": {
@@ -81,13 +81,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "fact-abschluss"
+                      "Entity": "_Measures"
                     }
                   },
                   "Property": "AC"
                 }
               },
-              "queryRef": "fact-abschluss.AC",
+              "queryRef": "_Measures.AC",
               "nativeQueryRef": "AC"
             }
           ]
@@ -99,13 +99,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "fact-abschluss"
+                      "Entity": "_Measures"
                     }
                   },
                   "Property": "PY"
                 }
               },
-              "queryRef": "fact-abschluss.PY",
+              "queryRef": "_Measures.PY",
               "nativeQueryRef": "PY"
             }
           ]
@@ -117,13 +117,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "fact-abschluss"
+                      "Entity": "_Measures"
                     }
                   },
                   "Property": "PL"
                 }
               },
-              "queryRef": "fact-abschluss.PL",
+              "queryRef": "_Measures.PL",
               "nativeQueryRef": "PL"
             }
           ]
@@ -135,13 +135,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "fact-abschluss"
+                      "Entity": "_Measures"
                     }
                   },
                   "Property": "FC"
                 }
               },
-              "queryRef": "fact-abschluss.FC",
+              "queryRef": "_Measures.FC",
               "nativeQueryRef": "FC"
             }
           ]
@@ -834,7 +834,7 @@
           "Measure": {
             "Expression": {
               "SourceRef": {
-                "Entity": "fact-abschluss"
+                "Entity": "_Measures"
               }
             },
             "Property": "AC"
@@ -848,7 +848,7 @@
           "Measure": {
             "Expression": {
               "SourceRef": {
-                "Entity": "fact-abschluss"
+                "Entity": "_Measures"
               }
             },
             "Property": "PY"
@@ -862,7 +862,7 @@
           "Measure": {
             "Expression": {
               "SourceRef": {
-                "Entity": "fact-abschluss"
+                "Entity": "_Measures"
               }
             },
             "Property": "PL"
@@ -876,7 +876,7 @@
           "Measure": {
             "Expression": {
               "SourceRef": {
-                "Entity": "fact-abschluss"
+                "Entity": "_Measures"
               }
             },
             "Property": "FC"

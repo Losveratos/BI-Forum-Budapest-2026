@@ -3,10 +3,10 @@
   "name": "r5atime",
   "position": {
     "x": 1345,
-    "y": 123,
-    "z": 2000,
+    "y": 147,
     "width": 548,
-    "height": 440,
+    "height": 428,
+    "z": 2000,
     "tabOrder": 2000
   },
   "visual": {
@@ -39,13 +39,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "fact-abschluss"
+                      "Entity": "_Measures"
                     }
                   },
                   "Property": "Revenue AC"
                 }
               },
-              "queryRef": "fact-abschluss.Revenue AC",
+              "queryRef": "_Measures.Revenue AC",
               "nativeQueryRef": "Revenue AC",
               "displayName": "Revenue AC"
             }
@@ -58,13 +58,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "fact-abschluss"
+                      "Entity": "_Measures"
                     }
                   },
                   "Property": "Revenue PL"
                 }
               },
-              "queryRef": "fact-abschluss.Revenue PL",
+              "queryRef": "_Measures.Revenue PL",
               "nativeQueryRef": "Revenue PL"
             }
           ]

@@ -27,7 +27,7 @@ The PDF and PPTX are rendered from the HTML deck. The PPTX holds each slide as a
 | 5a | Open custom visuals: ChartKitchen and P&L Statement byDatenWG | `5a Custom visual` (also `Group P&L`, `Plan gap`, `Nine companies, seven currencies`, `Full-year outlook`, `Balance sheet`, `Cash flow`) |
 | 5b | Paid custom visual: Zebra BI Tables | `5b Zebra BI` |
 
-The report also has the pages `FX and close` (budget rate and FX effect, a month-end adjustment switch) and `Card and slicer`. The deck additionally shows Fabric Apps (appendix); they are not part of the demo project.
+The report has 21 pages. Besides the rung pages above it has `FX and close` (budget rate and FX effect, a month-end adjustment switch) and `Card and slicer`, and seven pages at the end: `Scenarios 1 Core`, `Scenarios 2 DAX`, `Scenarios 3 SVG + UDF`, `Scenarios 4 Deneb`, `Scenarios 5a Custom`, `Scenarios 5b Zebra` and `Complications`. The six Scenarios pages show Revenue AC vs PL vs PY by month and by company, once per rung (the Zebra page has not been confirmed to render). `Complications` is a table of nine hidden complexities of a finance report and where each rung solves them. The deck additionally shows Fabric Apps (appendix); they are not part of the demo project.
 
 ### Open it
 
@@ -38,6 +38,7 @@ The report also has the pages `FX and close` (budget rate and FX effect, a month
 
 Things to know:
 
+- All measures live in one table, `_Measures` (a Power Query table), with English descriptions. The small table `complications` holds the static text of the `Complications` page.
 - The semantic model culture is `en-US` and the compatibility level is 1702. Both are needed for the DAX user-defined functions (UDFs) of `PowerofBI.IBCS` and for the SVG measures (with a decimal comma the SVG breaks). Keep Desktop on a version that supports UDFs.
 - The two custom visuals by the speaker, ChartKitchen and P&L Statement byDatenWG, are embedded in the report (`demo/Budapest BI Forum.Report/CustomVisuals/`). Nothing to install.
 - Deneb and Zebra BI Tables are AppSource visuals; Desktop loads them from AppSource when the report opens (internet needed). Zebra BI is a commercial product: see the vendor for what works without a licence.

@@ -4,9 +4,9 @@
   "position": {
     "x": 27,
     "y": 0,
-    "z": 2000,
     "width": 1866,
-    "height": 96,
+    "height": 120,
+    "z": 2000,
     "tabOrder": 2000
   },
   "visual": {
@@ -21,7 +21,7 @@
                   {
                     "value": "Balance sheet",
                     "textStyle": {
-                      "fontSize": "14pt",
+                      "fontSize": "21pt",
                       "color": "#1F2328",
                       "fontWeight": "bold"
                     }
@@ -29,7 +29,7 @@
                   {
                     "value": "   Statements",
                     "textStyle": {
-                      "fontSize": "9pt",
+                      "fontSize": "14pt",
                       "color": "#C25A2D",
                       "fontWeight": "bold"
                     }
@@ -41,7 +41,7 @@
                   {
                     "value": "A balance sheet inside a statement visual. Version 1.7 reads a token in the row type: \"Account stock\" shows the value at the reporting date instead of summing twenty-two months. The control row at the bottom is total assets less total equity and liabilities and has to be zero in every filter combination.",
                     "textStyle": {
-                      "fontSize": "10pt",
+                      "fontSize": "15pt",
                       "color": "#5F6368"
                     }
                   }

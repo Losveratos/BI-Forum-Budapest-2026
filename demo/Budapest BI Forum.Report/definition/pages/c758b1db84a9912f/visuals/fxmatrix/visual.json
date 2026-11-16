@@ -3,10 +3,10 @@
   "name": "fxmatrix",
   "position": {
     "x": 327,
-    "y": 123,
-    "z": 0,
-    "height": 360,
+    "y": 147,
     "width": 1566,
+    "height": 350,
+    "z": 0,
     "tabOrder": 0
   },
   "visual": {
@@ -39,13 +39,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "fact-abschluss"
+                      "Entity": "_Measures"
                     }
                   },
                   "Property": "Revenue AC mEUR"
                 }
               },
-              "queryRef": "fact-abschluss.Revenue AC mEUR",
+              "queryRef": "_Measures.Revenue AC mEUR",
               "nativeQueryRef": "Revenue AC mEUR"
             },
             {
@@ -53,13 +53,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "fact-abschluss"
+                      "Entity": "_Measures"
                     }
                   },
                   "Property": "Revenue AC @BUD mEUR"
                 }
               },
-              "queryRef": "fact-abschluss.Revenue AC @BUD mEUR",
+              "queryRef": "_Measures.Revenue AC @BUD mEUR",
               "nativeQueryRef": "Revenue AC @BUD mEUR"
             },
             {
@@ -67,13 +67,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "fact-abschluss"
+                      "Entity": "_Measures"
                     }
                   },
                   "Property": "Revenue FX effect mEUR"
                 }
               },
-              "queryRef": "fact-abschluss.Revenue FX effect mEUR",
+              "queryRef": "_Measures.Revenue FX effect mEUR",
               "nativeQueryRef": "Revenue FX effect mEUR"
             },
             {
@@ -81,13 +81,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "fact-abschluss"
+                      "Entity": "_Measures"
                     }
                   },
                   "Property": "Revenue PL mEUR"
                 }
               },
-              "queryRef": "fact-abschluss.Revenue PL mEUR",
+              "queryRef": "_Measures.Revenue PL mEUR",
               "nativeQueryRef": "Revenue PL mEUR"
             }
           ]

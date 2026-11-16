@@ -3,10 +3,10 @@
   "name": "c6de90ba84466b8a19b3",
   "position": {
     "x": 327,
-    "y": 123,
-    "z": 1000,
+    "y": 171,
     "width": 1566,
-    "height": 894,
+    "height": 846,
+    "z": 1000,
     "tabOrder": 0
   },
   "visual": {
@@ -81,13 +81,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "fact-abschluss"
+                      "Entity": "_Measures"
                     }
                   },
                   "Property": "AC"
                 }
               },
-              "queryRef": "fact-abschluss.AC",
+              "queryRef": "_Measures.AC",
               "nativeQueryRef": "AC"
             }
           ]
@@ -99,13 +99,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "fact-abschluss"
+                      "Entity": "_Measures"
                     }
                   },
                   "Property": "PY"
                 }
               },
-              "queryRef": "fact-abschluss.PY",
+              "queryRef": "_Measures.PY",
               "nativeQueryRef": "PY"
             }
           ]
@@ -117,13 +117,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "fact-abschluss"
+                      "Entity": "_Measures"
                     }
                   },
                   "Property": "FC"
                 }
               },
-              "queryRef": "fact-abschluss.FC",
+              "queryRef": "_Measures.FC",
               "nativeQueryRef": "FC"
             }
           ]
@@ -135,13 +135,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "fact-abschluss"
+                      "Entity": "_Measures"
                     }
                   },
                   "Property": "FC FY"
                 }
               },
-              "queryRef": "fact-abschluss.FC FY",
+              "queryRef": "_Measures.FC FY",
               "nativeQueryRef": "FC FY"
             }
           ]
@@ -153,13 +153,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "fact-abschluss"
+                      "Entity": "_Measures"
                     }
                   },
                   "Property": "PL FY"
                 }
               },
-              "queryRef": "fact-abschluss.PL FY",
+              "queryRef": "_Measures.PL FY",
               "nativeQueryRef": "PL FY"
             }
           ]

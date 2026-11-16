@@ -3,10 +3,10 @@
   "name": "fxpnl",
   "position": {
     "x": 327,
-    "y": 501,
-    "z": 0,
-    "height": 516,
+    "y": 515,
     "width": 1566,
+    "height": 502,
+    "z": 0,
     "tabOrder": 0
   },
   "visual": {
@@ -39,13 +39,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "fact-abschluss"
+                      "Entity": "_Measures"
                     }
                   },
                   "Property": "AC signed"
                 }
               },
-              "queryRef": "fact-abschluss.AC signed",
+              "queryRef": "_Measures.AC signed",
               "nativeQueryRef": "AC signed"
             },
             {
@@ -53,13 +53,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "fact-abschluss"
+                      "Entity": "_Measures"
                     }
                   },
                   "Property": "AC signed @BUD"
                 }
               },
-              "queryRef": "fact-abschluss.AC signed @BUD",
+              "queryRef": "_Measures.AC signed @BUD",
               "nativeQueryRef": "AC signed @BUD"
             },
             {
@@ -67,13 +67,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "fact-abschluss"
+                      "Entity": "_Measures"
                     }
                   },
                   "Property": "FX effect"
                 }
               },
-              "queryRef": "fact-abschluss.FX effect",
+              "queryRef": "_Measures.FX effect",
               "nativeQueryRef": "FX effect"
             },
             {
@@ -81,13 +81,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "fact-abschluss"
+                      "Entity": "_Measures"
                     }
                   },
                   "Property": "ΔPL"
                 }
               },
-              "queryRef": "fact-abschluss.ΔPL",
+              "queryRef": "_Measures.ΔPL",
               "nativeQueryRef": "ΔPL"
             },
             {
@@ -95,13 +95,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "fact-abschluss"
+                      "Entity": "_Measures"
                     }
                   },
                   "Property": "ΔPL @BUD"
                 }
               },
-              "queryRef": "fact-abschluss.ΔPL @BUD",
+              "queryRef": "_Measures.ΔPL @BUD",
               "nativeQueryRef": "ΔPL @BUD"
             }
           ]

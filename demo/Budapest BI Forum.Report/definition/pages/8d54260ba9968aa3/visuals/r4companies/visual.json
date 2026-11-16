@@ -3,10 +3,10 @@
   "name": "r4companies",
   "position": {
     "x": 327,
-    "y": 687,
-    "z": 10,
-    "height": 330,
+    "y": 696,
     "width": 1566,
+    "height": 321,
+    "z": 10,
     "tabOrder": 10
   },
   "visual": {
@@ -34,13 +34,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "fact-abschluss"
+                      "Entity": "_Measures"
                     }
                   },
                   "Property": "Revenue ACFC mEUR"
                 }
               },
-              "queryRef": "fact-abschluss.Revenue ACFC mEUR",
+              "queryRef": "_Measures.Revenue ACFC mEUR",
               "nativeQueryRef": "Revenue ACFC mEUR"
             },
             {
@@ -48,13 +48,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "fact-abschluss"
+                      "Entity": "_Measures"
                     }
                   },
                   "Property": "Revenue PL mEUR"
                 }
               },
-              "queryRef": "fact-abschluss.Revenue PL mEUR",
+              "queryRef": "_Measures.Revenue PL mEUR",
               "nativeQueryRef": "Revenue PL mEUR"
             },
             {
@@ -62,13 +62,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "fact-abschluss"
+                      "Entity": "_Measures"
                     }
                   },
                   "Property": "FC flag"
                 }
               },
-              "queryRef": "fact-abschluss.FC flag",
+              "queryRef": "_Measures.FC flag",
               "nativeQueryRef": "FC flag"
             }
           ]

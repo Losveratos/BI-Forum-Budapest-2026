@@ -3,10 +3,10 @@
   "name": "r5bcompanies",
   "position": {
     "x": 1345,
-    "y": 123,
-    "z": 2000,
-    "height": 894,
+    "y": 147,
     "width": 548,
+    "height": 870,
+    "z": 2000,
     "tabOrder": 2000
   },
   "visual": {
@@ -39,13 +39,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "fact-abschluss"
+                      "Entity": "_Measures"
                     }
                   },
                   "Property": "Revenue AC mEUR"
                 }
               },
-              "queryRef": "fact-abschluss.Revenue AC mEUR",
+              "queryRef": "_Measures.Revenue AC mEUR",
               "nativeQueryRef": "Revenue AC mEUR"
             }
           ]
@@ -57,13 +57,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "fact-abschluss"
+                      "Entity": "_Measures"
                     }
                   },
                   "Property": "Revenue PL mEUR"
                 }
               },
-              "queryRef": "fact-abschluss.Revenue PL mEUR",
+              "queryRef": "_Measures.Revenue PL mEUR",
               "nativeQueryRef": "Revenue PL mEUR"
             }
           ]

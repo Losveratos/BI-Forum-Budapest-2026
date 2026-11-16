@@ -7,12 +7,12 @@
         "Values": {
           "projections": [
             {
-              "queryRef": "fact-abschluss.Data as of",
+              "queryRef": "_Measures.Data as of",
               "field": {
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "fact-abschluss"
+                      "Entity": "_Measures"
                     }
                   },
                   "Property": "Data as of"
@@ -30,7 +30,7 @@
               "Measure": {
                 "Expression": {
                   "SourceRef": {
-                    "Entity": "fact-abschluss"
+                    "Entity": "_Measures"
                   }
                 },
                 "Property": "Data as of"
@@ -160,7 +160,7 @@
   },
   "position": {
     "x": 327,
-    "y": 88,
+    "y": 112,
     "width": 1566,
     "height": 34,
     "z": 0,

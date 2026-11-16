@@ -3,10 +3,10 @@
   "name": "r5astruct",
   "position": {
     "x": 1345,
-    "y": 577,
-    "z": 2500,
+    "y": 589,
     "width": 548,
-    "height": 440,
+    "height": 428,
+    "z": 2500,
     "tabOrder": 2500
   },
   "visual": {
@@ -39,13 +39,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "fact-abschluss"
+                      "Entity": "_Measures"
                     }
                   },
                   "Property": "Revenue AC"
                 }
               },
-              "queryRef": "fact-abschluss.Revenue AC",
+              "queryRef": "_Measures.Revenue AC",
               "nativeQueryRef": "Revenue AC",
               "displayName": "Revenue AC"
             }
@@ -58,13 +58,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "fact-abschluss"
+                      "Entity": "_Measures"
                     }
                   },
                   "Property": "Revenue PL"
                 }
               },
-              "queryRef": "fact-abschluss.Revenue PL",
+              "queryRef": "_Measures.Revenue PL",
               "nativeQueryRef": "Revenue PL",
               "displayName": "Revenue PL"
             }
@@ -78,7 +78,7 @@
               "Measure": {
                 "Expression": {
                   "SourceRef": {
-                    "Entity": "fact-abschluss"
+                    "Entity": "_Measures"
                   }
                 },
                 "Property": "Revenue AC"

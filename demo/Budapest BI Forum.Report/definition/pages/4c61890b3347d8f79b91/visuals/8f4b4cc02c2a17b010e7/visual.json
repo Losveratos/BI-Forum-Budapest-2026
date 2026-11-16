@@ -4,9 +4,9 @@
   "position": {
     "x": 27,
     "y": 0,
-    "z": 3000,
     "width": 1866,
-    "height": 96,
+    "height": 120,
+    "z": 3000,
     "tabOrder": 3000
   },
   "visual": {
@@ -21,7 +21,7 @@
                   {
                     "value": "Plan gap",
                     "textStyle": {
-                      "fontSize": "14pt",
+                      "fontSize": "21pt",
                       "color": "#1F2328",
                       "fontWeight": "bold"
                     }
@@ -29,7 +29,7 @@
                   {
                     "value": "   Drivers",
                     "textStyle": {
-                      "fontSize": "9pt",
+                      "fontSize": "14pt",
                       "color": "#C25A2D",
                       "fontWeight": "bold"
                     }
@@ -41,7 +41,7 @@
                   {
                     "value": "Where the plan gap sits. Left: revenue against plan per company, so the two companies below plan stand out. Right: the same revenue month by month against prior year. Both tiles use sign-aware measures, because the sign convention lives in the account dimension and only the statement visual applies it on its own.",
                     "textStyle": {
-                      "fontSize": "10pt",
+                      "fontSize": "15pt",
                       "color": "#5F6368"
                     }
                   }

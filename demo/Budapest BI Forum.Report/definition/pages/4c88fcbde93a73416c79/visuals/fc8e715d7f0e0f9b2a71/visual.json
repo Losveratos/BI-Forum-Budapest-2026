@@ -3,10 +3,10 @@
   "name": "fc8e715d7f0e0f9b2a71",
   "position": {
     "x": 1375,
-    "y": 123,
-    "z": 2000,
+    "y": 171,
     "width": 518,
-    "height": 894,
+    "height": 846,
+    "z": 2000,
     "tabOrder": 1000
   },
   "visual": {
@@ -39,13 +39,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "fact-kurse"
+                      "Entity": "_Measures"
                     }
                   },
                   "Property": "Durchschnittskurs"
                 }
               },
-              "queryRef": "fact-kurse.Durchschnittskurs",
+              "queryRef": "_Measures.Durchschnittskurs",
               "nativeQueryRef": "Durchschnittskurs",
               "displayName": "Durchschnittskurs"
             }

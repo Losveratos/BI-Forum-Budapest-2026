@@ -4,9 +4,9 @@
   "position": {
     "x": 27,
     "y": 0,
-    "z": 3000,
     "width": 1866,
-    "height": 96,
+    "height": 120,
+    "z": 3000,
     "tabOrder": 3000
   },
   "visual": {
@@ -21,7 +21,7 @@
                   {
                     "value": "Custom visual, open",
                     "textStyle": {
-                      "fontSize": "14pt",
+                      "fontSize": "21pt",
                       "color": "#1F2328",
                       "fontWeight": "bold"
                     }
@@ -29,7 +29,7 @@
                   {
                     "value": "   Rung 5a",
                     "textStyle": {
-                      "fontSize": "9pt",
+                      "fontSize": "14pt",
                       "color": "#C25A2D",
                       "fontWeight": "bold"
                     }
@@ -41,7 +41,7 @@
                   {
                     "value": "ChartKitchen and P&L Statement byDatenWG, the presenter's own visuals: hierarchy, subtotals, sign logic, plan outline and variance panels come from the visual and are switched by the reader. Free, not Microsoft-certified, so no PDF or PowerPoint export and no subscriptions in the Service. Rules: inside the visual.",
                     "textStyle": {
-                      "fontSize": "10pt",
+                      "fontSize": "15pt",
                       "color": "#5F6368"
                     }
                   }

@@ -3,10 +3,10 @@
   "name": "r5bpnl",
   "position": {
     "x": 327,
-    "y": 123,
-    "z": 1000,
-    "height": 894,
+    "y": 147,
     "width": 1000,
+    "height": 870,
+    "z": 1000,
     "tabOrder": 1000
   },
   "visual": {
@@ -39,13 +39,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "fact-abschluss"
+                      "Entity": "_Measures"
                     }
                   },
                   "Property": "AC line"
                 }
               },
-              "queryRef": "fact-abschluss.AC line",
+              "queryRef": "_Measures.AC line",
               "nativeQueryRef": "AC line"
             }
           ]
@@ -57,13 +57,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "fact-abschluss"
+                      "Entity": "_Measures"
                     }
                   },
                   "Property": "PL line"
                 }
               },
-              "queryRef": "fact-abschluss.PL line",
+              "queryRef": "_Measures.PL line",
               "nativeQueryRef": "PL line"
             }
           ]

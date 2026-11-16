@@ -4,9 +4,9 @@
   "position": {
     "x": 27,
     "y": 0,
-    "z": 2000,
     "width": 1866,
-    "height": 96,
+    "height": 144,
+    "z": 2000,
     "tabOrder": 2000
   },
   "visual": {
@@ -21,7 +21,7 @@
                   {
                     "value": "Full-year outlook",
                     "textStyle": {
-                      "fontSize": "14pt",
+                      "fontSize": "21pt",
                       "color": "#1F2328",
                       "fontWeight": "bold"
                     }
@@ -29,7 +29,7 @@
                   {
                     "value": "   Forecast",
                     "textStyle": {
-                      "fontSize": "9pt",
+                      "fontSize": "14pt",
                       "color": "#C25A2D",
                       "fontWeight": "bold"
                     }
@@ -41,7 +41,7 @@
                   {
                     "value": "Where the group lands. The left block walks the ten actual months, the right block the full year: actual to October solid, the rest of the year hatched, against the full-year plan. The forecast comes from the same engine as the actual, so the outlook is not a straight-line extrapolation. A detail for the model builders: the full-year figure is a scalar that sits identically on every month row, so its measure has to take MAX per company and year — SUM would be twelve times too large, and a plain MAX across nine companies would return the largest single one instead of the sum.",
                     "textStyle": {
-                      "fontSize": "10pt",
+                      "fontSize": "15pt",
                       "color": "#5F6368"
                     }
                   }

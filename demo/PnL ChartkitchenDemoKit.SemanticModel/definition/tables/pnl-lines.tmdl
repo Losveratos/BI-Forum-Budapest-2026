@@ -1,13 +1,13 @@
-/// v3 Berichtszeilen für Core-Matrizen: die L1-Positionen der GuV (RowType
-/// account) plus die Zwischensummen Gross profit, EBITDA, EBIT, EBT, Net
-/// income (Formelzeilen der dim-konten) in GuV-Reihenfolge. Keine Beziehung;
-/// die Measures im Ordner "Budapest demo\Statement" lesen die Zeile per
-/// SELECTEDVALUE. Eine Zwischensumme summiert alle L1-Positionen mit
+/// v3 report rows for Core matrices: the L1 items of the income statement (RowType
+/// account) plus the subtotals Gross profit, EBITDA, EBIT, EBT, Net
+/// income (formula rows of dim-konten) in statement order. No relationship;
+/// the measures in the folder "Budapest demo\Statement" read the row via
+/// SELECTEDVALUE. A subtotal sums all L1 items with
 /// 'L1 Sort' < 'Upto Sort'.
 table pnl-lines
 	lineageTag: 530da059-01fc-4af7-9658-fdfa798b5f39
 
-	/// Zeilenbeschriftung, gleich 'dim-konten'[L1 EN].
+	/// Row label, equal to 'dim-konten'[L1 EN].
 	column Line
 		dataType: string
 		lineageTag: 6a93219b-efae-49c0-b9f6-abd4c0bc4de2
@@ -18,7 +18,7 @@ table pnl-lines
 
 		annotation SummarizationSetBy = Automatic
 
-	/// GuV-Reihenfolge, gleich 'dim-konten'[L1 Sort].
+	/// Income statement order, equal to 'dim-konten'[L1 Sort].
 	column 'Line Sort'
 		dataType: int64
 		isHidden
@@ -30,7 +30,7 @@ table pnl-lines
 
 		annotation SummarizationSetBy = Automatic
 
-	/// "line" für eine L1-Position, "subtotal" für eine Zwischensumme.
+	/// "line" for an L1 item, "subtotal" for a subtotal.
 	column 'Line Type'
 		dataType: string
 		lineageTag: 40f84a93-7085-4a29-9d09-4d85af6401e1
@@ -40,8 +40,8 @@ table pnl-lines
 
 		annotation SummarizationSetBy = Automatic
 
-	/// Zwischensumme über alle L1-Positionen mit 'L1 Sort' kleiner als dieser
-	/// Wert. Bei "line" gleich 'Line Sort'.
+	/// Subtotal over all L1 items with 'L1 Sort' less than this
+	/// value. For "line" equal to 'Line Sort'.
 	column 'Upto Sort'
 		dataType: int64
 		isHidden
@@ -77,5 +77,4 @@ table pnl-lines
 				        "Line Type", IF ( 'dim-konten'[RowType] = "formula", "subtotal", "line" ),
 				        "Upto Sort", 'dim-konten'[L1 Sort]
 				    )
-
 

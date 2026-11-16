@@ -1,6 +1,6 @@
-/// v3 Schalter für die Monatsabschluss-Szene. Ohne Auswahl (Standard) und bei
-/// "Closed WD3" bleibt AC exakt wie bisher; "Incl. day-3 adjustment" addiert
-/// fact-nachbuchung. Keine Beziehung zu anderen Tabellen.
+/// v3 switch for the month-end close scene. With no selection (default) or with
+/// "Closed WD3", AC stays exactly as before; "Incl. day-3 adjustment" adds
+/// fact-nachbuchung. No relationship to other tables.
 table close-status
 	lineageTag: 31c80196-ea2b-4c22-96c3-5b303f3d36f2
 
@@ -36,5 +36,4 @@ table close-status
 				        { "Incl. day-3 adjustment", 2 }
 				    }
 				)
-
 

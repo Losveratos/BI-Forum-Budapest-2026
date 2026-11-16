@@ -225,3 +225,11 @@ Assets: `demo-rung5a-custom.png` re-captured. The two empty Zebra captures (`dem
 3. Click through 1 → 2 → 3 → 4 → 5a → 5b → FX and close once, so each custom visual (ChartKitchen, P&L Statement, Deneb, Zebra) is loaded before going on stage.
 4. Try the switches once: Company = Mobility FR, then Close status = "Incl. day-3 adjustment" (Net income 151.6 → 155.6, EBITDA 400.5 → 404.5). Afterwards set both back to "All".
 5. A data refresh is not needed; the model holds data and nothing in the model changed. Open Performance Analyzer only if you plan to show it.
+
+
+## v6: 16 Nov
+
+- Report now has 21 pages. Seven new pages at the end: `Scenarios 1 Core`, `Scenarios 2 DAX`, `Scenarios 3 SVG + UDF`, `Scenarios 4 Deneb`, `Scenarios 5a Custom`, `Scenarios 5b Zebra`, `Complications`. The Scenarios pages show Revenue AC vs PL vs PY by month and by company, once per rung. `Complications` is a table of nine hidden complexities and where each rung solves them.
+- All measures moved from `fact-abschluss` into the Power Query table `_Measures`; descriptions are English. New small table `complications` (static text from an M `#table`, no relationships) feeds the `Complications` page.
+- The Zebra scenario page (`Scenarios 5b Zebra`) was never confirmed to render.
+- The published demo copy under `demo/` was brought up to date with the working project (`DemoPfad` stays a placeholder in the repo).

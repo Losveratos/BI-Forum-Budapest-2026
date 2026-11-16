@@ -1,0 +1,113 @@
+/// Page "Complications": the small hidden complexities of a finance report, one row each,
+/// and per rung of the ladder where each one is solved. Static text from a Power Query
+/// (M) #table, no relationships. Cell vocabulary: model, DAX, spec, visual, by hand,
+/// not possible.
+table complications
+	lineageTag: 38de80a2-969a-4000-8594-261e23a7a26e
+
+	/// Row number, also the sort order of Complication.
+	column No
+		dataType: int64
+		formatString: 0
+		lineageTag: 0ff3e8b8-4fee-4242-acff-2fb4786b288e
+		summarizeBy: none
+		sourceColumn: No
+
+		annotation SummarizationSetBy = User
+
+	/// Name of the complication.
+	column Complication
+		dataType: string
+		lineageTag: bd068c0a-f6ac-47a5-9bd1-9a1fb1051359
+		summarizeBy: none
+		sourceColumn: Complication
+		sortByColumn: No
+
+		annotation SummarizationSetBy = Automatic
+
+	/// One short sentence on why it is hard.
+	column 'Why it is hard'
+		dataType: string
+		lineageTag: d825611a-f48b-415c-937b-746a1da8daea
+		summarizeBy: none
+		sourceColumn: Why it is hard
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Where rung 1 (pure Power BI core visuals) solves it.
+	column 'Rung 1 Core'
+		dataType: string
+		lineageTag: 2b725006-2648-4527-a078-3d18db876d80
+		summarizeBy: none
+		sourceColumn: Rung 1 Core
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Where rung 2 (DAX-driven core visuals) solves it.
+	column 'Rung 2 DAX'
+		dataType: string
+		lineageTag: 02c36755-af10-4758-85aa-c7a3cf3c6214
+		summarizeBy: none
+		sourceColumn: Rung 2 DAX
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Where rung 3 (SVG measures and DAX UDFs) solves it.
+	column 'Rung 3 SVG + UDF'
+		dataType: string
+		lineageTag: bd6e5074-ea3f-4bbd-b9ed-484a53fc2a3c
+		summarizeBy: none
+		sourceColumn: Rung 3 SVG + UDF
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Where rung 4 (Deneb, Vega-Lite) solves it.
+	column 'Rung 4 Deneb'
+		dataType: string
+		lineageTag: c692a9a4-cb79-4e0c-92a5-a0e5a2c67c1f
+		summarizeBy: none
+		sourceColumn: Rung 4 Deneb
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Where rung 5 (custom visuals: 5a ChartKitchen / P&L Statement byDatenWG, 5b Zebra BI) solves it.
+	column 'Rung 5 Custom visual'
+		dataType: string
+		lineageTag: b91b8f4a-d54b-4ff0-9ef9-b792c41be85d
+		summarizeBy: none
+		sourceColumn: Rung 5 Custom visual
+
+		annotation SummarizationSetBy = Automatic
+
+	partition complications = m
+		mode: import
+		source =
+				let
+				    Quelle = #table(
+				        type table [
+				            No = Int64.Type,
+				            Complication = text,
+				            #"Why it is hard" = text,
+				            #"Rung 1 Core" = text,
+				            #"Rung 2 DAX" = text,
+				            #"Rung 3 SVG + UDF" = text,
+				            #"Rung 4 Deneb" = text,
+				            #"Rung 5 Custom visual" = text
+				        ],
+				        {
+				            {1, "Sign logic", "Costs are negative in the data, positive on the page; ""good"" flips for cost lines.", "model", "model", "model", "model", "visual (5b: model)"},
+				            {2, "Subtotals and margins", "Gross profit and EBITDA are not in the data; margins cannot be summed.", "model (line table)", "model (line table)", "model (line table)", "model + spec (ratios)", "visual (5b: model)"},
+				            {3, "Row order", "A P&L is not alphabetical; a sort column changes every filter context, so ALLSELECTED must name both columns.", "model (sort column)", "model + DAX (ALLSELECTED)", "model + DAX (ALLSELECTED)", "spec (sort in the spec)", "visual (5b: model)"},
+				            {4, "Common scale", "Bars across rows and visuals need one scale, or a small company looks big.", "visual; across visuals by hand", "DAX (ALLSELECTED)", "DAX, per measure", "spec; across visuals by hand", "visual; across visuals by hand"},
+				            {5, "Scenario notation", "AC solid, PL outlined, FC hatched, PY grey; the same everywhere.", "by hand; FC hatch not possible", "by hand (error bars); FC hatch not possible", "DAX (UDF hatches FC)", "spec", "visual"},
+				            {6, "Closed periods", "Year to date only up to the last closed month; AC and FC mixed in one year; PY shifted by month.", "model + page filter", "model + page filter", "model + page filter", "model + spec (FC flag)", "model + visual (FC role)"},
+				            {7, "Late postings", "Numbers change after working day 3; which close status is shown?", "model", "model", "model", "model", "model"},
+				            {8, "Currency", "Average rate, closing rate, budget rate, and the FX effect between them.", "model", "model", "model", "model", "model"},
+				            {9, "Format and export", "Decimal comma breaks SVG; units (EUR m); PDF and PowerPoint export, subscriptions.", "model (format strings)", "model; monospace font by hand", "DAX (FORMAT en-US)", "spec (format)", "not possible: 5a export, subscriptions"}
+				        }
+				    )
+				in
+				    Quelle
+
+	annotation PBI_ResultType = Table
+

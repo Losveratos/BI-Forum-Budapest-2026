@@ -1,0 +1,282 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "a721507b57b5c351",
+  "position": {
+    "x": 327,
+    "y": 679,
+    "width": 1566,
+    "height": 338,
+    "z": 10,
+    "tabOrder": 10
+  },
+  "visual": {
+    "visualType": "deneb7E15AEF80B9E4D4F8E12924291ECE89A",
+    "query": {
+      "queryState": {
+        "dataset": {
+          "projections": [
+            {
+              "queryRef": "dim-gesellschaft.Short name",
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim-gesellschaft"
+                    }
+                  },
+                  "Property": "Short name"
+                }
+              },
+              "nativeQueryRef": "Short name"
+            },
+            {
+              "queryRef": "_Measures.Revenue AC mEUR",
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Revenue AC mEUR"
+                }
+              },
+              "nativeQueryRef": "Revenue AC mEUR"
+            },
+            {
+              "queryRef": "_Measures.Revenue PL mEUR",
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Revenue PL mEUR"
+                }
+              },
+              "nativeQueryRef": "Revenue PL mEUR"
+            },
+            {
+              "queryRef": "_Measures.Revenue PY mEUR",
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Revenue PY mEUR"
+                }
+              },
+              "nativeQueryRef": "Revenue PY mEUR"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "vega": [
+        {
+          "properties": {
+            "provider": {
+              "expr": {
+                "Literal": {
+                  "Value": "'vegaLite'"
+                }
+              }
+            },
+            "renderMode": {
+              "expr": {
+                "Literal": {
+                  "Value": "'svg'"
+                }
+              }
+            },
+            "jsonSpec": {
+              "expr": {
+                "Literal": {
+                  "Value": "'{\"$schema\": \"https://vega.github.io/schema/vega-lite/v6.json\",\"hconcat\": [{\"width\": 760,\"height\": {\"step\": 29},\"title\": {\"text\": \"AC, PL, PY\",\"fontSize\": 13,\"fontWeight\": 600,\"color\": \"#404040\",\"anchor\": \"start\",\"frame\": \"group\",\"offset\": 6},\"data\": {\"name\": \"dataset\"},\"transform\": [{\"calculate\": \"isValid(datum[\\\"Revenue AC mEUR\\\"]) ? datum[\\\"Revenue AC mEUR\\\"] : 0\",\"as\": \"ac\"},{\"calculate\": \"isValid(datum[\\\"Revenue PL mEUR\\\"]) ? datum[\\\"Revenue PL mEUR\\\"] : 0\",\"as\": \"pl\"},{\"calculate\": \"isValid(datum[\\\"Revenue PY mEUR\\\"]) ? datum[\\\"Revenue PY mEUR\\\"] : null\",\"as\": \"py\"},{\"calculate\": \"datum.ac - datum.pl\",\"as\": \"dpl\"},{\"calculate\": \"isValid(datum.py) ? datum.ac - datum.py : null\",\"as\": \"dpy\"},{\"calculate\": \"max(datum.ac, datum.pl, isValid(datum.py) ? datum.py : 0)\",\"as\": \"mxv\"},{\"calculate\": \"max(abs(datum.dpl), isValid(datum.dpy) ? abs(datum.dpy) : 0)\",\"as\": \"ad\"},{\"calculate\": \"min(datum.dpl, isValid(datum.dpy) ? datum.dpy : 0, 0)\",\"as\": \"lo1\"},{\"calculate\": \"max(datum.dpl, isValid(datum.dpy) ? datum.dpy : 0, 0)\",\"as\": \"hi1\"},{\"joinaggregate\": [{\"op\": \"max\",\"field\": \"mxv\",\"as\": \"maxV\"},{\"op\": \"max\",\"field\": \"ad\",\"as\": \"maxD\"},{\"op\": \"min\",\"field\": \"lo1\",\"as\": \"loD\"},{\"op\": \"max\",\"field\": \"hi1\",\"as\": \"hiD\"}]},{\"calculate\": \"datum.hiD + datum.maxD * 0.3\",\"as\": \"k\"},{\"calculate\": \"0\",\"as\": \"z\"},{\"calculate\": \"datum.loD - datum.maxD * 0.3\",\"as\": \"mk\"},{\"calculate\": \"format(datum.dpl, \\\"+,.1f\\\")\",\"as\": \"Lpl\"},{\"calculate\": \"isValid(datum.dpy) ? format(datum.dpy, \\\"+,.1f\\\") : \\\"\\\"\",\"as\": \"Lpy\"},{\"window\": [{\"op\": \"row_number\",\"as\": \"rk\"}],\"sort\": [{\"field\": \"ac\",\"order\": \"descending\"}]}],\"encoding\": {\"y\": {\"field\": \"Short name\",\"type\": \"nominal\",\"sort\": {\"field\": \"rk\",\"op\": \"min\",\"order\": \"ascending\"},\"axis\": {\"labelPadding\": 10,\"labelFontSize\": 14,\"labelColor\": \"#404040\"}}},\"layer\": [{\"mark\": {\"type\": \"rule\",\"opacity\": 0},\"encoding\": {\"x\": {\"field\": \"z\",\"type\": \"quantitative\",\"scale\": {\"nice\": false,\"zero\": true},\"axis\": null},\"x2\": {\"field\": \"maxV\"},\"y\": null}},{\"mark\": {\"type\": \"bar\",\"height\": {\"band\": 0.5},\"yOffset\": -4.5,\"fill\": \"#B4B4B4\"},\"encoding\": {\"x\": {\"field\": \"py\",\"type\": \"quantitative\",\"axis\": null},\"tooltip\": [{\"field\": \"ac\",\"title\": \"AC\",\"format\": \",.1f\"},{\"field\": \"pl\",\"title\": \"PL\",\"format\": \",.1f\"},{\"field\": \"py\",\"title\": \"PY\",\"format\": \",.1f\"},{\"field\": \"dpl\",\"title\": \"\\u0394PL\",\"format\": \"+,.1f\"},{\"field\": \"dpy\",\"title\": \"\\u0394PY\",\"format\": \"+,.1f\"}]}},{\"mark\": {\"type\": \"bar\",\"height\": {\"band\": 0.5},\"yOffset\": 4.5,\"fill\": \"#FFFFFF\",\"stroke\": \"#404040\",\"strokeWidth\": 1.5},\"encoding\": {\"x\": {\"field\": \"pl\",\"type\": \"quantitative\",\"axis\": null},\"tooltip\": [{\"field\": \"ac\",\"title\": \"AC\",\"format\": \",.1f\"},{\"field\": \"pl\",\"title\": \"PL\",\"format\": \",.1f\"},{\"field\": \"py\",\"title\": \"PY\",\"format\": \",.1f\"},{\"field\": \"dpl\",\"title\": \"\\u0394PL\",\"format\": \"+,.1f\"},{\"field\": \"dpy\",\"title\": \"\\u0394PY\",\"format\": \"+,.1f\"}]}},{\"mark\": {\"type\": \"bar\",\"height\": {\"band\": 0.5},\"fill\": \"#404040\"},\"encoding\": {\"x\": {\"field\": \"ac\",\"type\": \"quantitative\",\"axis\": null},\"tooltip\": [{\"field\": \"ac\",\"title\": \"AC\",\"format\": \",.1f\"},{\"field\": \"pl\",\"title\": \"PL\",\"format\": \",.1f\"},{\"field\": \"py\",\"title\": \"PY\",\"format\": \",.1f\"},{\"field\": \"dpl\",\"title\": \"\\u0394PL\",\"format\": \"+,.1f\"},{\"field\": \"dpy\",\"title\": \"\\u0394PY\",\"format\": \"+,.1f\"}]}},{\"mark\": {\"type\": \"text\",\"align\": \"left\",\"baseline\": \"middle\",\"dx\": 8,\"fontSize\": 14,\"fontWeight\": 600,\"color\": \"#262626\"},\"encoding\": {\"x\": {\"field\": \"mxv\",\"type\": \"quantitative\",\"axis\": null},\"text\": {\"field\": \"ac\",\"format\": \",.1f\"}}},{\"mark\": {\"type\": \"tick\",\"color\": \"#404040\",\"thickness\": 2,\"size\": 29.5,\"orient\": \"vertical\"},\"encoding\": {\"x\": {\"datum\": 0,\"type\": \"quantitative\"}}}]},{\"width\": 270,\"height\": {\"step\": 29},\"title\": {\"text\": \"\\u0394PL\",\"fontSize\": 13,\"fontWeight\": 600,\"color\": \"#404040\",\"anchor\": \"middle\",\"frame\": \"group\",\"offset\": 6},\"data\": {\"name\": \"dataset\"},\"transform\": [{\"calculate\": \"isValid(datum[\\\"Revenue AC mEUR\\\"]) ? datum[\\\"Revenue AC mEUR\\\"] : 0\",\"as\": \"ac\"},{\"calculate\": \"isValid(datum[\\\"Revenue PL mEUR\\\"]) ? datum[\\\"Revenue PL mEUR\\\"] : 0\",\"as\": \"pl\"},{\"calculate\": \"isValid(datum[\\\"Revenue PY mEUR\\\"]) ? datum[\\\"Revenue PY mEUR\\\"] : null\",\"as\": \"py\"},{\"calculate\": \"datum.ac - datum.pl\",\"as\": \"dpl\"},{\"calculate\": \"isValid(datum.py) ? datum.ac - datum.py : null\",\"as\": \"dpy\"},{\"calculate\": \"max(datum.ac, datum.pl, isValid(datum.py) ? datum.py : 0)\",\"as\": \"mxv\"},{\"calculate\": \"max(abs(datum.dpl), isValid(datum.dpy) ? abs(datum.dpy) : 0)\",\"as\": \"ad\"},{\"calculate\": \"min(datum.dpl, isValid(datum.dpy) ? datum.dpy : 0, 0)\",\"as\": \"lo1\"},{\"calculate\": \"max(datum.dpl, isValid(datum.dpy) ? datum.dpy : 0, 0)\",\"as\": \"hi1\"},{\"joinaggregate\": [{\"op\": \"max\",\"field\": \"mxv\",\"as\": \"maxV\"},{\"op\": \"max\",\"field\": \"ad\",\"as\": \"maxD\"},{\"op\": \"min\",\"field\": \"lo1\",\"as\": \"loD\"},{\"op\": \"max\",\"field\": \"hi1\",\"as\": \"hiD\"}]},{\"calculate\": \"datum.hiD + datum.maxD * 0.3\",\"as\": \"k\"},{\"calculate\": \"0\",\"as\": \"z\"},{\"calculate\": \"datum.loD - datum.maxD * 0.3\",\"as\": \"mk\"},{\"calculate\": \"format(datum.dpl, \\\"+,.1f\\\")\",\"as\": \"Lpl\"},{\"calculate\": \"isValid(datum.dpy) ? format(datum.dpy, \\\"+,.1f\\\") : \\\"\\\"\",\"as\": \"Lpy\"},{\"window\": [{\"op\": \"row_number\",\"as\": \"rk\"}],\"sort\": [{\"field\": \"ac\",\"order\": \"descending\"}]}],\"encoding\": {\"y\": {\"field\": \"Short name\",\"type\": \"nominal\",\"sort\": {\"field\": \"rk\",\"op\": \"min\",\"order\": \"ascending\"},\"axis\": null}},\"layer\": [{\"mark\": {\"type\": \"rule\",\"opacity\": 0},\"encoding\": {\"x\": {\"field\": \"mk\",\"type\": \"quantitative\",\"scale\": {\"nice\": false,\"zero\": true},\"axis\": null},\"x2\": {\"field\": \"k\"}}},{\"mark\": {\"type\": \"tick\",\"color\": \"#404040\",\"thickness\": 1,\"size\": 29.5,\"orient\": \"vertical\",\"xOffset\": -1.5},\"encoding\": {\"x\": {\"datum\": 0,\"type\": \"quantitative\"}}},{\"mark\": {\"type\": \"tick\",\"color\": \"#404040\",\"thickness\": 1,\"size\": 29.5,\"orient\": \"vertical\",\"xOffset\": 1.5},\"encoding\": {\"x\": {\"datum\": 0,\"type\": \"quantitative\"}}},{\"transform\": [{\"filter\": \"isValid(datum.dpl)\"}],\"mark\": {\"type\": \"bar\",\"height\": {\"band\": 0.55}},\"encoding\": {\"x\": {\"field\": \"dpl\",\"type\": \"quantitative\",\"axis\": null},\"x2\": {\"datum\": 0},\"fill\": {\"condition\": {\"test\": \"datum.dpl >= 0\",\"value\": \"#2E8B7A\"},\"value\": \"#C0392B\"},\"tooltip\": [{\"field\": \"ac\",\"title\": \"AC\",\"format\": \",.1f\"},{\"field\": \"pl\",\"title\": \"PL\",\"format\": \",.1f\"},{\"field\": \"py\",\"title\": \"PY\",\"format\": \",.1f\"},{\"field\": \"dpl\",\"title\": \"\\u0394PL\",\"format\": \"+,.1f\"},{\"field\": \"dpy\",\"title\": \"\\u0394PY\",\"format\": \"+,.1f\"}]}},{\"transform\": [{\"filter\": \"isValid(datum.dpl) && datum.dpl >= 0\"}],\"mark\": {\"type\": \"text\",\"align\": \"left\",\"baseline\": \"middle\",\"dx\": 6,\"fontSize\": 13,\"color\": \"#262626\"},\"encoding\": {\"x\": {\"field\": \"dpl\",\"type\": \"quantitative\",\"axis\": null},\"text\": {\"field\": \"Lpl\"}}},{\"transform\": [{\"filter\": \"isValid(datum.dpl) && datum.dpl < 0\"}],\"mark\": {\"type\": \"text\",\"align\": \"right\",\"baseline\": \"middle\",\"dx\": -6,\"fontSize\": 13,\"color\": \"#262626\"},\"encoding\": {\"x\": {\"field\": \"dpl\",\"type\": \"quantitative\",\"axis\": null},\"text\": {\"field\": \"Lpl\"}}}]},{\"width\": 270,\"height\": {\"step\": 29},\"title\": {\"text\": \"\\u0394PY\",\"fontSize\": 13,\"fontWeight\": 600,\"color\": \"#404040\",\"anchor\": \"middle\",\"frame\": \"group\",\"offset\": 6},\"data\": {\"name\": \"dataset\"},\"transform\": [{\"calculate\": \"isValid(datum[\\\"Revenue AC mEUR\\\"]) ? datum[\\\"Revenue AC mEUR\\\"] : 0\",\"as\": \"ac\"},{\"calculate\": \"isValid(datum[\\\"Revenue PL mEUR\\\"]) ? datum[\\\"Revenue PL mEUR\\\"] : 0\",\"as\": \"pl\"},{\"calculate\": \"isValid(datum[\\\"Revenue PY mEUR\\\"]) ? datum[\\\"Revenue PY mEUR\\\"] : null\",\"as\": \"py\"},{\"calculate\": \"datum.ac - datum.pl\",\"as\": \"dpl\"},{\"calculate\": \"isValid(datum.py) ? datum.ac - datum.py : null\",\"as\": \"dpy\"},{\"calculate\": \"max(datum.ac, datum.pl, isValid(datum.py) ? datum.py : 0)\",\"as\": \"mxv\"},{\"calculate\": \"max(abs(datum.dpl), isValid(datum.dpy) ? abs(datum.dpy) : 0)\",\"as\": \"ad\"},{\"calculate\": \"min(datum.dpl, isValid(datum.dpy) ? datum.dpy : 0, 0)\",\"as\": \"lo1\"},{\"calculate\": \"max(datum.dpl, isValid(datum.dpy) ? datum.dpy : 0, 0)\",\"as\": \"hi1\"},{\"joinaggregate\": [{\"op\": \"max\",\"field\": \"mxv\",\"as\": \"maxV\"},{\"op\": \"max\",\"field\": \"ad\",\"as\": \"maxD\"},{\"op\": \"min\",\"field\": \"lo1\",\"as\": \"loD\"},{\"op\": \"max\",\"field\": \"hi1\",\"as\": \"hiD\"}]},{\"calculate\": \"datum.hiD + datum.maxD * 0.3\",\"as\": \"k\"},{\"calculate\": \"0\",\"as\": \"z\"},{\"calculate\": \"datum.loD - datum.maxD * 0.3\",\"as\": \"mk\"},{\"calculate\": \"format(datum.dpl, \\\"+,.1f\\\")\",\"as\": \"Lpl\"},{\"calculate\": \"isValid(datum.dpy) ? format(datum.dpy, \\\"+,.1f\\\") : \\\"\\\"\",\"as\": \"Lpy\"},{\"window\": [{\"op\": \"row_number\",\"as\": \"rk\"}],\"sort\": [{\"field\": \"ac\",\"order\": \"descending\"}]}],\"encoding\": {\"y\": {\"field\": \"Short name\",\"type\": \"nominal\",\"sort\": {\"field\": \"rk\",\"op\": \"min\",\"order\": \"ascending\"},\"axis\": null}},\"layer\": [{\"mark\": {\"type\": \"rule\",\"opacity\": 0},\"encoding\": {\"x\": {\"field\": \"mk\",\"type\": \"quantitative\",\"scale\": {\"nice\": false,\"zero\": true},\"axis\": null},\"x2\": {\"field\": \"k\"}}},{\"mark\": {\"type\": \"tick\",\"color\": \"#B4B4B4\",\"thickness\": 4,\"size\": 29.5,\"orient\": \"vertical\"},\"encoding\": {\"x\": {\"datum\": 0,\"type\": \"quantitative\"}}},{\"transform\": [{\"filter\": \"isValid(datum.dpy)\"}],\"mark\": {\"type\": \"bar\",\"height\": {\"band\": 0.55}},\"encoding\": {\"x\": {\"field\": \"dpy\",\"type\": \"quantitative\",\"axis\": null},\"x2\": {\"datum\": 0},\"fill\": {\"condition\": {\"test\": \"datum.dpy >= 0\",\"value\": \"#2E8B7A\"},\"value\": \"#C0392B\"},\"tooltip\": [{\"field\": \"ac\",\"title\": \"AC\",\"format\": \",.1f\"},{\"field\": \"pl\",\"title\": \"PL\",\"format\": \",.1f\"},{\"field\": \"py\",\"title\": \"PY\",\"format\": \",.1f\"},{\"field\": \"dpl\",\"title\": \"\\u0394PL\",\"format\": \"+,.1f\"},{\"field\": \"dpy\",\"title\": \"\\u0394PY\",\"format\": \"+,.1f\"}]}},{\"transform\": [{\"filter\": \"isValid(datum.dpy) && datum.dpy >= 0\"}],\"mark\": {\"type\": \"text\",\"align\": \"left\",\"baseline\": \"middle\",\"dx\": 6,\"fontSize\": 13,\"color\": \"#262626\"},\"encoding\": {\"x\": {\"field\": \"dpy\",\"type\": \"quantitative\",\"axis\": null},\"text\": {\"field\": \"Lpy\"}}},{\"transform\": [{\"filter\": \"isValid(datum.dpy) && datum.dpy < 0\"}],\"mark\": {\"type\": \"text\",\"align\": \"right\",\"baseline\": \"middle\",\"dx\": -6,\"fontSize\": 13,\"color\": \"#262626\"},\"encoding\": {\"x\": {\"field\": \"dpy\",\"type\": \"quantitative\",\"axis\": null},\"text\": {\"field\": \"Lpy\"}}}]}],\"spacing\": 50,\"bounds\": \"flush\",\"resolve\": {\"scale\": {\"y\": \"independent\"}}}'"
+                }
+              }
+            },
+            "jsonConfig": {
+              "expr": {
+                "Literal": {
+                  "Value": "'{\"autosize\": {\"type\": \"pad\",\"contains\": \"padding\"},\"padding\": {\"left\": 4,\"right\": 8,\"top\": 4,\"bottom\": 2},\"background\": \"transparent\",\"font\": \"Segoe UI\",\"view\": {\"stroke\": null},\"axis\": {\"grid\": false,\"ticks\": false,\"domain\": false,\"title\": null,\"labelFont\": \"Segoe UI\",\"labelColor\": \"#404040\",\"labelFontSize\": 13},\"legend\": {\"disable\": true},\"text\": {\"font\": \"Segoe UI\",\"fontSize\": 12,\"color\": \"#404040\"},\"title\": {\"font\": \"Segoe UI\",\"fontSize\": 15,\"fontWeight\": 600,\"color\": \"#262626\",\"anchor\": \"start\",\"frame\": \"bounds\",\"offset\": 8}}'"
+                }
+              }
+            },
+            "enableTooltips": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "enableContextMenu": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "enableSelection": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "enableHighlight": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "version": {
+              "expr": {
+                "Literal": {
+                  "Value": "'6.4.3'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "stateManagement": [
+        {
+          "properties": {
+            "viewportHeight": {
+              "expr": {
+                "Literal": {
+                  "Value": "304D"
+                }
+              }
+            },
+            "viewportWidth": {
+              "expr": {
+                "Literal": {
+                  "Value": "1532D"
+                }
+              }
+            },
+            "supportFieldConfiguration": {
+              "expr": {
+                "Literal": {
+                  "Value": "'{\"Short name\":{\"highlight\":false,\"highlightStatus\":false,\"highlightComparator\":false,\"format\":false,\"formatted\":false,\"names\":false},\"Revenue AC mEUR\":{\"highlight\":false,\"highlightStatus\":false,\"highlightComparator\":false,\"format\":true,\"formatted\":true,\"names\":false},\"Revenue PL mEUR\":{\"highlight\":false,\"highlightStatus\":false,\"highlightComparator\":false,\"format\":true,\"formatted\":true,\"names\":false},\"Revenue PY mEUR\":{\"highlight\":false,\"highlightStatus\":false,\"highlightComparator\":false,\"format\":true,\"formatted\":true,\"names\":false}}'"
+                }
+              }
+            },
+            "denebMetaVersion": {
+              "expr": {
+                "Literal": {
+                  "Value": "'2'"
+                }
+              }
+            },
+            "consolidateFieldParameters": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "developer": [
+        {
+          "properties": {
+            "version": {
+              "expr": {
+                "Literal": {
+                  "Value": "'2.0.1.0'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Revenue in EUR m, by company, sorted by AC | Jan..Oct 2026 AC, PL, PY, ΔPL, ΔPY'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#FFFFFF'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#E6E3DD'"
+                    }
+                  }
+                }
+              }
+            },
+            "radius": {
+              "expr": {
+                "Literal": {
+                  "Value": "8D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

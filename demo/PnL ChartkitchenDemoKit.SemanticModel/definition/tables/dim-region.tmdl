@@ -1,9 +1,9 @@
-/// Drei Regionen. Hängt an dim-gesellschaft, nicht direkt an den Fakten.
+/// Three regions. Attached to dim-gesellschaft, not directly to the facts.
 table dim-region
 	lineageTag: 1e9edc10-a80f-42be-8b8a-ef556ac2968b
 
-	/// Schlüssel zu dim-gesellschaft — ein Schneeflocken-Ast, Region
-	/// filtert über die Gesellschaft auf die Fakten.
+	/// Key to dim-gesellschaft — a snowflake branch; region
+	/// filters the facts via the company.
 	column RegionID
 		dataType: string
 		lineageTag: bb6472e9-8303-44aa-8cfc-7c23e2f0739b

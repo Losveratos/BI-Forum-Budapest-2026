@@ -67,7 +67,7 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "fact-abschluss"
+                      "Entity": "_Measures"
                     }
                   },
                   "Property": "Revenue AC vs PL SVG"
@@ -121,9 +121,9 @@
   },
   "position": {
     "x": 327,
-    "y": 123,
+    "y": 147,
     "width": 700,
-    "height": 894,
+    "height": 870,
     "z": 0,
     "tabOrder": 0
   },

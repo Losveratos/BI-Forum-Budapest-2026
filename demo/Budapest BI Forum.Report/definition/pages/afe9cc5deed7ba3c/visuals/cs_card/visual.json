@@ -3,10 +3,10 @@
   "name": "cs_card",
   "position": {
     "x": 1047,
-    "y": 123,
-    "z": 0,
-    "height": 894,
+    "y": 147,
     "width": 846,
+    "height": 870,
+    "z": 0,
     "tabOrder": 0
   },
   "visual": {
@@ -20,13 +20,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "fact-abschluss"
+                      "Entity": "_Measures"
                     }
                   },
                   "Property": "Revenue AC mEUR"
                 }
               },
-              "queryRef": "fact-abschluss.Revenue AC mEUR",
+              "queryRef": "_Measures.Revenue AC mEUR",
               "nativeQueryRef": "Revenue AC mEUR"
             },
             {
@@ -34,13 +34,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "fact-abschluss"
+                      "Entity": "_Measures"
                     }
                   },
                   "Property": "Revenue PL mEUR"
                 }
               },
-              "queryRef": "fact-abschluss.Revenue PL mEUR",
+              "queryRef": "_Measures.Revenue PL mEUR",
               "nativeQueryRef": "Revenue PL mEUR"
             }
           ]
@@ -71,7 +71,7 @@
               "Measure": {
                 "Expression": {
                   "SourceRef": {
-                    "Entity": "fact-abschluss"
+                    "Entity": "_Measures"
                   }
                 },
                 "Property": "Revenue AC mEUR"
@@ -123,7 +123,7 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "fact-abschluss"
+                      "Entity": "_Measures"
                     }
                   },
                   "Property": "Revenue AC vs PL SVG"
@@ -190,7 +190,7 @@
           "Measure": {
             "Expression": {
               "SourceRef": {
-                "Entity": "fact-abschluss"
+                "Entity": "_Measures"
               }
             },
             "Property": "Revenue AC mEUR"
@@ -204,7 +204,7 @@
           "Measure": {
             "Expression": {
               "SourceRef": {
-                "Entity": "fact-abschluss"
+                "Entity": "_Measures"
               }
             },
             "Property": "Revenue PL mEUR"

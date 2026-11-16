@@ -1,0 +1,1509 @@
+/// Home table for all model measures. Holds no data of its own: a Power Query
+/// (M) partition loads one hidden placeholder row. The measures keep their
+/// display folders.
+table _Measures
+	lineageTag: 33dd1ee1-22c5-46b5-a37c-6c99b1b7f99b
+
+	/// Actual in group currency EUR. Income statement items at the average rate of the
+	/// month, balance sheet items at the closing rate. The visual itself handles stock rows
+	/// via the token "stock" in RowType. v3: plus the late posting from
+	/// fact-nachbuchung when 'close-status' is set to "Incl. day-3
+	/// adjustment" (otherwise unchanged).
+	measure AC = SUM ( 'fact-abschluss'[AC Wert] ) + [AC adjustment]
+		formatString: #,##0
+		displayFolder: Szenarien (EUR)
+		lineageTag: f894edd2-d181-48f5-84f2-784690f1eaad
+
+	/// Previous year in EUR, shifted by month. For 2026, PY equals
+	/// actual 2025 — each at the rate of the month at that time.
+	measure PY = SUM ( 'fact-abschluss'[PY Wert] )
+		formatString: #,##0
+		displayFolder: Szenarien (EUR)
+		lineageTag: c9b3ac54-a861-4259-8725-c50ae9e80294
+
+	/// Plan in EUR.
+	measure PL = SUM ( 'fact-abschluss'[PL Wert] )
+		formatString: #,##0
+		displayFolder: Szenarien (EUR)
+		lineageTag: 1b64b778-4fe5-457a-8e79-4e011a6b1a9b
+
+	/// Forecast in EUR: actual for the closed months, projection for
+	/// November and December 2026.
+	measure FC = SUM ( 'fact-abschluss'[FC Wert] )
+		formatString: #,##0
+		displayFolder: Szenarien (EUR)
+		lineageTag: 6f95b199-b3da-4fae-87b3-fd6af80fbf2d
+
+	/// Actual in the local currency of the company. Returns BLANK as soon as
+	/// more than one currency is in the filter — a sum across CHF and JPY
+	/// would be meaningless.
+	measure 'AC LW' =
+			IF (
+			    HASONEVALUE ( 'dim-gesellschaft'[Währung] ),
+			    SUM ( 'fact-abschluss'[AC LW Wert] ) + [AC LW adjustment]
+			)
+		formatString: #,##0
+		displayFolder: Szenarien (Landeswährung)
+		lineageTag: 379f23f9-07f3-4dba-8cdb-4111c886a90b
+
+	/// Previous year in the local currency of the company. Returns BLANK as soon as
+	/// more than one currency is in the filter — a sum across CHF and JPY
+	/// would be meaningless.
+	measure 'PY LW' =
+			IF (
+			    HASONEVALUE ( 'dim-gesellschaft'[Währung] ),
+			    SUM ( 'fact-abschluss'[PY LW Wert] )
+			)
+		formatString: #,##0
+		displayFolder: Szenarien (Landeswährung)
+		lineageTag: 91dafa38-cf97-4b9d-8dae-0980ae5c0733
+
+	/// Plan in the local currency of the company. Returns BLANK as soon as
+	/// more than one currency is in the filter — a sum across CHF and JPY
+	/// would be meaningless.
+	measure 'PL LW' =
+			IF (
+			    HASONEVALUE ( 'dim-gesellschaft'[Währung] ),
+			    SUM ( 'fact-abschluss'[PL LW Wert] )
+			)
+		formatString: #,##0
+		displayFolder: Szenarien (Landeswährung)
+		lineageTag: 3232c7c7-7eed-434a-8741-4c79effa53b0
+
+	/// Forecast in the local currency of the company. Returns BLANK
+	/// as soon as more than one currency is in the filter — a sum across CHF
+	/// and JPY would be meaningless.
+	measure 'FC LW' =
+			IF (
+			    HASONEVALUE ( 'dim-gesellschaft'[Währung] ),
+			    SUM ( 'fact-abschluss'[FC LW Wert] )
+			)
+		formatString: #,##0
+		displayFolder: Szenarien (Landeswährung)
+		lineageTag: faa121dd-7a9d-4dfb-85b3-ab4345f63281
+
+	/// Forecast for the full fiscal year in EUR. The value is
+	/// identical on every month row, hence MAX per company and
+	/// year instead of SUM.
+	measure 'FC FY' =
+			VAR _Scope =
+			    SUMMARIZE (
+			        'fact-abschluss',
+			        'fact-abschluss'[AccountID],
+			        'fact-abschluss'[EntityID],
+			        'dim-datum'[Jahr]
+			    )
+			RETURN
+			    SUMX ( _Scope, CALCULATE ( MAX ( 'fact-abschluss'[FC_FY] ) ) )
+		formatString: #,##0
+		displayFolder: Jahresskalare
+		lineageTag: 25cf730f-af9d-4853-821f-75224bec1dcd
+
+	/// Plan for the full fiscal year in EUR, same logic as FC FY.
+	measure 'PL FY' =
+			VAR _Scope =
+			    SUMMARIZE (
+			        'fact-abschluss',
+			        'fact-abschluss'[AccountID],
+			        'fact-abschluss'[EntityID],
+			        'dim-datum'[Jahr]
+			    )
+			RETURN
+			    SUMX ( _Scope, CALCULATE ( MAX ( 'fact-abschluss'[PL_FY] ) ) )
+		formatString: #,##0
+		displayFolder: Jahresskalare
+		lineageTag: c98dc26a-ffa2-41c2-84bf-3a0989ef81a9
+
+	/// Forecast for the fiscal year in local currency.
+	measure 'FC FY LW' =
+			VAR _Scope =
+			    SUMMARIZE (
+			        'fact-abschluss',
+			        'fact-abschluss'[AccountID],
+			        'fact-abschluss'[EntityID],
+			        'dim-datum'[Jahr]
+			    )
+			RETURN
+			    SUMX ( _Scope, CALCULATE ( MAX ( 'fact-abschluss'[FC_FY_LW] ) ) )
+		formatString: #,##0
+		displayFolder: Jahresskalare
+		lineageTag: c0f2a272-c43e-49b0-807d-2563545295ad
+
+	/// Plan for the fiscal year in local currency.
+	measure 'PL FY LW' =
+			VAR _Scope =
+			    SUMMARIZE (
+			        'fact-abschluss',
+			        'fact-abschluss'[AccountID],
+			        'fact-abschluss'[EntityID],
+			        'dim-datum'[Jahr]
+			    )
+			RETURN
+			    SUMX ( _Scope, CALCULATE ( MAX ( 'fact-abschluss'[PL_FY_LW] ) ) )
+		formatString: #,##0
+		displayFolder: Jahresskalare
+		lineageTag: 6195e91a-5cf8-4930-8ca0-ae62ea338c4d
+
+	/// Revenue — scenario AC. Net revenue as a scalar, revenue deductions
+	/// correctly subtracted. For ChartKitchen and cards — the P&L visual
+	/// does not need it, it handles the sign itself.
+	measure 'Revenue AC' =
+			CALCULATE (
+			    SUMX (
+			        'fact-abschluss',
+			        'fact-abschluss'[AC Wert] * RELATED ( 'dim-konten'[SignConvention] )
+			    ),
+			    KEEPFILTERS ( 'dim-konten'[L1 EN] = "Net revenue" )
+			)
+		formatString: #,##0
+		displayFolder: ChartKitchen (vorzeichenrichtig)
+		lineageTag: 5d0a8ead-9fc8-4a9a-87e0-4170e987d4e8
+
+	/// Revenue — scenario PY. Net revenue as a scalar, revenue deductions
+	/// correctly subtracted. For ChartKitchen and cards — the P&L visual
+	/// does not need it, it handles the sign itself.
+	measure 'Revenue PY' =
+			CALCULATE (
+			    SUMX (
+			        'fact-abschluss',
+			        'fact-abschluss'[PY Wert] * RELATED ( 'dim-konten'[SignConvention] )
+			    ),
+			    KEEPFILTERS ( 'dim-konten'[L1 EN] = "Net revenue" )
+			)
+		formatString: #,##0
+		displayFolder: ChartKitchen (vorzeichenrichtig)
+		lineageTag: 853aea18-89f5-448b-86f6-aa4282435cd9
+
+	/// Revenue — scenario PL. Net revenue as a scalar, revenue deductions
+	/// correctly subtracted. For ChartKitchen and cards — the P&L visual
+	/// does not need it, it handles the sign itself.
+	measure 'Revenue PL' =
+			CALCULATE (
+			    SUMX (
+			        'fact-abschluss',
+			        'fact-abschluss'[PL Wert] * RELATED ( 'dim-konten'[SignConvention] )
+			    ),
+			    KEEPFILTERS ( 'dim-konten'[L1 EN] = "Net revenue" )
+			)
+		formatString: #,##0
+		displayFolder: ChartKitchen (vorzeichenrichtig)
+		lineageTag: 5033ceb2-69fe-4f91-843b-9d26a7953c4b
+
+	/// Revenue — scenario FC. Net revenue as a scalar, revenue deductions
+	/// correctly subtracted. For ChartKitchen and cards — the P&L visual
+	/// does not need it, it handles the sign itself.
+	measure 'Revenue FC' =
+			CALCULATE (
+			    SUMX (
+			        'fact-abschluss',
+			        'fact-abschluss'[FC Wert] * RELATED ( 'dim-konten'[SignConvention] )
+			    ),
+			    KEEPFILTERS ( 'dim-konten'[L1 EN] = "Net revenue" )
+			)
+		formatString: #,##0
+		displayFolder: ChartKitchen (vorzeichenrichtig)
+		lineageTag: 53b78227-b859-4ea9-853b-b6720038f2f1
+
+	/// EBITDA — scenario AC. EBITDA as a scalar: the sum of the six
+	/// operating income statement blocks. It adds up because SignConvention carries costs
+	/// as negative. Formula rows are not included, they are 0 in the
+	/// fact table. v3: based on [AC], i.e. including the late posting when the switch is on.
+	measure 'EBITDA AC' =
+			CALCULATE (
+			    SUMX (
+			        VALUES ( 'dim-konten'[SignConvention] ),
+			        'dim-konten'[SignConvention] * [AC]
+			    ),
+			    KEEPFILTERS ( 'dim-konten'[L1 EN] IN { "Net revenue", "Cost of sales", "Selling expenses", "Administrative expenses", "Research & development", "Other operating result" } )
+			)
+		formatString: #,##0
+		displayFolder: ChartKitchen (vorzeichenrichtig)
+		lineageTag: bb2b81bf-a5b6-4959-8b22-6a34db74801d
+
+	/// EBITDA — scenario PY. EBITDA as a scalar: the sum of the six
+	/// operating income statement blocks. It adds up because SignConvention carries costs
+	/// as negative. Formula rows are not included, they are 0 in the
+	/// fact table.
+	measure 'EBITDA PY' =
+			CALCULATE (
+			    SUMX (
+			        'fact-abschluss',
+			        'fact-abschluss'[PY Wert] * RELATED ( 'dim-konten'[SignConvention] )
+			    ),
+			    KEEPFILTERS ( 'dim-konten'[L1 EN] IN { "Net revenue", "Cost of sales", "Selling expenses", "Administrative expenses", "Research & development", "Other operating result" } )
+			)
+		formatString: #,##0
+		displayFolder: ChartKitchen (vorzeichenrichtig)
+		lineageTag: 14aa84c1-b2e8-458c-8239-81508d9fe5bd
+
+	/// EBITDA — scenario PL. EBITDA as a scalar: the sum of the six
+	/// operating income statement blocks. It adds up because SignConvention carries costs
+	/// as negative. Formula rows are not included, they are 0 in the
+	/// fact table.
+	measure 'EBITDA PL' =
+			CALCULATE (
+			    SUMX (
+			        'fact-abschluss',
+			        'fact-abschluss'[PL Wert] * RELATED ( 'dim-konten'[SignConvention] )
+			    ),
+			    KEEPFILTERS ( 'dim-konten'[L1 EN] IN { "Net revenue", "Cost of sales", "Selling expenses", "Administrative expenses", "Research & development", "Other operating result" } )
+			)
+		formatString: #,##0
+		displayFolder: ChartKitchen (vorzeichenrichtig)
+		lineageTag: 11d9992d-0d2f-4991-88e2-f6bb7c92ded7
+
+	/// EBITDA — scenario FC. EBITDA as a scalar: the sum of the six
+	/// operating income statement blocks. It adds up because SignConvention carries costs
+	/// as negative. Formula rows are not included, they are 0 in the
+	/// fact table.
+	measure 'EBITDA FC' =
+			CALCULATE (
+			    SUMX (
+			        'fact-abschluss',
+			        'fact-abschluss'[FC Wert] * RELATED ( 'dim-konten'[SignConvention] )
+			    ),
+			    KEEPFILTERS ( 'dim-konten'[L1 EN] IN { "Net revenue", "Cost of sales", "Selling expenses", "Administrative expenses", "Research & development", "Other operating result" } )
+			)
+		formatString: #,##0
+		displayFolder: ChartKitchen (vorzeichenrichtig)
+		lineageTag: 512b02e7-460d-44e8-854e-092ad07ac0e7
+
+	/// Like AC, but stock-correct: balance sheet rows are not summed over the
+	/// periods but shown with the value at the reporting date. For
+	/// cards and matrices outside the P&L visual — the visual itself
+	/// does not need it.
+	measure 'AC Stichtag' =
+			VAR _Fluss =
+			    CALCULATE (
+			        SUM ( 'fact-abschluss'[AC Wert] ),
+			        KEEPFILTERS ( 'dim-konten'[Zeitaggregation] = "Summe" )
+			    )
+			VAR _Erste = CALCULATE ( MIN ( 'fact-abschluss'[Datum] ), REMOVEFILTERS ( 'dim-konten' ) )
+			VAR _Letzte = CALCULATE ( MAX ( 'fact-abschluss'[Datum] ), REMOVEFILTERS ( 'dim-konten' ) )
+			VAR _Bestand =
+			    CALCULATE (
+			        SUM ( 'fact-abschluss'[AC Wert] ),
+			        KEEPFILTERS ( 'dim-konten'[Zeitaggregation] = "Bestand" ),
+			        'fact-abschluss'[Datum] = _Letzte
+			    )
+			VAR _Anfang =
+			    CALCULATE (
+			        SUM ( 'fact-abschluss'[AC Wert] ),
+			        KEEPFILTERS ( 'dim-konten'[Zeitaggregation] = "Bestand Anfang" ),
+			        'fact-abschluss'[Datum] = _Erste
+			    )
+			RETURN
+			    _Fluss + _Bestand + _Anfang
+		formatString: #,##0
+		displayFolder: Bestandssicher
+		lineageTag: 414f0ce5-41ea-4ade-8158-77d0fd9e58d5
+
+	/// Like PY, but stock-correct: balance sheet rows are not summed over the
+	/// periods but shown with the value at the reporting date. For
+	/// cards and matrices outside the P&L visual — the visual itself
+	/// does not need it.
+	measure 'PY Stichtag' =
+			VAR _Fluss =
+			    CALCULATE (
+			        SUM ( 'fact-abschluss'[PY Wert] ),
+			        KEEPFILTERS ( 'dim-konten'[Zeitaggregation] = "Summe" )
+			    )
+			VAR _Erste = CALCULATE ( MIN ( 'fact-abschluss'[Datum] ), REMOVEFILTERS ( 'dim-konten' ) )
+			VAR _Letzte = CALCULATE ( MAX ( 'fact-abschluss'[Datum] ), REMOVEFILTERS ( 'dim-konten' ) )
+			VAR _Bestand =
+			    CALCULATE (
+			        SUM ( 'fact-abschluss'[PY Wert] ),
+			        KEEPFILTERS ( 'dim-konten'[Zeitaggregation] = "Bestand" ),
+			        'fact-abschluss'[Datum] = _Letzte
+			    )
+			VAR _Anfang =
+			    CALCULATE (
+			        SUM ( 'fact-abschluss'[PY Wert] ),
+			        KEEPFILTERS ( 'dim-konten'[Zeitaggregation] = "Bestand Anfang" ),
+			        'fact-abschluss'[Datum] = _Erste
+			    )
+			RETURN
+			    _Fluss + _Bestand + _Anfang
+		formatString: #,##0
+		displayFolder: Bestandssicher
+		lineageTag: 8bc610f0-6e8a-4c2f-887d-b1d77137f842
+
+	/// Like PL, but stock-correct: balance sheet rows are not summed over the
+	/// periods but shown with the value at the reporting date. For
+	/// cards and matrices outside the P&L visual — the visual itself
+	/// does not need it.
+	measure 'PL Stichtag' =
+			VAR _Fluss =
+			    CALCULATE (
+			        SUM ( 'fact-abschluss'[PL Wert] ),
+			        KEEPFILTERS ( 'dim-konten'[Zeitaggregation] = "Summe" )
+			    )
+			VAR _Erste = CALCULATE ( MIN ( 'fact-abschluss'[Datum] ), REMOVEFILTERS ( 'dim-konten' ) )
+			VAR _Letzte = CALCULATE ( MAX ( 'fact-abschluss'[Datum] ), REMOVEFILTERS ( 'dim-konten' ) )
+			VAR _Bestand =
+			    CALCULATE (
+			        SUM ( 'fact-abschluss'[PL Wert] ),
+			        KEEPFILTERS ( 'dim-konten'[Zeitaggregation] = "Bestand" ),
+			        'fact-abschluss'[Datum] = _Letzte
+			    )
+			VAR _Anfang =
+			    CALCULATE (
+			        SUM ( 'fact-abschluss'[PL Wert] ),
+			        KEEPFILTERS ( 'dim-konten'[Zeitaggregation] = "Bestand Anfang" ),
+			        'fact-abschluss'[Datum] = _Erste
+			    )
+			RETURN
+			    _Fluss + _Bestand + _Anfang
+		formatString: #,##0
+		displayFolder: Bestandssicher
+		lineageTag: bfc0c5ff-3bbb-4c16-8660-1b8c03a81878
+
+	/// Like FC, but stock-correct: balance sheet rows are not summed over the
+	/// periods but shown with the value at the reporting date. For
+	/// cards and matrices outside the P&L visual — the visual itself
+	/// does not need it.
+	measure 'FC Stichtag' =
+			VAR _Fluss =
+			    CALCULATE (
+			        SUM ( 'fact-abschluss'[FC Wert] ),
+			        KEEPFILTERS ( 'dim-konten'[Zeitaggregation] = "Summe" )
+			    )
+			VAR _Erste = CALCULATE ( MIN ( 'fact-abschluss'[Datum] ), REMOVEFILTERS ( 'dim-konten' ) )
+			VAR _Letzte = CALCULATE ( MAX ( 'fact-abschluss'[Datum] ), REMOVEFILTERS ( 'dim-konten' ) )
+			VAR _Bestand =
+			    CALCULATE (
+			        SUM ( 'fact-abschluss'[FC Wert] ),
+			        KEEPFILTERS ( 'dim-konten'[Zeitaggregation] = "Bestand" ),
+			        'fact-abschluss'[Datum] = _Letzte
+			    )
+			VAR _Anfang =
+			    CALCULATE (
+			        SUM ( 'fact-abschluss'[FC Wert] ),
+			        KEEPFILTERS ( 'dim-konten'[Zeitaggregation] = "Bestand Anfang" ),
+			        'fact-abschluss'[Datum] = _Erste
+			    )
+			RETURN
+			    _Fluss + _Bestand + _Anfang
+		formatString: #,##0
+		displayFolder: Bestandssicher
+		lineageTag: 281e57b4-4d1f-426b-81b0-498afbbb6240
+
+	/// Text measure for the role "Filter info" of the visual: shows
+	/// company, region and period in the footer. Must return text,
+	/// numbers would be output unformatted.
+	measure Filterinfo =
+			VAR _Wae =
+			    IF (
+			        HASONEVALUE ( 'dim-gesellschaft'[Währung] ),
+			        VALUES ( 'dim-gesellschaft'[Währung] ),
+			        "EUR"
+			    )
+			VAR _Ges =
+			    IF (
+			        ISCROSSFILTERED ( 'dim-gesellschaft' ),
+			        CONCATENATEX (
+			            VALUES ( 'dim-gesellschaft'[Kurzname] ),
+			            'dim-gesellschaft'[Kurzname],
+			            ", ",
+			            'dim-gesellschaft'[Kurzname]
+			        ),
+			        "Group"
+			    )
+			VAR _Reg =
+			    IF (
+			        ISFILTERED ( 'dim-region'[Region] ),
+			        " · " & CONCATENATEX (
+			            VALUES ( 'dim-region'[Region] ),
+			            'dim-region'[Region],
+			            ", ",
+			            'dim-region'[Region]
+			        ),
+			        ""
+			    )
+			VAR _Von = MIN ( 'fact-abschluss'[Monat] )
+			VAR _Bis = MAX ( 'fact-abschluss'[Monat] )
+			VAR _Per = " · " & IF ( _Von = _Bis, _Von, _Von & " to " & _Bis )
+			RETURN
+			    _Ges & _Reg & _Per & " · " & _Wae
+		displayFolder: Beschriftung
+		lineageTag: 38e32dad-6fd3-401a-8fc3-8d4324b59502
+
+	/// Income statement only. Actual, sign-correct: account rows times SignConvention, only RowType "account"
+	/// and Statement "Income statement". Revenue positive, costs negative, so that Core visuals need no
+	/// sign knowledge. Result in EUR million (divided by 1,000,000).
+	/// v3: based on [AC], so it includes the late posting when the switch is on.
+	measure 'AC signed' =
+			CALCULATE (
+			    SUMX (
+			        VALUES ( 'dim-konten'[SignConvention] ),
+			        'dim-konten'[SignConvention] * [AC]
+			    ) / 1000000,
+			    KEEPFILTERS ( 'dim-konten'[RowType] = "account" ),
+			    KEEPFILTERS ( 'dim-konten'[Statement] = "Income statement" )
+			)
+		formatString: #,##0.0;-#,##0.0;-
+		displayFolder: Budapest demo
+		lineageTag: 2018637a-0635-40c9-a523-f6093cf2fecc
+
+	/// Income statement only. Previous year, sign-correct: account rows times SignConvention, only RowType "account"
+	/// and Statement "Income statement". Revenue positive, costs negative, so that Core visuals need no
+	/// sign knowledge. Result in EUR million (divided by 1,000,000).
+	measure 'PY signed' =
+			CALCULATE (
+			    SUMX (
+			        VALUES ( 'dim-konten'[SignConvention] ),
+			        'dim-konten'[SignConvention] * CALCULATE ( SUM ( 'fact-abschluss'[PY Wert] ) )
+			    ) / 1000000,
+			    KEEPFILTERS ( 'dim-konten'[RowType] = "account" ),
+			    KEEPFILTERS ( 'dim-konten'[Statement] = "Income statement" )
+			)
+		formatString: #,##0.0;-#,##0.0;-
+		displayFolder: Budapest demo
+		lineageTag: 46662be2-587d-4be8-995a-356bbfc5d3cc
+
+	/// Income statement only. Plan, sign-correct: account rows times SignConvention, only RowType "account"
+	/// and Statement "Income statement". Revenue positive, costs negative, so that Core visuals need no
+	/// sign knowledge. Result in EUR million (divided by 1,000,000).
+	measure 'PL signed' =
+			CALCULATE (
+			    SUMX (
+			        VALUES ( 'dim-konten'[SignConvention] ),
+			        'dim-konten'[SignConvention] * CALCULATE ( SUM ( 'fact-abschluss'[PL Wert] ) )
+			    ) / 1000000,
+			    KEEPFILTERS ( 'dim-konten'[RowType] = "account" ),
+			    KEEPFILTERS ( 'dim-konten'[Statement] = "Income statement" )
+			)
+		formatString: #,##0.0;-#,##0.0;-
+		displayFolder: Budapest demo
+		lineageTag: 58c91f52-d639-4401-9080-ab4c21931f81
+
+	/// Income statement only. Forecast, sign-correct: account rows times SignConvention, only RowType "account"
+	/// and Statement "Income statement". Revenue positive, costs negative, so that Core visuals need no
+	/// sign knowledge. Result in EUR million (divided by 1,000,000).
+	measure 'FC signed' =
+			CALCULATE (
+			    SUMX (
+			        VALUES ( 'dim-konten'[SignConvention] ),
+			        'dim-konten'[SignConvention] * CALCULATE ( SUM ( 'fact-abschluss'[FC Wert] ) )
+			    ) / 1000000,
+			    KEEPFILTERS ( 'dim-konten'[RowType] = "account" ),
+			    KEEPFILTERS ( 'dim-konten'[Statement] = "Income statement" )
+			)
+		formatString: #,##0.0;-#,##0.0;-
+		displayFolder: Budapest demo
+		lineageTag: 2def2bba-fecf-41ef-b0ec-1e06ca886a05
+
+	/// Variance actual vs plan, sign-correct: positive is good. Plan only for months with
+	/// actuals (Period Status = Actual), so that without a page filter 10 actual months are not compared to 12 plan months.
+	measure ΔPL =
+			VAR _Ac = [AC signed]
+			VAR _Pl = CALCULATE ( [PL signed], KEEPFILTERS ( 'dim-datum'[Period Status] = "Actual" ) )
+			RETURN
+			    IF ( NOT ISBLANK ( _Ac ), _Ac - _Pl )
+		formatString: +#,##0.0;-#,##0.0;-
+		displayFolder: Budapest demo
+		lineageTag: b80f5744-6aa0-441d-ac99-857048119a8c
+
+	/// Variance actual vs plan in percent of the plan of the actual months.
+	measure 'ΔPL %' = DIVIDE ( [ΔPL], ABS ( CALCULATE ( [PL signed], KEEPFILTERS ( 'dim-datum'[Period Status] = "Actual" ) ) ) )
+		formatString: +0.0%;-0.0%;-
+		displayFolder: Budapest demo
+		lineageTag: 160bd892-ba89-4734-83d3-6f317c4981cc
+
+	/// Variance actual vs previous year, sign-correct: positive is good. Previous year only for actual months.
+	measure ΔPY =
+			VAR _Ac = [AC signed]
+			VAR _Py = CALCULATE ( [PY signed], KEEPFILTERS ( 'dim-datum'[Period Status] = "Actual" ) )
+			RETURN
+			    IF ( NOT ISBLANK ( _Ac ), _Ac - _Py )
+		formatString: +#,##0.0;-#,##0.0;-
+		displayFolder: Budapest demo
+		lineageTag: d1cbed2d-b925-441c-8f8e-62ab58e244de
+
+	/// Variance actual vs previous year in percent of the previous year of the actual months.
+	measure 'ΔPY %' = DIVIDE ( [ΔPY], ABS ( CALCULATE ( [PY signed], KEEPFILTERS ( 'dim-datum'[Period Status] = "Actual" ) ) ) )
+		formatString: +0.0%;-0.0%;-
+		displayFolder: Budapest demo
+		lineageTag: 1c057e4d-f02d-451d-b035-866ffd7c5001
+
+	/// Copy of ΔPL for a separate data bar column in the Core matrix (rung 1), so that the
+	/// bar does not cover the number.
+	measure 'ΔPL (bar)' = [ΔPL]
+		formatString: +#,##0.0;-#,##0.0;-
+		displayFolder: Budapest demo
+		lineageTag: 15757d9c-1683-49f5-89bd-1fa256fc07b4
+
+	/// Rung 2, DAX only: variance bar made of Unicode blocks, scaled to the largest variance
+	/// of the visible rows (total row capped at 10 blocks). Negative left of the divider,
+	/// positive on the right. Requires a monospace font in the visual.
+	measure 'ΔPL bar (text)' =
+			VAR _D = [ΔPL]
+			VAR _Max =
+			    MAXX ( ALLSELECTED ( 'dim-konten'[L1 EN], 'dim-konten'[L1 Sort] ), ABS ( [ΔPL] ) )
+			VAR _N = MIN ( 10, ROUND ( DIVIDE ( ABS ( _D ), _Max, 0 ) * 10, 0 ) )
+			VAR _Neg = REPT ( " ", 10 - _N ) & REPT ( "█", _N )
+			VAR _Pos = REPT ( "█", _N ) & REPT ( " ", 10 - _N )
+			RETURN
+			    IF (
+			        ISBLANK ( _D ),
+			        BLANK (),
+			        IF ( _D < 0, _Neg & "│" & REPT ( " ", 10 ), REPT ( " ", 10 ) & "│" & _Pos )
+			    )
+		displayFolder: Budapest demo
+		lineageTag: 4c283a3e-bbd8-4722-87a5-8889acbf9382
+
+	/// Rung 2, DAX only: revenue per month as Unicode columns, one character per month (PeriodeSort,
+	/// so that year and month are unambiguous), scaled to the highest month of the row.
+	measure 'Revenue sparkline (text)' =
+			VAR _Months = VALUES ( 'dim-datum'[PeriodeSort] )
+			VAR _Max = MAXX ( _Months, [Revenue AC] )
+			RETURN
+			    CONCATENATEX (
+			        _Months,
+			        VAR _V = [Revenue AC]
+			        VAR _I = ROUND ( DIVIDE ( _V, _Max, 0 ) * 7, 0 ) + 1
+			        RETURN
+			            IF ( ISBLANK ( _V ), " ", MID ( "▁▂▃▄▅▆▇█", _I, 1 ) ),
+			        "",
+			        'dim-datum'[PeriodeSort]
+			    )
+		displayFolder: Budapest demo
+		lineageTag: 1fa7c781-528d-4a57-a1ec-c921f3b92c03
+
+	/// Rung 2, DAX only: color code for conditional formatting. Teal (documented IBCS deviation,
+	/// as in ChartKitchen) for favorable, red for unfavorable variance.
+	measure 'ΔPL status' =
+			SWITCH (
+			    TRUE (),
+			    ISBLANK ( [ΔPL] ), BLANK (),
+			    [ΔPL] >= 0, "#2E8B7A",
+			    "#C0392B"
+			)
+		displayFolder: Budapest demo
+		lineageTag: 221a3618-ad0a-44a9-8f3b-1d3a153dccec
+
+	/// Rung 4, Deneb template: actual for months with Period Status Actual, forecast for forecast
+	/// months, as a single series for AC&FC columns against the plan outline. Robust at every level.
+	measure 'Revenue AC&FC' =
+			CALCULATE ( [Revenue AC], KEEPFILTERS ( 'dim-datum'[Period Status] = "Actual" ) )
+			    + CALCULATE ( [Revenue FC], KEEPFILTERS ( 'dim-datum'[Period Status] = "Forecast" ) )
+		formatString: #,##0
+		displayFolder: Budapest demo
+		lineageTag: 04eed300-3064-4aac-8939-88dda53ed722
+
+	/// Revenue AC&FC in EUR million for Core charts, tables and Deneb (field name without brackets, because Deneb
+	/// cannot read fields with brackets via expression).
+	measure 'Revenue ACFC mEUR' = DIVIDE ( [Revenue AC&FC], 1000000 )
+		formatString: #,##0.0
+		displayFolder: Budapest demo
+		lineageTag: e50e831e-492e-4df9-a040-3071d3cf039a
+
+	/// Revenue AC in EUR million for Core charts, tables and Deneb (field name without brackets, because Deneb
+	/// cannot read fields with brackets via expression).
+	measure 'Revenue AC mEUR' = DIVIDE ( [Revenue AC], 1000000 )
+		formatString: #,##0.0
+		displayFolder: Budapest demo
+		lineageTag: 3e4aea48-c781-4a75-be05-b03aa4d248fe
+
+	/// Revenue PY in EUR million for Core charts, tables and Deneb (field name without brackets, because Deneb
+	/// cannot read fields with brackets via expression).
+	measure 'Revenue PY mEUR' = DIVIDE ( [Revenue PY], 1000000 )
+		formatString: #,##0.0
+		displayFolder: Budapest demo
+		lineageTag: 1a6ec6c1-1896-4003-bb69-fae17c24ab79
+
+	/// Revenue PL in EUR million for Core charts, tables and Deneb (field name without brackets, because Deneb
+	/// cannot read fields with brackets via expression).
+	measure 'Revenue PL mEUR' = DIVIDE ( [Revenue PL], 1000000 )
+		formatString: #,##0.0
+		displayFolder: Budapest demo
+		lineageTag: e4640265-1b8c-42ff-a37a-fbb9d97c0e48
+
+	/// Rung 4, Deneb template: 1 for forecast months (Period Status = Forecast), otherwise 0. Controls
+	/// outline and dashing of the FC columns in the Vega-Lite template.
+	measure 'FC flag' = IF ( SELECTEDVALUE ( 'dim-datum'[Period Status] ) = "Forecast", 1, 0 )
+		formatString: 0
+		displayFolder: Budapest demo
+		lineageTag: 90e6b3d8-cf9d-47c2-a1bf-d1a7f6a7b7c2
+
+	/// Rung 3, SVG measure: variance bar on a base scale with a double line as plan reference,
+	/// teal good, red bad, value in EUR million as label. Data category ImageUrl, shown as an image in the
+	/// matrix. Bar limited to the cell width, coordinates in en-US format.
+	measure 'ΔPL SVG' =
+			VAR _D = [ΔPL]
+			VAR _Max =
+			    MAXX ( ALLSELECTED ( 'dim-konten'[L1 EN], 'dim-konten'[L1 Sort] ), ABS ( [ΔPL] ) )
+			VAR _W = 160
+			VAR _H = 18
+			VAR _Mid = _W / 2
+			VAR _Len = MIN ( 1, DIVIDE ( ABS ( _D ), _Max, 0 ) ) * ( _Mid - 44 )
+			VAR _X = IF ( _D < 0, _Mid - _Len, _Mid )
+			VAR _Col = IF ( _D >= 0, "%232E8B7A", "%23C0392B" )
+			VAR _Lbl = FORMAT ( _D, "+#,##0.0;-#,##0.0", "en-US" )
+			VAR _LblX = IF ( _D < 0, _Mid + 5, _Mid - 5 )
+			VAR _Anchor = IF ( _D < 0, "start", "end" )
+			VAR _Svg =
+			    "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='" & _W & "' height='" & _H & "' viewBox='0 0 " & _W & " " & _H & "'>"
+			        & "<line x1='" & ( _Mid - 1.5 ) & "' y1='0' x2='" & ( _Mid - 1.5 ) & "' y2='" & _H & "' stroke='%23404040' stroke-width='1'/>"
+			        & "<line x1='" & ( _Mid + 1.5 ) & "' y1='0' x2='" & ( _Mid + 1.5 ) & "' y2='" & _H & "' stroke='%23404040' stroke-width='1'/>"
+			        & "<rect x='" & FORMAT ( _X, "0.0", "en-US" ) & "' y='3' width='" & FORMAT ( _Len, "0.0", "en-US" ) & "' height='" & ( _H - 6 ) & "' fill='" & _Col & "'/>"
+			        & "<text x='" & _LblX & "' y='13' font-family='Segoe UI' font-size='10' text-anchor='" & _Anchor & "' fill='%23222'>" & _Lbl & "</text>"
+			        & "</svg>"
+			RETURN
+			    IF ( ISBLANK ( _D ), BLANK (), _Svg )
+		displayFolder: Budapest demo
+		lineageTag: 1ebc2016-2a62-4686-ad9e-a21de923920e
+		dataCategory: ImageUrl
+
+	/// Rung 3, SVG measure: revenue per month as columns (AC filled) with plan outline, 160 px wide,
+	/// one slot per month (PeriodeSort), scaled to the highest value of the row. Data category ImageUrl.
+	measure 'Revenue AC vs PL SVG' =
+			VAR _Months = VALUES ( 'dim-datum'[PeriodeSort] )
+			VAR _Max =
+			    MAXX ( _Months, MAX ( [Revenue AC], [Revenue PL] ) )
+			VAR _W = 160
+			VAR _H = 28
+			VAR _N = COUNTROWS ( _Months )
+			VAR _Slot = DIVIDE ( _W, _N )
+			VAR _Bars =
+			    CONCATENATEX (
+			        _Months,
+			        VAR _I = RANKX ( _Months, 'dim-datum'[PeriodeSort], , ASC ) - 1
+			        VAR _Ac = DIVIDE ( [Revenue AC], _Max ) * ( _H - 2 )
+			        VAR _Pl = DIVIDE ( [Revenue PL], _Max ) * ( _H - 2 )
+			        VAR _X = _I * _Slot + 1
+			        VAR _Bw = _Slot - 3
+			        RETURN
+			            "<rect x='" & FORMAT ( _X, "0.0", "en-US" ) & "' y='" & FORMAT ( _H - _Ac, "0.0", "en-US" ) & "' width='" & FORMAT ( _Bw, "0.0", "en-US" ) & "' height='" & FORMAT ( _Ac, "0.0", "en-US" ) & "' fill='%23404040'/>"
+			                & "<rect x='" & FORMAT ( _X, "0.0", "en-US" ) & "' y='" & FORMAT ( _H - _Pl, "0.0", "en-US" ) & "' width='" & FORMAT ( _Bw, "0.0", "en-US" ) & "' height='" & FORMAT ( _Pl, "0.0", "en-US" ) & "' fill='none' stroke='%23404040' stroke-width='1'/>",
+			        "",
+			        'dim-datum'[PeriodeSort]
+			    )
+			RETURN
+			    IF (
+			        ISBLANK ( [Revenue AC] ),
+			        BLANK (),
+			        "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='" & _W & "' height='" & _H & "' viewBox='0 0 " & _W & " " & _H & "'>" & _Bars & "</svg>"
+			    )
+		displayFolder: Budapest demo
+		lineageTag: 8af91ac0-4948-4486-962e-22f8f43bdb67
+		dataCategory: ImageUrl
+
+	/// Data status stamp for every demo page (card below the title): last actual month, plan and
+	/// forecast version, unit, sign convention. v3: with close status from 'close-status'.
+	measure 'Data as of' =
+			VAR _LastAct =
+			    CALCULATE (
+			        MAX ( 'dim-datum'[Monatsende] ),
+			        REMOVEFILTERS ( 'dim-datum' ),
+			        'dim-datum'[Period Status] = "Actual"
+			    )
+			VAR _Close =
+			    IF ( [Adjustment on], " · incl. day-3 adjustment", " · close status: closed WD3" )
+			RETURN
+			    "DWG Industries · actuals to " & FORMAT ( _LastAct, "mmm yyyy", "en-US" ) & _Close
+			        & " · plan v2026-1 and forecast 10+2 to Dec 2026 · EUR m · variances signed, positive is favourable"
+		displayFolder: Budapest demo
+		lineageTag: c13ac924-6319-4dff-ab95-68352ec386e2
+
+	/// Revenue FC in EUR million for the UDF columns (forecast hatched where there are no actuals).
+	measure 'Revenue FC mEUR' = DIVIDE ( [Revenue FC], 1000000 )
+		formatString: #,##0.0
+		displayFolder: Budapest demo\UDF
+		lineageTag: d17f1585-7294-417e-a96a-834218d658f9
+
+	/// Rung 3 with UDF library PowerofBI.IBCS 0.11.0 (daxlib.org, MIT): absolute variance as
+	/// IBCS bar. Main value = |PL| + ΔPL, base = |PL|, so that the function draws exactly ΔPL (positive = good);
+	/// scaling across all visible rows (both sort columns), total row in bold.
+	measure 'ΔPL UDF' =
+			IF (
+			    ISBLANK ( [ΔPL] ),
+			    BLANK (),
+			    PowerofBI.IBCS.BarChart.AbsoluteVariance (
+			        'dim-konten'[L1 EN],
+			        ABS ( [PL signed] ) + [ΔPL],
+			        BLANK (),
+			        ABS ( [PL signed] ),
+			        MAXX ( ALLSELECTED ( 'dim-konten'[L1 EN], 'dim-konten'[L1 Sort] ), ABS ( [ΔPL] ) ),
+			        "outlined",
+			        NOT ISINSCOPE ( 'dim-konten'[L1 EN] ),
+			        FORMAT ( [ΔPL], "+#,##0.0;-#,##0.0;=", "en-US" ),
+			        240,
+			        22,
+			        1
+			    )
+			)
+		displayFolder: Budapest demo\UDF
+		lineageTag: b0de9ae6-e37d-462a-81a6-de84a9e71452
+		dataCategory: ImageUrl
+
+	/// Rung 3 with UDF library PowerofBI.IBCS: relative variance as a pin with scenario head.
+	/// Same convention as ΔPL UDF (base = |PL|), label from ΔPL %.
+	measure 'ΔPL % UDF' =
+			IF (
+			    ISBLANK ( [ΔPL] ),
+			    BLANK (),
+			    PowerofBI.IBCS.BarChart.RelativeVariance (
+			        'dim-konten'[L1 EN],
+			        ABS ( [PL signed] ) + [ΔPL],
+			        BLANK (),
+			        ABS ( [PL signed] ),
+			        "outlined",
+			        NOT ISINSCOPE ( 'dim-konten'[L1 EN] ),
+			        FORMAT ( [ΔPL %] * 100, "+#,##0.0;-#,##0.0;=", "en-US" ),
+			        160,
+			        22,
+			        1
+			    )
+			)
+		displayFolder: Budapest demo\UDF
+		lineageTag: 8b8351b2-41c3-4f85-b5a6-dfe4f7871096
+		dataCategory: ImageUrl
+
+	/// Rung 3 with UDF library PowerofBI.IBCS: one column per month (matrix with months in the
+	/// columns): AC filled, PL outline, PY as grey triangle, variance AC vs PL as bar, FC
+	/// hatched. One function call instead of 30 lines of SVG DAX.
+	measure 'Revenue months UDF' =
+			IF (
+			    ISBLANK ( [Revenue AC mEUR] + [Revenue FC mEUR] ),
+			    BLANK (),
+			    PowerofBI.IBCS.ColumnChart.WithAbsoluteVariance (
+			        [Revenue AC mEUR],
+			        [Revenue PY mEUR],
+			        [Revenue PL mEUR],
+			        [Revenue FC mEUR],
+			        'dim-datum'[Month Short],
+			        1
+			    )
+			)
+		displayFolder: Budapest demo\UDF
+		lineageTag: f91ff105-249c-4ec8-b56b-bfdac041ce3b
+		dataCategory: ImageUrl
+
+	/// v3 month-end close scene: TRUE when the switch 'close-status' is set to exactly "Incl. day-3 adjustment".
+	/// With no selection or with "Closed WD3" FALSE, and AC stays exactly as before.
+	measure 'Adjustment on' = SELECTEDVALUE ( 'close-status'[Close status] ) = "Incl. day-3 adjustment"
+		displayFolder: Budapest demo\Close
+		lineageTag: 3484290e-7e30-40e9-a686-bfddb609a0d7
+
+	/// Helper measure: late posting in EUR (base units, raw sign), only when the switch is on. A filter
+	/// on fact-abschluss[Monat] (period role of the P&L visual) is passed on via TREATAS.
+	measure 'AC adjustment' =
+			IF (
+			    [Adjustment on],
+			    CALCULATE (
+			        SUM ( 'fact-nachbuchung'[AC Wert] ),
+			        TREATAS ( VALUES ( 'fact-abschluss'[Monat] ), 'fact-nachbuchung'[Monat] )
+			    )
+			)
+		formatString: #,##0
+		isHidden
+		displayFolder: Budapest demo\Close
+		lineageTag: 87627ac9-f6ef-455f-8c5d-7fe99cb1a7cd
+
+	/// Helper measure: late posting in local currency, only when the switch is on. Like AC adjustment.
+	measure 'AC LW adjustment' =
+			IF (
+			    [Adjustment on],
+			    CALCULATE (
+			        SUM ( 'fact-nachbuchung'[AC LW Wert] ),
+			        TREATAS ( VALUES ( 'fact-abschluss'[Monat] ), 'fact-nachbuchung'[Monat] )
+			    )
+			)
+		formatString: #,##0
+		isHidden
+		displayFolder: Budapest demo\Close
+		lineageTag: 16841457-1387-48db-9023-2a811791251b
+
+	/// v3 FX: actual (income statement, sign-correct, EUR million) translated from local currency at the budget rate:
+	/// LC / 'fact-kurse'[Kurs Budget] per company currency and year (rates are LC per 1 EUR, as in
+	/// engine.py). Robust against multiple currencies and years in the filter. Includes the late posting when the switch is on.
+	measure 'AC signed @BUD' =
+			CALCULATE (
+			    SUMX (
+			        SUMMARIZE ( 'fact-abschluss', 'dim-gesellschaft'[Währung], 'dim-datum'[Jahr] ),
+			        VAR _Cur = 'dim-gesellschaft'[Währung]
+			        VAR _Yr = 'dim-datum'[Jahr]
+			        VAR _Rate =
+			            CALCULATE (
+			                MAX ( 'fact-kurse'[Kurs Budget] ),
+			                REMOVEFILTERS ( 'dim-datum' ),
+			                REMOVEFILTERS ( 'dim-waehrung' ),
+			                REMOVEFILTERS ( 'fact-kurse' ),
+			                'fact-kurse'[Währung] = _Cur,
+			                'fact-kurse'[Jahr] = _Yr
+			            )
+			        VAR _Lw =
+			            CALCULATE (
+			                SUMX (
+			                    VALUES ( 'dim-konten'[SignConvention] ),
+			                    'dim-konten'[SignConvention] * CALCULATE ( SUM ( 'fact-abschluss'[AC LW Wert] ) + [AC LW adjustment] )
+			                )
+			            )
+			        RETURN
+			            DIVIDE ( _Lw, _Rate )
+			    ) / 1000000,
+			    KEEPFILTERS ( 'dim-konten'[RowType] = "account" ),
+			    KEEPFILTERS ( 'dim-konten'[Statement] = "Income statement" )
+			)
+		formatString: #,##0.0;-#,##0.0;-
+		displayFolder: Budapest demo\FX
+		lineageTag: e53d643b-c259-4274-9148-088569f2162c
+
+	/// v3 FX: plan (income statement, sign-correct, EUR million) from the plan local currency at the budget rate. The plan
+	/// in EUR (PL signed) is translated at the actual average rate in the demo; only this version is a
+	/// plan at budget rate.
+	measure 'PL signed @BUD' =
+			CALCULATE (
+			    SUMX (
+			        SUMMARIZE ( 'fact-abschluss', 'dim-gesellschaft'[Währung], 'dim-datum'[Jahr] ),
+			        VAR _Cur = 'dim-gesellschaft'[Währung]
+			        VAR _Yr = 'dim-datum'[Jahr]
+			        VAR _Rate =
+			            CALCULATE (
+			                MAX ( 'fact-kurse'[Kurs Budget] ),
+			                REMOVEFILTERS ( 'dim-datum' ),
+			                REMOVEFILTERS ( 'dim-waehrung' ),
+			                REMOVEFILTERS ( 'fact-kurse' ),
+			                'fact-kurse'[Währung] = _Cur,
+			                'fact-kurse'[Jahr] = _Yr
+			            )
+			        VAR _Lw =
+			            CALCULATE (
+			                SUMX (
+			                    VALUES ( 'dim-konten'[SignConvention] ),
+			                    'dim-konten'[SignConvention] * CALCULATE ( SUM ( 'fact-abschluss'[PL LW Wert] ) )
+			                )
+			            )
+			        RETURN
+			            DIVIDE ( _Lw, _Rate )
+			    ) / 1000000,
+			    KEEPFILTERS ( 'dim-konten'[RowType] = "account" ),
+			    KEEPFILTERS ( 'dim-konten'[Statement] = "Income statement" )
+			)
+		formatString: #,##0.0;-#,##0.0;-
+		displayFolder: Budapest demo\FX
+		lineageTag: 271369a3-4f23-4b07-8f76-05284075dd5e
+
+	/// v3 FX: currency effect = actual at actual rate minus actual at budget rate. Positive = the euro was
+	/// weaker than budgeted, foreign-currency results count for more in EUR.
+	measure 'FX effect' =
+			VAR _Ac = [AC signed]
+			RETURN
+			    IF ( NOT ISBLANK ( _Ac ), _Ac - [AC signed @BUD] )
+		formatString: +#,##0.0;-#,##0.0;-
+		displayFolder: Budapest demo\FX
+		lineageTag: 635c969b-cbbf-40fc-9528-7c466f4559cd
+
+	/// v3 FX: operational variance excluding currency effects: actual at budget rate minus plan at budget rate,
+	/// plan only for actual months (as ΔPL). Positive is good.
+	measure 'ΔPL @BUD' =
+			VAR _Ac = [AC signed @BUD]
+			VAR _Pl = CALCULATE ( [PL signed @BUD], KEEPFILTERS ( 'dim-datum'[Period Status] = "Actual" ) )
+			RETURN
+			    IF ( NOT ISBLANK ( _Ac ), _Ac - _Pl )
+		formatString: +#,##0.0;-#,##0.0;-
+		displayFolder: Budapest demo\FX
+		lineageTag: 0fc70b27-c39b-4153-9afc-3f9241f70b82
+
+	/// v3 FX: net revenue actual at budget rate in EUR million.
+	measure 'Revenue AC @BUD mEUR' = CALCULATE ( [AC signed @BUD], KEEPFILTERS ( 'dim-konten'[L1 EN] = "Net revenue" ) )
+		formatString: #,##0.0
+		displayFolder: Budapest demo\FX
+		lineageTag: a593f014-a385-4538-ab25-3cec89fdf312
+
+	/// v3 FX: currency effect on net revenue in EUR million (Revenue AC mEUR minus Revenue AC @BUD mEUR).
+	measure 'Revenue FX effect mEUR' = CALCULATE ( [FX effect], KEEPFILTERS ( 'dim-konten'[L1 EN] = "Net revenue" ) )
+		formatString: +#,##0.0;-#,##0.0;-
+		displayFolder: Budapest demo\FX
+		lineageTag: bd463acc-5e51-4df5-90e4-7ea3cccc1e25
+
+	/// v3 Statement: actual per row of the table pnl-lines (EUR million, sign-correct). "line" = AC signed
+	/// of the L1 item, "subtotal" = sum of all L1 items with L1 Sort less than Upto Sort. BLANK without a
+	/// unique row (total row), Net income is its own row.
+	measure 'AC line' =
+			VAR _Type = SELECTEDVALUE ( 'pnl-lines'[Line Type] )
+			VAR _Line = SELECTEDVALUE ( 'pnl-lines'[Line] )
+			VAR _Upto = SELECTEDVALUE ( 'pnl-lines'[Upto Sort] )
+			RETURN
+			    SWITCH (
+			        _Type,
+			        "line", CALCULATE ( [AC signed], KEEPFILTERS ( TREATAS ( { _Line }, 'dim-konten'[L1 EN] ) ) ),
+			        "subtotal", CALCULATE ( [AC signed], KEEPFILTERS ( 'dim-konten'[L1 Sort] < _Upto ) )
+			    )
+		formatString: #,##0.0;-#,##0.0;-
+		displayFolder: Budapest demo\Statement
+		lineageTag: da2970c6-4724-42ed-8b17-0cfd17bc48f4
+
+	/// v3 Statement: plan per row of pnl-lines, actual months only (Period Status = Actual), so that AC line,
+	/// PL line and ΔPL line are comparable.
+	measure 'PL line' =
+			VAR _Type = SELECTEDVALUE ( 'pnl-lines'[Line Type] )
+			VAR _Line = SELECTEDVALUE ( 'pnl-lines'[Line] )
+			VAR _Upto = SELECTEDVALUE ( 'pnl-lines'[Upto Sort] )
+			RETURN
+			    SWITCH (
+			        _Type,
+			        "line", CALCULATE ( CALCULATE ( [PL signed], KEEPFILTERS ( 'dim-datum'[Period Status] = "Actual" ) ), KEEPFILTERS ( TREATAS ( { _Line }, 'dim-konten'[L1 EN] ) ) ),
+			        "subtotal", CALCULATE ( CALCULATE ( [PL signed], KEEPFILTERS ( 'dim-datum'[Period Status] = "Actual" ) ), KEEPFILTERS ( 'dim-konten'[L1 Sort] < _Upto ) )
+			    )
+		formatString: #,##0.0;-#,##0.0;-
+		displayFolder: Budapest demo\Statement
+		lineageTag: 4fb7e2a6-699b-4c9d-ba3e-e72491fed227
+
+	/// v3 Statement: previous year per row of pnl-lines, actual months only (Period Status = Actual).
+	measure 'PY line' =
+			VAR _Type = SELECTEDVALUE ( 'pnl-lines'[Line Type] )
+			VAR _Line = SELECTEDVALUE ( 'pnl-lines'[Line] )
+			VAR _Upto = SELECTEDVALUE ( 'pnl-lines'[Upto Sort] )
+			RETURN
+			    SWITCH (
+			        _Type,
+			        "line", CALCULATE ( CALCULATE ( [PY signed], KEEPFILTERS ( 'dim-datum'[Period Status] = "Actual" ) ), KEEPFILTERS ( TREATAS ( { _Line }, 'dim-konten'[L1 EN] ) ) ),
+			        "subtotal", CALCULATE ( CALCULATE ( [PY signed], KEEPFILTERS ( 'dim-datum'[Period Status] = "Actual" ) ), KEEPFILTERS ( 'dim-konten'[L1 Sort] < _Upto ) )
+			    )
+		formatString: #,##0.0;-#,##0.0;-
+		displayFolder: Budapest demo\Statement
+		lineageTag: 95179901-a5f8-498b-86b7-d66ba41e9148
+
+	/// v3 Statement: variance actual vs plan per row of pnl-lines, positive is good.
+	measure 'ΔPL line' =
+			VAR _Ac = [AC line]
+			RETURN
+			    IF ( NOT ISBLANK ( _Ac ), _Ac - [PL line] )
+		formatString: +#,##0.0;-#,##0.0;-
+		displayFolder: Budapest demo\Statement
+		lineageTag: a2254b11-e5bf-463b-bfe5-017a9165649e
+
+	/// v3 Statement: variance actual vs plan in percent of the plan per row of pnl-lines.
+	measure 'ΔPL % line' = DIVIDE ( [ΔPL line], ABS ( [PL line] ) )
+		formatString: +0.0%;-0.0%;-
+		displayFolder: Budapest demo\Statement
+		lineageTag: 7f811aae-5d50-4d1a-82ce-fb6ef1c11f98
+
+	/// v3 Statement: color code for conditional formatting per row of pnl-lines, teal favorable, red unfavorable.
+	measure 'ΔPL line status' =
+			SWITCH (
+			    TRUE (),
+			    ISBLANK ( [ΔPL line] ), BLANK (),
+			    [ΔPL line] >= 0, "#2E8B7A",
+			    "#C0392B"
+			)
+		displayFolder: Budapest demo\Statement
+		lineageTag: 4e19db1b-754b-45e7-9c7e-186a11bf6e53
+
+	/// v3b rung 2, DAX only: variance bar made of Unicode blocks per row of pnl-lines, scaled to the
+	/// largest ΔPL line of the visible rows (Line and Line Sort in ALLSELECTED). Negative left, positive right;
+	/// fill character UNICHAR(160), because the matrix strips normal leading spaces.
+	measure 'ΔPL line bar (text)' =
+			VAR _D = [ΔPL line]
+			VAR _Max =
+			    MAXX ( ALLSELECTED ( 'pnl-lines'[Line], 'pnl-lines'[Line Sort] ), ABS ( [ΔPL line] ) )
+			VAR _N = MIN ( 10, ROUND ( DIVIDE ( ABS ( _D ), _Max, 0 ) * 10, 0 ) )
+			VAR _Neg = REPT ( UNICHAR ( 160 ), 10 - _N ) & REPT ( "█", _N )
+			VAR _Pos = REPT ( "█", _N ) & REPT ( UNICHAR ( 160 ), 10 - _N )
+			RETURN
+			    IF (
+			        ISBLANK ( _D ),
+			        BLANK (),
+			        IF ( _D < 0, _Neg & "│" & REPT ( UNICHAR ( 160 ), 10 ), REPT ( UNICHAR ( 160 ), 10 ) & "│" & _Pos )
+			    )
+		displayFolder: Budapest demo\Statement
+		lineageTag: 6caec63f-518b-4bf9-8028-8bcfb41f8c79
+
+	/// v3b rung 3, SVG measure per row of pnl-lines: variance bar with double line as plan reference,
+	/// teal good, red bad, label in bold for subtotals. Data category ImageUrl.
+	measure 'ΔPL line SVG' =
+			VAR _D = [ΔPL line]
+			VAR _Max =
+			    MAXX ( ALLSELECTED ( 'pnl-lines'[Line], 'pnl-lines'[Line Sort] ), ABS ( [ΔPL line] ) )
+			VAR _W = 160
+			VAR _H = 18
+			VAR _Mid = _W / 2
+			VAR _Len = MIN ( 1, DIVIDE ( ABS ( _D ), _Max, 0 ) ) * ( _Mid - 44 )
+			VAR _X = IF ( _D < 0, _Mid - _Len, _Mid )
+			VAR _Col = IF ( _D >= 0, "%232E8B7A", "%23C0392B" )
+			VAR _Lbl = FORMAT ( _D, "+#,##0.0;-#,##0.0", "en-US" )
+			VAR _LblX = IF ( _D < 0, _Mid + 5, _Mid - 5 )
+			VAR _Anchor = IF ( _D < 0, "start", "end" )
+			VAR _Weight = IF ( SELECTEDVALUE ( 'pnl-lines'[Line Type] ) = "subtotal", "bold", "normal" )
+			VAR _Svg =
+			    "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='" & _W & "' height='" & _H & "' viewBox='0 0 " & _W & " " & _H & "'>"
+			        & "<line x1='" & ( _Mid - 1.5 ) & "' y1='0' x2='" & ( _Mid - 1.5 ) & "' y2='" & _H & "' stroke='%23404040' stroke-width='1'/>"
+			        & "<line x1='" & ( _Mid + 1.5 ) & "' y1='0' x2='" & ( _Mid + 1.5 ) & "' y2='" & _H & "' stroke='%23404040' stroke-width='1'/>"
+			        & "<rect x='" & FORMAT ( _X, "0.0", "en-US" ) & "' y='3' width='" & FORMAT ( _Len, "0.0", "en-US" ) & "' height='" & ( _H - 6 ) & "' fill='" & _Col & "'/>"
+			        & "<text x='" & _LblX & "' y='13' font-family='Segoe UI' font-size='10' font-weight='" & _Weight & "' text-anchor='" & _Anchor & "' fill='%23222'>" & _Lbl & "</text>"
+			        & "</svg>"
+			RETURN
+			    IF ( ISBLANK ( _D ), BLANK (), _Svg )
+		displayFolder: Budapest demo\Statement
+		lineageTag: 55d8ea23-b111-463a-93bc-48ef3421ae5e
+		dataCategory: ImageUrl
+
+	/// v3b rung 3 with UDF library PowerofBI.IBCS per row of pnl-lines: absolute variance as IBCS bar,
+	/// main value = |PL line| + ΔPL line, base = |PL line|, scaling across Line and Line Sort, subtotals in bold.
+	measure 'ΔPL line UDF' =
+			IF (
+			    ISBLANK ( [ΔPL line] ),
+			    BLANK (),
+			    PowerofBI.IBCS.BarChart.AbsoluteVariance (
+			        'pnl-lines'[Line],
+			        ABS ( [PL line] ) + [ΔPL line],
+			        BLANK (),
+			        ABS ( [PL line] ),
+			        MAXX ( ALLSELECTED ( 'pnl-lines'[Line], 'pnl-lines'[Line Sort] ), ABS ( [ΔPL line] ) ),
+			        "outlined",
+			        SELECTEDVALUE ( 'pnl-lines'[Line Type] ) = "subtotal",
+			        FORMAT ( [ΔPL line], "+#,##0.0;-#,##0.0;=", "en-US" ),
+			        240,
+			        22,
+			        1
+			    )
+			)
+		displayFolder: Budapest demo\Statement
+		lineageTag: ce5278ad-463a-4510-8b10-6ed27caa3251
+		dataCategory: ImageUrl
+
+	/// v3b rung 3 with UDF library PowerofBI.IBCS per row of pnl-lines: relative variance as a pin,
+	/// same convention as ΔPL line UDF, label from ΔPL % line, subtotals in bold.
+	measure 'ΔPL % line UDF' =
+			IF (
+			    ISBLANK ( [ΔPL line] ),
+			    BLANK (),
+			    PowerofBI.IBCS.BarChart.RelativeVariance (
+			        'pnl-lines'[Line],
+			        ABS ( [PL line] ) + [ΔPL line],
+			        BLANK (),
+			        ABS ( [PL line] ),
+			        "outlined",
+			        SELECTEDVALUE ( 'pnl-lines'[Line Type] ) = "subtotal",
+			        FORMAT ( [ΔPL % line] * 100, "+#,##0.0;-#,##0.0;=", "en-US" ),
+			        160,
+			        22,
+			        1
+			    )
+			)
+		displayFolder: Budapest demo\Statement
+		lineageTag: 8142bc95-6791-454d-bd73-70be5dcd1f67
+		dataCategory: ImageUrl
+
+	/// Mean of the average rates of the selected months, units of
+	/// local currency per 1 EUR. For income statement items and cash flows.
+	measure Durchschnittskurs = AVERAGE ( 'fact-kurse'[Kurs Durchschnitt] )
+		formatString: #,##0.0000
+		displayFolder: Kurse
+		lineageTag: 815597d5-b796-4fbd-8ffe-381193930661
+
+	/// Rate on the last day of the selection, units of local currency per 1
+	/// EUR. For balance sheet items.
+	measure Stichtagskurs = LASTNONBLANKVALUE ( 'dim-datum'[Datum], MAX ( 'fact-kurse'[Kurs Stichtag] ) )
+		formatString: #,##0.0000
+		displayFolder: Kurse
+		lineageTag: 59fce8a2-fc20-4017-8f8e-1de10ab37cd6
+
+	/// Scenarios pages: revenue variance AC minus PL in EUR m, positive is favourable.
+	/// Blank when AC or PL is blank.
+	measure 'Rev ΔPL mEUR' =
+			VAR _Ac = [Revenue AC mEUR]
+			VAR _Pl = [Revenue PL mEUR]
+			RETURN
+			    IF ( NOT ISBLANK ( _Ac ) && NOT ISBLANK ( _Pl ), _Ac - _Pl )
+		formatString: +#,##0.0;-#,##0.0;0.0
+		displayFolder: Budapest demo\Scenarios
+		lineageTag: cddd3ff4-37c8-4f6b-a4f1-aa563736c0af
+
+	/// Scenarios pages: revenue variance AC minus PY in EUR m, positive is favourable.
+	/// Blank when AC or PY is blank (Digital JP has no previous year).
+	measure 'Rev ΔPY mEUR' =
+			VAR _Ac = [Revenue AC mEUR]
+			VAR _Py = [Revenue PY mEUR]
+			RETURN
+			    IF ( NOT ISBLANK ( _Ac ) && NOT ISBLANK ( _Py ), _Ac - _Py )
+		formatString: +#,##0.0;-#,##0.0;0.0
+		displayFolder: Budapest demo\Scenarios
+		lineageTag: 2d03a854-48f2-44f5-a650-184302d2de96
+
+	/// Scenarios pages: revenue variance AC vs PL in percent of PL.
+	measure 'Rev ΔPL %' = DIVIDE ( [Rev ΔPL mEUR], ABS ( [Revenue PL mEUR] ) )
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: Budapest demo\Scenarios
+		lineageTag: 005e0153-21a4-4d81-81c8-59802a7c2163
+
+	/// Scenarios pages: revenue variance AC vs PY in percent of PY.
+	measure 'Rev ΔPY %' = DIVIDE ( [Rev ΔPY mEUR], ABS ( [Revenue PY mEUR] ) )
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: Budapest demo\Scenarios
+		lineageTag: 3e95c889-9a63-40a5-aba5-9c5cfe962fbc
+
+	/// Scenarios rung 2, DAX only: ΔPL revenue variance as a Unicode block bar, scaled to the largest
+	/// variance of the visible months or companies (both sort columns in ALLSELECTED). Needs a monospace font.
+	measure 'Rev ΔPL bar (text)' =
+			VAR _D = [Rev ΔPL mEUR]
+			VAR _Max =
+			    SWITCH (
+			        TRUE (),
+			        ISINSCOPE ( 'dim-datum'[Month Short] ),
+			            MAXX ( ALLSELECTED ( 'dim-datum'[Month Short], 'dim-datum'[MonatNr] ), ABS ( [Rev ΔPL mEUR] ) ),
+			        ISINSCOPE ( 'dim-gesellschaft'[Short name] ),
+			            MAXX ( ALLSELECTED ( 'dim-gesellschaft'[Short name], 'dim-gesellschaft'[Sortierung] ), ABS ( [Rev ΔPL mEUR] ) ),
+			        ABS ( _D )
+			    )
+			VAR _N = MIN ( 10, ROUND ( DIVIDE ( ABS ( _D ), _Max, 0 ) * 10, 0 ) )
+			VAR _Neg = REPT ( " ", 10 - _N ) & REPT ( "█", _N )
+			VAR _Pos = REPT ( "█", _N ) & REPT ( " ", 10 - _N )
+			RETURN
+			    IF (
+			        ISBLANK ( _D ),
+			        BLANK (),
+			        IF ( _D < 0, _Neg & "│" & REPT ( " ", 10 ), REPT ( " ", 10 ) & "│" & _Pos )
+			    )
+		displayFolder: Budapest demo\Scenarios
+		lineageTag: f0de6061-6039-46e7-a719-41f5c563303f
+
+	/// Scenarios rung 2, DAX only: ΔPY revenue variance as a Unicode block bar, same scaling rule as ΔPL.
+	measure 'Rev ΔPY bar (text)' =
+			VAR _D = [Rev ΔPY mEUR]
+			VAR _Max =
+			    SWITCH (
+			        TRUE (),
+			        ISINSCOPE ( 'dim-datum'[Month Short] ),
+			            MAXX ( ALLSELECTED ( 'dim-datum'[Month Short], 'dim-datum'[MonatNr] ), ABS ( [Rev ΔPY mEUR] ) ),
+			        ISINSCOPE ( 'dim-gesellschaft'[Short name] ),
+			            MAXX ( ALLSELECTED ( 'dim-gesellschaft'[Short name], 'dim-gesellschaft'[Sortierung] ), ABS ( [Rev ΔPY mEUR] ) ),
+			        ABS ( _D )
+			    )
+			VAR _N = MIN ( 10, ROUND ( DIVIDE ( ABS ( _D ), _Max, 0 ) * 10, 0 ) )
+			VAR _Neg = REPT ( " ", 10 - _N ) & REPT ( "█", _N )
+			VAR _Pos = REPT ( "█", _N ) & REPT ( " ", 10 - _N )
+			RETURN
+			    IF (
+			        ISBLANK ( _D ),
+			        BLANK (),
+			        IF ( _D < 0, _Neg & "│" & REPT ( " ", 10 ), REPT ( " ", 10 ) & "│" & _Pos )
+			    )
+		displayFolder: Budapest demo\Scenarios
+		lineageTag: 5a7994c5-9119-44ba-a99c-7942af84f654
+
+	/// Scenarios: colour code for conditional formatting by ΔPL sign, teal favourable, red unfavourable.
+	measure 'Rev ΔPL color' =
+			SWITCH (
+			    TRUE (),
+			    ISBLANK ( [Rev ΔPL mEUR] ), BLANK (),
+			    [Rev ΔPL mEUR] >= 0, "#2E8B7A",
+			    "#C0392B"
+			)
+		displayFolder: Budapest demo\Scenarios
+		lineageTag: ab6fc40f-1092-4438-b8bb-f1569ea34c3b
+
+	/// Scenarios: colour code for conditional formatting by ΔPY sign, teal favourable, red unfavourable.
+	measure 'Rev ΔPY color' =
+			SWITCH (
+			    TRUE (),
+			    ISBLANK ( [Rev ΔPY mEUR] ), BLANK (),
+			    [Rev ΔPY mEUR] >= 0, "#2E8B7A",
+			    "#C0392B"
+			)
+		displayFolder: Budapest demo\Scenarios
+		lineageTag: c8004b08-2072-46a6-b3ba-f381a527a875
+
+	/// Scenarios rung 2: copy of Revenue AC mEUR as an invisible, fully overlapped second series.
+	/// It only carries the PY error bar so that PL and PY can both be drawn as ticks on the AC bar.
+	measure 'Rev AC carrier mEUR' = [Revenue AC mEUR]
+		formatString: #,##0.0
+		displayFolder: Budapest demo\Scenarios
+		lineageTag: d54c3640-4546-46b1-bf65-1c9601b245d9
+
+	/// Scenarios rung 3, hand-written SVG: horizontal IBCS bars per company, PY grey offset up, PL outline
+	/// offset down, AC dark in front, AC label. Scaled across the visible companies (both sort columns). ImageUrl.
+	measure 'Rev AC PL PY bars SVG' =
+			VAR _Ac = [Revenue AC mEUR]
+			VAR _Pl = [Revenue PL mEUR]
+			VAR _Py = [Revenue PY mEUR]
+			VAR _Max =
+			    MAXX (
+			        ALLSELECTED ( 'dim-gesellschaft'[Short name], 'dim-gesellschaft'[Sortierung] ),
+			        MAX ( MAX ( [Revenue AC mEUR], [Revenue PL mEUR] ), [Revenue PY mEUR] )
+			    )
+			VAR _Len = 222
+			VAR _WAc = DIVIDE ( _Ac, _Max ) * _Len
+			VAR _WPl = DIVIDE ( _Pl, _Max ) * _Len
+			VAR _WPy = DIVIDE ( _Py, _Max ) * _Len
+			VAR _LblX = MAX ( MAX ( _WAc, _WPl ), _WPy ) + 9
+			VAR _Svg =
+			    "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='26' viewBox='0 0 300 26'>"
+			        & IF ( NOT ISBLANK ( _Py ), "<rect x='2' y='1' width='" & FORMAT ( _WPy, "0.0", "en-US" ) & "' height='14' fill='%23B4B4B4'/>" )
+			        & IF ( NOT ISBLANK ( _Pl ), "<rect x='2.7' y='10.7' width='" & FORMAT ( _WPl - 1.4, "0.0", "en-US" ) & "' height='13.6' fill='%23FFFFFF' stroke='%23404040' stroke-width='1.4'/>" )
+			        & "<rect x='2' y='6' width='" & FORMAT ( _WAc, "0.0", "en-US" ) & "' height='14' fill='%23404040'/>"
+			        & "<line x1='1' y1='0' x2='1' y2='26' stroke='%23404040' stroke-width='2'/>"
+			        & "<text x='" & FORMAT ( _LblX, "0.0", "en-US" ) & "' y='20' font-family='Segoe UI' font-size='19' fill='%23262626'>" & FORMAT ( _Ac, "#,##0.0", "en-US" ) & "</text>"
+			        & "</svg>"
+			RETURN
+			    IF ( ISBLANK ( _Ac ) || NOT ISINSCOPE ( 'dim-gesellschaft'[Short name] ), BLANK (), _Svg )
+		displayFolder: Budapest demo\Scenarios
+		lineageTag: 9e12f832-7701-4c97-bc46-bf2a1c112387
+		dataCategory: ImageUrl
+
+	/// Scenarios rung 3, UDF PowerofBI.IBCS.BarChart.AbsoluteVariance: ΔPL bar per company with plan axis
+	/// (two thin lines). Same scale as Rev ΔPY UDF. Blank on the total row. ImageUrl.
+	measure 'Rev ΔPL UDF' =
+			IF (
+			    ISBLANK ( [Rev ΔPL mEUR] ) || NOT ISINSCOPE ( 'dim-gesellschaft'[Short name] ),
+			    BLANK (),
+			    PowerofBI.IBCS.BarChart.AbsoluteVariance (
+			        'dim-gesellschaft'[Short name],
+			        [Revenue AC mEUR],
+			        BLANK (),
+			        [Revenue PL mEUR],
+			        MAXX (
+			            ALLSELECTED ( 'dim-gesellschaft'[Short name], 'dim-gesellschaft'[Sortierung] ),
+			            MAX ( ABS ( [Rev ΔPL mEUR] ), ABS ( [Rev ΔPY mEUR] ) )
+			        ),
+			        "outlined",
+			        FALSE (),
+			        FORMAT ( [Rev ΔPL mEUR], "+#,##0.0;-#,##0.0;=", "en-US" ),
+			        300,
+			        26,
+			        1
+			    )
+			)
+		displayFolder: Budapest demo\Scenarios
+		lineageTag: ed29e574-7914-4e67-93db-8b30cd37d1ce
+		dataCategory: ImageUrl
+
+	/// Scenarios rung 3, UDF PowerofBI.IBCS.BarChart.AbsoluteVariance: ΔPY bar per company with grey
+	/// previous-year axis. Same scale as Rev ΔPL UDF. Blank on the total row and without PY. ImageUrl.
+	measure 'Rev ΔPY UDF' =
+			IF (
+			    ISBLANK ( [Rev ΔPY mEUR] ) || NOT ISINSCOPE ( 'dim-gesellschaft'[Short name] ),
+			    BLANK (),
+			    PowerofBI.IBCS.BarChart.AbsoluteVariance (
+			        'dim-gesellschaft'[Short name],
+			        [Revenue AC mEUR],
+			        BLANK (),
+			        [Revenue PY mEUR],
+			        MAXX (
+			            ALLSELECTED ( 'dim-gesellschaft'[Short name], 'dim-gesellschaft'[Sortierung] ),
+			            MAX ( ABS ( [Rev ΔPL mEUR] ), ABS ( [Rev ΔPY mEUR] ) )
+			        ),
+			        "grey",
+			        FALSE (),
+			        FORMAT ( [Rev ΔPY mEUR], "+#,##0.0;-#,##0.0;=", "en-US" ),
+			        300,
+			        26,
+			        1
+			    )
+			)
+		displayFolder: Budapest demo\Scenarios
+		lineageTag: 906622a0-fa6b-4f94-99d6-06763c5fb7b5
+		dataCategory: ImageUrl
+
+	/// Scenarios rung 3, hand-written SVG: one cell per month in a matrix, AC dark column, PY grey offset left,
+	/// PL outline offset right, AC label, below ΔPL and ΔPY variance bars. Scale over all months of the
+	/// selection, ignoring the month slicer, so a selected month keeps its size. ImageUrl.
+	measure 'Rev month SVG' =
+			VAR _Ac = [Revenue AC mEUR]
+			VAR _Pl = [Revenue PL mEUR]
+			VAR _Py = [Revenue PY mEUR]
+			VAR _DPl = [Rev ΔPL mEUR]
+			VAR _DPy = [Rev ΔPY mEUR]
+			VAR _Max =
+			    CALCULATE (
+			        MAXX (
+			            VALUES ( 'dim-datum'[MonatNr] ),
+			            MAX ( MAX ( [Revenue AC mEUR], [Revenue PL mEUR] ), [Revenue PY mEUR] )
+			        ),
+			        REMOVEFILTERS ( 'dim-datum'[Month Short], 'dim-datum'[MonatNr] )
+			    )
+			VAR _MaxD =
+			    CALCULATE (
+			        MAXX (
+			            VALUES ( 'dim-datum'[MonatNr] ),
+			            MAX ( ABS ( [Rev ΔPL mEUR] ), ABS ( [Rev ΔPY mEUR] ) )
+			        ),
+			        REMOVEFILTERS ( 'dim-datum'[Month Short], 'dim-datum'[MonatNr] )
+			    )
+			VAR _First =
+			    SELECTEDVALUE ( 'dim-datum'[MonatNr] )
+			        = CALCULATE ( MIN ( 'dim-datum'[MonatNr] ), REMOVEFILTERS ( 'dim-datum'[Month Short], 'dim-datum'[MonatNr] ) )
+			VAR _Base = 186
+			VAR _Hgt = 150
+			VAR _HAc = DIVIDE ( _Ac, _Max ) * _Hgt
+			VAR _HPl = DIVIDE ( _Pl, _Max ) * _Hgt
+			VAR _HPy = DIVIDE ( _Py, _Max ) * _Hgt
+			VAR _K = DIVIDE ( 26, _MaxD )
+			VAR _LPl = ABS ( _DPl ) * _K
+			VAR _LPy = ABS ( _DPy ) * _K
+			VAR _APl = 236
+			VAR _APy = 292
+			VAR _CPl = IF ( _DPl >= 0, "%232E8B7A", "%23C0392B" )
+			VAR _CPy = IF ( _DPy >= 0, "%232E8B7A", "%23C0392B" )
+			VAR _Svg =
+			    "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='330' viewBox='0 0 140 330'>"
+			        & "<text x='70' y='22' font-family='Segoe UI' font-size='21' font-weight='600' text-anchor='middle' fill='%23262626'>" & FORMAT ( _Ac, "#,##0.0", "en-US" ) & "</text>"
+			        & IF ( NOT ISBLANK ( _Py ), "<rect x='26' y='" & FORMAT ( _Base - _HPy, "0.0", "en-US" ) & "' width='60' height='" & FORMAT ( _HPy, "0.0", "en-US" ) & "' fill='%23B4B4B4'/>" )
+			        & IF ( NOT ISBLANK ( _Pl ), "<rect x='54.7' y='" & FORMAT ( _Base - _HPl + 0.7, "0.0", "en-US" ) & "' width='58.6' height='" & FORMAT ( _HPl - 0.7, "0.0", "en-US" ) & "' fill='%23FFFFFF' stroke='%23404040' stroke-width='1.4'/>" )
+			        & "<rect x='40' y='" & FORMAT ( _Base - _HAc, "0.0", "en-US" ) & "' width='60' height='" & FORMAT ( _HAc, "0.0", "en-US" ) & "' fill='%23404040'/>"
+			        & "<line x1='14' y1='186' x2='126' y2='186' stroke='%23404040' stroke-width='2'/>"
+			        & "<line x1='40' y1='" & ( _APl - 1.5 ) & "' x2='100' y2='" & ( _APl - 1.5 ) & "' stroke='%23404040' stroke-width='1'/>"
+			        & "<line x1='40' y1='" & ( _APl + 1.5 ) & "' x2='100' y2='" & ( _APl + 1.5 ) & "' stroke='%23404040' stroke-width='1'/>"
+			        & IF ( NOT ISBLANK ( _DPl ), "<rect x='52' y='" & FORMAT ( IF ( _DPl >= 0, _APl - 2 - _LPl, _APl + 2 ), "0.0", "en-US" ) & "' width='36' height='" & FORMAT ( _LPl, "0.0", "en-US" ) & "' fill='" & _CPl & "'/>"
+			            & "<text x='70' y='" & FORMAT ( IF ( _DPl >= 0, _APl + 17, _APl - 7 ), "0.0", "en-US" ) & "' font-family='Segoe UI' font-size='17' text-anchor='middle' fill='%23262626'>" & FORMAT ( _DPl, "+#,##0.0;-#,##0.0;0.0", "en-US" ) & "</text>" )
+			        & "<line x1='40' y1='" & _APy & "' x2='100' y2='" & _APy & "' stroke='%23B4B4B4' stroke-width='3'/>"
+			        & IF ( NOT ISBLANK ( _DPy ), "<rect x='52' y='" & FORMAT ( IF ( _DPy >= 0, _APy - 1.5 - _LPy, _APy + 1.5 ), "0.0", "en-US" ) & "' width='36' height='" & FORMAT ( _LPy, "0.0", "en-US" ) & "' fill='" & _CPy & "'/>"
+			            & "<text x='70' y='" & FORMAT ( IF ( _DPy >= 0, _APy + 17, _APy - 7 ), "0.0", "en-US" ) & "' font-family='Segoe UI' font-size='17' text-anchor='middle' fill='%23262626'>" & FORMAT ( _DPy, "+#,##0.0;-#,##0.0;0.0", "en-US" ) & "</text>" )
+			        & IF ( _First, "<text x='2' y='" & ( _APl + 4 ) & "' font-family='Segoe UI' font-size='13' fill='%236B6B6B'>ΔPL</text><text x='2' y='" & ( _APy + 4 ) & "' font-family='Segoe UI' font-size='13' fill='%236B6B6B'>ΔPY</text>" )
+			        & "</svg>"
+			RETURN
+			    IF ( ISBLANK ( _Ac ) || NOT ISINSCOPE ( 'dim-datum'[Month Short] ), BLANK (), _Svg )
+		displayFolder: Budapest demo\Scenarios
+		lineageTag: d3fc9aa5-6b88-439f-aed2-386ac64aa6ca
+		dataCategory: ImageUrl
+
+	/// Scenarios rung 3: mini IBCS columns for the month button slicer (AC dark, PY grey, PL outline) with a
+	/// teal or red strip for the ΔPL sign. Same month scale as Rev month SVG. ImageUrl.
+	measure 'Rev month button SVG' =
+			VAR _Ac = [Revenue AC mEUR]
+			VAR _Pl = [Revenue PL mEUR]
+			VAR _Py = [Revenue PY mEUR]
+			VAR _DPl = [Rev ΔPL mEUR]
+			VAR _Max =
+			    CALCULATE (
+			        MAXX (
+			            VALUES ( 'dim-datum'[MonatNr] ),
+			            MAX ( MAX ( [Revenue AC mEUR], [Revenue PL mEUR] ), [Revenue PY mEUR] )
+			        ),
+			        REMOVEFILTERS ( 'dim-datum'[Month Short], 'dim-datum'[MonatNr] )
+			    )
+			VAR _Base = 50
+			VAR _Hgt = 46
+			VAR _HAc = DIVIDE ( _Ac, _Max ) * _Hgt
+			VAR _HPl = DIVIDE ( _Pl, _Max ) * _Hgt
+			VAR _HPy = DIVIDE ( _Py, _Max ) * _Hgt
+			VAR _C = IF ( _DPl >= 0, "%232E8B7A", "%23C0392B" )
+			RETURN
+			    IF (
+			        ISBLANK ( _Ac ),
+			        BLANK (),
+			        "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='58' viewBox='0 0 100 58'>"
+			            & IF ( NOT ISBLANK ( _Py ), "<rect x='24' y='" & FORMAT ( _Base - _HPy, "0.0", "en-US" ) & "' width='30' height='" & FORMAT ( _HPy, "0.0", "en-US" ) & "' fill='%23B4B4B4'/>" )
+			            & IF ( NOT ISBLANK ( _Pl ), "<rect x='46.6' y='" & FORMAT ( _Base - _HPl + 0.6, "0.0", "en-US" ) & "' width='28.8' height='" & FORMAT ( _HPl - 0.6, "0.0", "en-US" ) & "' fill='%23FFFFFF' stroke='%23404040' stroke-width='1.2'/>" )
+			            & "<rect x='35' y='" & FORMAT ( _Base - _HAc, "0.0", "en-US" ) & "' width='30' height='" & FORMAT ( _HAc, "0.0", "en-US" ) & "' fill='%23404040'/>"
+			            & "<line x1='18' y1='50' x2='82' y2='50' stroke='%23404040' stroke-width='1.5'/>"
+			            & "<rect x='24' y='53' width='52' height='4' fill='" & _C & "'/>"
+			            & "</svg>"
+			    )
+		displayFolder: Budapest demo\Scenarios
+		lineageTag: 8fdd57c4-5165-43a5-8e78-7edf26218159
+		dataCategory: ImageUrl
+
+	/// Complications page: background colour of the rung 1 cell, by the first word of the cell
+	/// (model, DAX, spec, visual, by hand, not possible). Used by conditional formatting.
+	measure 'Complication colour R1' =
+			VAR _T = SELECTEDVALUE ( complications[Rung 1 Core] )
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			        ISBLANK ( _T ), BLANK (),
+			        LEFT ( _T, 5 ) = "model", "#DDEFE8",
+			        LEFT ( _T, 3 ) = "DAX", "#FBEED4",
+			        LEFT ( _T, 4 ) = "spec", "#E0E9F5",
+			        LEFT ( _T, 6 ) = "visual", "#ECE5F4",
+			        LEFT ( _T, 7 ) = "by hand", "#F8E0D3",
+			        LEFT ( _T, 12 ) = "not possible", "#E4E4E4",
+			        BLANK ()
+			    )
+		displayFolder: Budapest demo\Complications
+		lineageTag: ce91c4b5-c769-4481-9d13-5339af39e030
+
+	/// Complications page: background colour of the rung 2 cell, same rule as Complication colour R1.
+	measure 'Complication colour R2' =
+			VAR _T = SELECTEDVALUE ( complications[Rung 2 DAX] )
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			        ISBLANK ( _T ), BLANK (),
+			        LEFT ( _T, 5 ) = "model", "#DDEFE8",
+			        LEFT ( _T, 3 ) = "DAX", "#FBEED4",
+			        LEFT ( _T, 4 ) = "spec", "#E0E9F5",
+			        LEFT ( _T, 6 ) = "visual", "#ECE5F4",
+			        LEFT ( _T, 7 ) = "by hand", "#F8E0D3",
+			        LEFT ( _T, 12 ) = "not possible", "#E4E4E4",
+			        BLANK ()
+			    )
+		displayFolder: Budapest demo\Complications
+		lineageTag: 66937fae-8281-4696-909d-7ebd0e54e676
+
+	/// Complications page: background colour of the rung 3 cell, same rule as Complication colour R1.
+	measure 'Complication colour R3' =
+			VAR _T = SELECTEDVALUE ( complications[Rung 3 SVG + UDF] )
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			        ISBLANK ( _T ), BLANK (),
+			        LEFT ( _T, 5 ) = "model", "#DDEFE8",
+			        LEFT ( _T, 3 ) = "DAX", "#FBEED4",
+			        LEFT ( _T, 4 ) = "spec", "#E0E9F5",
+			        LEFT ( _T, 6 ) = "visual", "#ECE5F4",
+			        LEFT ( _T, 7 ) = "by hand", "#F8E0D3",
+			        LEFT ( _T, 12 ) = "not possible", "#E4E4E4",
+			        BLANK ()
+			    )
+		displayFolder: Budapest demo\Complications
+		lineageTag: 7c44da48-c8f3-472d-a511-c2d07fc07d94
+
+	/// Complications page: background colour of the rung 4 cell, same rule as Complication colour R1.
+	measure 'Complication colour R4' =
+			VAR _T = SELECTEDVALUE ( complications[Rung 4 Deneb] )
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			        ISBLANK ( _T ), BLANK (),
+			        LEFT ( _T, 5 ) = "model", "#DDEFE8",
+			        LEFT ( _T, 3 ) = "DAX", "#FBEED4",
+			        LEFT ( _T, 4 ) = "spec", "#E0E9F5",
+			        LEFT ( _T, 6 ) = "visual", "#ECE5F4",
+			        LEFT ( _T, 7 ) = "by hand", "#F8E0D3",
+			        LEFT ( _T, 12 ) = "not possible", "#E4E4E4",
+			        BLANK ()
+			    )
+		displayFolder: Budapest demo\Complications
+		lineageTag: 92fba711-d02d-4a11-beaa-82d27fb9b809
+
+	/// Complications page: background colour of the rung 5 cell, same rule as Complication colour R1.
+	measure 'Complication colour R5' =
+			VAR _T = SELECTEDVALUE ( complications[Rung 5 Custom visual] )
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			        ISBLANK ( _T ), BLANK (),
+			        LEFT ( _T, 5 ) = "model", "#DDEFE8",
+			        LEFT ( _T, 3 ) = "DAX", "#FBEED4",
+			        LEFT ( _T, 4 ) = "spec", "#E0E9F5",
+			        LEFT ( _T, 6 ) = "visual", "#ECE5F4",
+			        LEFT ( _T, 7 ) = "by hand", "#F8E0D3",
+			        LEFT ( _T, 12 ) = "not possible", "#E4E4E4",
+			        BLANK ()
+			    )
+		displayFolder: Budapest demo\Complications
+		lineageTag: b24b3781-c1a5-42e3-ae60-80f971d36e48
+
+	/// Placeholder so the table can load. Hidden; not for use in visuals.
+	column Placeholder
+		dataType: string
+		isHidden
+		lineageTag: d3c9a265-f07d-4c1e-b8f0-53e45f5bcee9
+		summarizeBy: none
+		sourceColumn: Placeholder
+
+		annotation SummarizationSetBy = Automatic
+
+	partition _Measures = m
+		mode: import
+		source =
+				let
+				    Quelle = #table(type table [Placeholder = text], {{null}})
+				in
+				    Quelle
+
+	annotation PBI_ResultType = Table
+

@@ -1,10 +1,10 @@
-/// Datumsdimension, tagesgenau vom 1.1.2025 bis 31.12.2026. Als
-/// Datumstabelle markiert, Schlüssel ist Datum.
+/// Date dimension at daily grain from 1 Jan 2025 to 31 Dec 2026. Marked as
+/// date table, the key is Datum.
 table dim-datum
 	lineageTag: 7950f0fd-54f6-4ede-8c05-12ce6a4a048f
 	dataCategory: Time
 
-	/// Monatsletzter der Periode. Der Faktbezug liegt auf diesem Tag.
+	/// Last day of the month of the period. The fact relationship uses this day.
 	column Datum
 		dataType: dateTime
 		isKey
@@ -302,7 +302,7 @@ table dim-datum
 
 		annotation SummarizationSetBy = Automatic
 
-	/// Ist, Forecast oder Plan — je Monat.
+	/// Actual, Forecast or Plan — per month.
 	column Periodenstatus
 		dataType: string
 		displayFolder: Status
@@ -331,7 +331,7 @@ table dim-datum
 
 		annotation SummarizationSetBy = Automatic
 
-	/// Abstand in Monaten zum Stichtag, 0 = Oktober 2026.
+	/// Distance in months from the reporting date, 0 = October 2026.
 	column 'Relativer Monat'
 		dataType: int64
 		formatString: 0
@@ -351,7 +351,7 @@ table dim-datum
 
 		annotation SummarizationSetBy = Automatic
 
-	/// Monat liegt vollständig vor dem Stichtag 30.10.2026.
+	/// Month lies entirely before the reporting date of 30 Oct 2026.
 	column IstAbgeschlossen
 		dataType: string
 		displayFolder: Status

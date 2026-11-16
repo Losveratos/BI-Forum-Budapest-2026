@@ -4,9 +4,9 @@
   "position": {
     "x": 27,
     "y": 0,
-    "z": 2000,
     "width": 1866,
-    "height": 96,
+    "height": 120,
+    "z": 2000,
     "tabOrder": 2000
   },
   "visual": {
@@ -21,7 +21,7 @@
                   {
                     "value": "Cash flow",
                     "textStyle": {
-                      "fontSize": "14pt",
+                      "fontSize": "21pt",
                       "color": "#1F2328",
                       "fontWeight": "bold"
                     }
@@ -29,7 +29,7 @@
                   {
                     "value": "   Statements",
                     "textStyle": {
-                      "fontSize": "9pt",
+                      "fontSize": "14pt",
                       "color": "#C25A2D",
                       "fontWeight": "bold"
                     }
@@ -41,7 +41,7 @@
                   {
                     "value": "The cash flow bridge, derived from the balance sheet movements rather than modelled separately. Every movement appears exactly once, so operating plus investing plus financing plus the currency effect equals the change in cash. The opening balance uses the \"Account opening\" token and shows the first period of the selection.",
                     "textStyle": {
-                      "fontSize": "10pt",
+                      "fontSize": "15pt",
                       "color": "#5F6368"
                     }
                   }

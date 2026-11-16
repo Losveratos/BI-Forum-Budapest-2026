@@ -3,10 +3,10 @@
   "name": "r3matrix",
   "position": {
     "x": 327,
-    "y": 123,
-    "z": 0,
-    "height": 894,
+    "y": 147,
     "width": 1000,
+    "height": 870,
+    "z": 0,
     "tabOrder": 0
   },
   "visual": {
@@ -39,13 +39,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "fact-abschluss"
+                      "Entity": "_Measures"
                     }
                   },
                   "Property": "PL line"
                 }
               },
-              "queryRef": "fact-abschluss.PL line",
+              "queryRef": "_Measures.PL line",
               "nativeQueryRef": "PL line"
             },
             {
@@ -53,13 +53,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "fact-abschluss"
+                      "Entity": "_Measures"
                     }
                   },
                   "Property": "AC line"
                 }
               },
-              "queryRef": "fact-abschluss.AC line",
+              "queryRef": "_Measures.AC line",
               "nativeQueryRef": "AC line"
             },
             {
@@ -67,13 +67,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "fact-abschluss"
+                      "Entity": "_Measures"
                     }
                   },
                   "Property": "ΔPL line"
                 }
               },
-              "queryRef": "fact-abschluss.ΔPL line",
+              "queryRef": "_Measures.ΔPL line",
               "nativeQueryRef": "ΔPL line"
             },
             {
@@ -81,13 +81,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "fact-abschluss"
+                      "Entity": "_Measures"
                     }
                   },
                   "Property": "ΔPL line SVG"
                 }
               },
-              "queryRef": "fact-abschluss.ΔPL line SVG",
+              "queryRef": "_Measures.ΔPL line SVG",
               "nativeQueryRef": "ΔPL line SVG"
             },
             {
@@ -95,13 +95,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "fact-abschluss"
+                      "Entity": "_Measures"
                     }
                   },
                   "Property": "ΔPL line UDF"
                 }
               },
-              "queryRef": "fact-abschluss.ΔPL line UDF",
+              "queryRef": "_Measures.ΔPL line UDF",
               "nativeQueryRef": "ΔPL line UDF"
             },
             {
@@ -109,13 +109,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "fact-abschluss"
+                      "Entity": "_Measures"
                     }
                   },
                   "Property": "ΔPL % line UDF"
                 }
               },
-              "queryRef": "fact-abschluss.ΔPL % line UDF",
+              "queryRef": "_Measures.ΔPL % line UDF",
               "nativeQueryRef": "ΔPL % line UDF"
             }
           ]
@@ -208,7 +208,7 @@
                     "Measure": {
                       "Expression": {
                         "SourceRef": {
-                          "Entity": "fact-abschluss"
+                          "Entity": "_Measures"
                         }
                       },
                       "Property": "ΔPL line status"
@@ -226,7 +226,7 @@
                 }
               }
             ],
-            "metadata": "fact-abschluss.ΔPL line"
+            "metadata": "_Measures.ΔPL line"
           }
         }
       ],
@@ -255,7 +255,7 @@
             }
           },
           "selector": {
-            "metadata": "fact-abschluss.ΔPL line SVG"
+            "metadata": "_Measures.ΔPL line SVG"
           }
         },
         {
@@ -269,7 +269,7 @@
             }
           },
           "selector": {
-            "metadata": "fact-abschluss.ΔPL line UDF"
+            "metadata": "_Measures.ΔPL line UDF"
           }
         },
         {
@@ -283,7 +283,7 @@
             }
           },
           "selector": {
-            "metadata": "fact-abschluss.ΔPL % line UDF"
+            "metadata": "_Measures.ΔPL % line UDF"
           }
         }
       ]

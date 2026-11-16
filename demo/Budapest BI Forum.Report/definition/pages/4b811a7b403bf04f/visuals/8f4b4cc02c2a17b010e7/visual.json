@@ -4,9 +4,9 @@
   "position": {
     "x": 27,
     "y": 0,
-    "z": 3000,
     "width": 1866,
-    "height": 96,
+    "height": 120,
+    "z": 3000,
     "tabOrder": 3000
   },
   "visual": {
@@ -21,7 +21,7 @@
                   {
                     "value": "SVG measures + UDF",
                     "textStyle": {
-                      "fontSize": "14pt",
+                      "fontSize": "21pt",
                       "color": "#1F2328",
                       "fontWeight": "bold"
                     }
@@ -29,7 +29,7 @@
                   {
                     "value": "   Rung 3",
                     "textStyle": {
-                      "fontSize": "9pt",
+                      "fontSize": "14pt",
                       "color": "#C25A2D",
                       "fontWeight": "bold"
                     }
@@ -41,7 +41,7 @@
                   {
                     "value": "DAX measures that return SVG: a variance bar with the plan reference as a double line, AC columns with the PL outline, rendered by the core matrix as image URLs. A UDF library would keep the measures short; the limits are size, tooltips and export.",
                     "textStyle": {
-                      "fontSize": "10pt",
+                      "fontSize": "15pt",
                       "color": "#5F6368"
                     }
                   }

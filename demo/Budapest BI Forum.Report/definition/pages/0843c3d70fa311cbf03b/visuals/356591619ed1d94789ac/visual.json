@@ -3,10 +3,10 @@
   "name": "356591619ed1d94789ac",
   "position": {
     "x": 327,
-    "y": 123,
-    "z": 1000,
+    "y": 147,
     "width": 1566,
-    "height": 894,
+    "height": 870,
+    "z": 1000,
     "tabOrder": 0
   },
   "visual": {
@@ -67,13 +67,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "fact-abschluss"
+                      "Entity": "_Measures"
                     }
                   },
                   "Property": "AC"
                 }
               },
-              "queryRef": "fact-abschluss.AC",
+              "queryRef": "_Measures.AC",
               "nativeQueryRef": "AC"
             }
           ]
@@ -85,13 +85,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "fact-abschluss"
+                      "Entity": "_Measures"
                     }
                   },
                   "Property": "PY"
                 }
               },
-              "queryRef": "fact-abschluss.PY",
+              "queryRef": "_Measures.PY",
               "nativeQueryRef": "PY"
             }
           ]

@@ -1,10 +1,10 @@
-/// Die sieben Währungen des Konzerns. Konzernwährung ist der Euro. Hängt an
-/// der Kurstabelle, nicht an den Gesellschaften — siehe Kommentar bei
+/// The seven currencies of the group. The group currency is the euro. Attached to
+/// the FX rate table, not to the companies — see the comment at
 /// RELATIONSHIPS.
 table dim-waehrung
 	lineageTag: 3b3deed1-4033-423e-839f-d99b4782d3fd
 
-	/// ISO-Code. Schlüssel zur Kurstabelle.
+	/// ISO code. Key to the FX rate table.
 	column Währung
 		dataType: string
 		isKey
@@ -42,7 +42,7 @@ table dim-waehrung
 
 		annotation SummarizationSetBy = Automatic
 
-	/// Übliche Stellenzahl der Währung — JPY hat 0.
+	/// Usual number of decimal places of the currency — JPY has 0.
 	column Nachkommastellen
 		dataType: int64
 		formatString: 0
@@ -53,7 +53,7 @@ table dim-waehrung
 
 		annotation SummarizationSetBy = Automatic
 
-	/// Nur der Euro ist die Konzernwährung.
+	/// Only the euro is the group currency.
 	column IstKonzernwährung
 		dataType: string
 		displayFolder: Details

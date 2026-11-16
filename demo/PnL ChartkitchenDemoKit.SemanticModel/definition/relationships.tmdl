@@ -33,3 +33,4 @@ relationship cb0e2b72-ddcf-4502-a842-f64a76803b84
 relationship df701a12-1d0d-4eae-93f1-c4d25c2f5c86
 	fromColumn: fact-nachbuchung.EntityID
 	toColumn: dim-gesellschaft.EntityID
+
