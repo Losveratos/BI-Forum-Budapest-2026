@@ -4,9 +4,9 @@
   "position": {
     "x": 327,
     "y": 696,
-    "width": 1566,
-    "height": 321,
     "z": 10,
+    "height": 321,
+    "width": 1566,
     "tabOrder": 10
   },
   "visual": {
@@ -151,7 +151,7 @@
             "viewportHeight": {
               "expr": {
                 "Literal": {
-                  "Value": "298D"
+                  "Value": "289D"
                 }
               }
             },

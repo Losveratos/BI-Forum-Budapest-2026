@@ -1297,8 +1297,8 @@ table _Measures
 		lineageTag: 906622a0-fa6b-4f94-99d6-06763c5fb7b5
 		dataCategory: ImageUrl
 
-	/// Scenarios rung 3, hand-written SVG: one cell per month in a matrix, AC dark column, PY grey offset left,
-	/// PL outline offset right, AC label, below ΔPL and ΔPY variance bars. Scale over all months of the
+	/// Scenarios rung 3, hand-written SVG: one cell per month in a matrix, ΔPY and ΔPL variance bars on top,
+	/// below them the AC label and AC dark column, PY grey offset left, PL outline offset right. Scale over all months of the
 	/// selection, ignoring the month slicer, so a selected month keeps its size. ImageUrl.
 	measure 'Rev month SVG' =
 			VAR _Ac = [Revenue AC mEUR]
@@ -1325,33 +1325,34 @@ table _Measures
 			VAR _First =
 			    SELECTEDVALUE ( 'dim-datum'[MonatNr] )
 			        = CALCULATE ( MIN ( 'dim-datum'[MonatNr] ), REMOVEFILTERS ( 'dim-datum'[Month Short], 'dim-datum'[MonatNr] ) )
-			VAR _Base = 186
-			VAR _Hgt = 150
+			VAR _Base = 320
+			VAR _Hgt = 120
 			VAR _HAc = DIVIDE ( _Ac, _Max ) * _Hgt
 			VAR _HPl = DIVIDE ( _Pl, _Max ) * _Hgt
 			VAR _HPy = DIVIDE ( _Py, _Max ) * _Hgt
-			VAR _K = DIVIDE ( 26, _MaxD )
+			VAR _K = DIVIDE ( 28, _MaxD )
 			VAR _LPl = ABS ( _DPl ) * _K
 			VAR _LPy = ABS ( _DPy ) * _K
-			VAR _APl = 236
-			VAR _APy = 292
+			VAR _APy = 48
+			VAR _APl = 128
+			VAR _YAc = 194
 			VAR _CPl = IF ( _DPl >= 0, "%232E8B7A", "%23C0392B" )
 			VAR _CPy = IF ( _DPy >= 0, "%232E8B7A", "%23C0392B" )
 			VAR _Svg =
 			    "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='330' viewBox='0 0 140 330'>"
-			        & "<text x='70' y='22' font-family='Segoe UI' font-size='21' font-weight='600' text-anchor='middle' fill='%23262626'>" & FORMAT ( _Ac, "#,##0.0", "en-US" ) & "</text>"
+			        & "<line x1='40' y1='" & FORMAT ( _APy, "0.0", "en-US" ) & "' x2='100' y2='" & FORMAT ( _APy, "0.0", "en-US" ) & "' stroke='%23B4B4B4' stroke-width='3'/>"
+			        & IF ( NOT ISBLANK ( _DPy ), "<rect x='52' y='" & FORMAT ( IF ( _DPy >= 0, _APy - 1.5 - _LPy, _APy + 1.5 ), "0.0", "en-US" ) & "' width='36' height='" & FORMAT ( _LPy, "0.0", "en-US" ) & "' fill='" & _CPy & "'/>"
+			            & "<text x='70' y='" & FORMAT ( IF ( _DPy >= 0, _APy + 22, _APy - 8 ), "0.0", "en-US" ) & "' font-family='Segoe UI' font-size='21' text-anchor='middle' fill='%23262626'>" & FORMAT ( _DPy, "+#,##0.0;-#,##0.0;0.0", "en-US" ) & "</text>" )
+			        & "<line x1='40' y1='" & FORMAT ( _APl - 1.5, "0.0", "en-US" ) & "' x2='100' y2='" & FORMAT ( _APl - 1.5, "0.0", "en-US" ) & "' stroke='%23404040' stroke-width='1'/>"
+			        & "<line x1='40' y1='" & FORMAT ( _APl + 1.5, "0.0", "en-US" ) & "' x2='100' y2='" & FORMAT ( _APl + 1.5, "0.0", "en-US" ) & "' stroke='%23404040' stroke-width='1'/>"
+			        & IF ( NOT ISBLANK ( _DPl ), "<rect x='52' y='" & FORMAT ( IF ( _DPl >= 0, _APl - 2 - _LPl, _APl + 2 ), "0.0", "en-US" ) & "' width='36' height='" & FORMAT ( _LPl, "0.0", "en-US" ) & "' fill='" & _CPl & "'/>"
+			            & "<text x='70' y='" & FORMAT ( IF ( _DPl >= 0, _APl + 22, _APl - 8 ), "0.0", "en-US" ) & "' font-family='Segoe UI' font-size='21' text-anchor='middle' fill='%23262626'>" & FORMAT ( _DPl, "+#,##0.0;-#,##0.0;0.0", "en-US" ) & "</text>" )
+			        & "<text x='70' y='" & FORMAT ( _YAc, "0.0", "en-US" ) & "' font-family='Segoe UI' font-size='21' font-weight='600' text-anchor='middle' fill='%23262626'>" & FORMAT ( _Ac, "#,##0.0", "en-US" ) & "</text>"
 			        & IF ( NOT ISBLANK ( _Py ), "<rect x='26' y='" & FORMAT ( _Base - _HPy, "0.0", "en-US" ) & "' width='60' height='" & FORMAT ( _HPy, "0.0", "en-US" ) & "' fill='%23B4B4B4'/>" )
 			        & IF ( NOT ISBLANK ( _Pl ), "<rect x='54.7' y='" & FORMAT ( _Base - _HPl + 0.7, "0.0", "en-US" ) & "' width='58.6' height='" & FORMAT ( _HPl - 0.7, "0.0", "en-US" ) & "' fill='%23FFFFFF' stroke='%23404040' stroke-width='1.4'/>" )
 			        & "<rect x='40' y='" & FORMAT ( _Base - _HAc, "0.0", "en-US" ) & "' width='60' height='" & FORMAT ( _HAc, "0.0", "en-US" ) & "' fill='%23404040'/>"
-			        & "<line x1='14' y1='186' x2='126' y2='186' stroke='%23404040' stroke-width='2'/>"
-			        & "<line x1='40' y1='" & ( _APl - 1.5 ) & "' x2='100' y2='" & ( _APl - 1.5 ) & "' stroke='%23404040' stroke-width='1'/>"
-			        & "<line x1='40' y1='" & ( _APl + 1.5 ) & "' x2='100' y2='" & ( _APl + 1.5 ) & "' stroke='%23404040' stroke-width='1'/>"
-			        & IF ( NOT ISBLANK ( _DPl ), "<rect x='52' y='" & FORMAT ( IF ( _DPl >= 0, _APl - 2 - _LPl, _APl + 2 ), "0.0", "en-US" ) & "' width='36' height='" & FORMAT ( _LPl, "0.0", "en-US" ) & "' fill='" & _CPl & "'/>"
-			            & "<text x='70' y='" & FORMAT ( IF ( _DPl >= 0, _APl + 17, _APl - 7 ), "0.0", "en-US" ) & "' font-family='Segoe UI' font-size='17' text-anchor='middle' fill='%23262626'>" & FORMAT ( _DPl, "+#,##0.0;-#,##0.0;0.0", "en-US" ) & "</text>" )
-			        & "<line x1='40' y1='" & _APy & "' x2='100' y2='" & _APy & "' stroke='%23B4B4B4' stroke-width='3'/>"
-			        & IF ( NOT ISBLANK ( _DPy ), "<rect x='52' y='" & FORMAT ( IF ( _DPy >= 0, _APy - 1.5 - _LPy, _APy + 1.5 ), "0.0", "en-US" ) & "' width='36' height='" & FORMAT ( _LPy, "0.0", "en-US" ) & "' fill='" & _CPy & "'/>"
-			            & "<text x='70' y='" & FORMAT ( IF ( _DPy >= 0, _APy + 17, _APy - 7 ), "0.0", "en-US" ) & "' font-family='Segoe UI' font-size='17' text-anchor='middle' fill='%23262626'>" & FORMAT ( _DPy, "+#,##0.0;-#,##0.0;0.0", "en-US" ) & "</text>" )
-			        & IF ( _First, "<text x='2' y='" & ( _APl + 4 ) & "' font-family='Segoe UI' font-size='13' fill='%236B6B6B'>ΔPL</text><text x='2' y='" & ( _APy + 4 ) & "' font-family='Segoe UI' font-size='13' fill='%236B6B6B'>ΔPY</text>" )
+			        & "<line x1='14' y1='" & FORMAT ( _Base, "0.0", "en-US" ) & "' x2='126' y2='" & FORMAT ( _Base, "0.0", "en-US" ) & "' stroke='%23404040' stroke-width='2'/>"
+			        & IF ( _First, "<text x='2' y='" & FORMAT ( _APy + 4, "0.0", "en-US" ) & "' font-family='Segoe UI' font-size='13' fill='%236B6B6B'>ΔPY</text><text x='2' y='" & FORMAT ( _APl + 4, "0.0", "en-US" ) & "' font-family='Segoe UI' font-size='13' fill='%236B6B6B'>ΔPL</text>" )
 			        & "</svg>"
 			RETURN
 			    IF ( ISBLANK ( _Ac ) || NOT ISINSCOPE ( 'dim-datum'[Month Short] ), BLANK (), _Svg )

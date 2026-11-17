@@ -4,9 +4,9 @@
   "position": {
     "x": 1119,
     "y": 147,
-    "width": 774,
-    "height": 870,
     "z": 2000,
+    "height": 870,
+    "width": 774,
     "tabOrder": 2000
   },
   "visual": {
@@ -67,43 +67,7 @@
               "nativeQueryRef": "Revenue PL mEUR"
             }
           ]
-        },
-        "PreviousYear": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "_Measures"
-                    }
-                  },
-                  "Property": "Revenue PY mEUR"
-                }
-              },
-              "queryRef": "_Measures.Revenue PY mEUR",
-              "nativeQueryRef": "Revenue PY mEUR"
-            }
-          ]
         }
-      },
-      "sortDefinition": {
-        "sort": [
-          {
-            "field": {
-              "Measure": {
-                "Expression": {
-                  "SourceRef": {
-                    "Entity": "_Measures"
-                  }
-                },
-                "Property": "Revenue AC mEUR"
-              }
-            },
-            "direction": "Descending"
-          }
-        ],
-        "isDefaultSort": true
       }
     },
     "objects": {
@@ -154,6 +118,26 @@
               "expr": {
                 "Literal": {
                   "Value": "'{\"version\":\"1.0.0\",\"features\":{\"calculationCorrectionFeature\":\"1.0.0\"}}'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "licenseSettings": [
+        {
+          "properties": {
+            "licenseKey": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Myc1upJpjIaYBPJuR1kJ3rRXcfpqr4X8NAKmCiOS+I0hCNNDRSYiPN+9zu0V110Tinls20WMYaJbV7NFCsrxDHsiY29tcGFueSI6IkJJIEdtYkgiLCJleHBpcnlEYXRlIjoiMjAyNi0wNi0wMyIsIm5PZlVzZXJzIjoiMTAwIiwibGljZW5zZVR5cGUiOiJQYWlkIiwidmlzdWFsVHlwZSI6IkFsbCJ9'"
+                }
+              }
+            },
+            "appliedTimestamp": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
                 }
               }
             }
@@ -300,5 +284,51 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "1fe12413d730330c76b2",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim-gesellschaft"
+              }
+            },
+            "Property": "Short name"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "680bf9ad50a128140961",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "Revenue AC mEUR"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "c6ad940a7ee47519b307",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "Revenue PL mEUR"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

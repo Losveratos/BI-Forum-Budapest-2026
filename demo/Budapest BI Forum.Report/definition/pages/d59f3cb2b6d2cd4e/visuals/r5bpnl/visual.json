@@ -4,9 +4,9 @@
   "position": {
     "x": 327,
     "y": 147,
-    "width": 1000,
-    "height": 870,
     "z": 1000,
+    "height": 870,
+    "width": 1000,
     "tabOrder": 1000
   },
   "visual": {
@@ -160,6 +160,26 @@
               }
             },
             "categorySort": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "licenseSettings": [
+        {
+          "properties": {
+            "licenseKey": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Myc1upJpjIaYBPJuR1kJ3rRXcfpqr4X8NAKmCiOS+I0hCNNDRSYiPN+9zu0V110Tinls20WMYaJbV7NFCsrxDHsiY29tcGFueSI6IkJJIEdtYkgiLCJleHBpcnlEYXRlIjoiMjAyNi0wNi0wMyIsIm5PZlVzZXJzIjoiMTAwIiwibGljZW5zZVR5cGUiOiJQYWlkIiwidmlzdWFsVHlwZSI6IkFsbCJ9'"
+                }
+              }
+            },
+            "appliedTimestamp": {
               "expr": {
                 "Literal": {
                   "Value": "0D"

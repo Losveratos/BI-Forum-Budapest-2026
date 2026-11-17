@@ -4,38 +4,18 @@
   "position": {
     "x": 327,
     "y": 297,
-    "width": 1566,
-    "height": 362,
     "z": 0,
+    "height": 362,
+    "width": 1566,
     "tabOrder": 0
   },
   "visual": {
     "visualType": "pivotTable",
     "query": {
       "queryState": {
-        "Values": {
-          "projections": [
-            {
-              "queryRef": "_Measures.Rev month SVG",
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "_Measures"
-                    }
-                  },
-                  "Property": "Rev month SVG"
-                }
-              },
-              "nativeQueryRef": "Rev month SVG",
-              "displayName": "AC · PL · PY, ΔPL, ΔPY"
-            }
-          ]
-        },
         "Columns": {
           "projections": [
             {
-              "queryRef": "dim-datum.Month Short",
               "field": {
                 "Column": {
                   "Expression": {
@@ -46,7 +26,28 @@
                   "Property": "Month Short"
                 }
               },
-              "nativeQueryRef": "Month Short"
+              "queryRef": "dim-datum.Month Short",
+              "nativeQueryRef": "Month Short",
+              "active": true
+            }
+          ]
+        },
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Rev month SVG"
+                }
+              },
+              "queryRef": "_Measures.Rev month SVG",
+              "nativeQueryRef": "Rev month SVG",
+              "displayName": "AC · PL · PY, ΔPL, ΔPY"
             }
           ]
         }

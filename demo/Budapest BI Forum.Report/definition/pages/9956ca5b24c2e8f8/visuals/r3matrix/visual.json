@@ -4,9 +4,9 @@
   "position": {
     "x": 327,
     "y": 671,
-    "width": 1566,
-    "height": 346,
     "z": 0,
+    "height": 346,
+    "width": 1566,
     "tabOrder": 0
   },
   "visual": {
@@ -16,7 +16,6 @@
         "Rows": {
           "projections": [
             {
-              "queryRef": "dim-gesellschaft.Short name",
               "field": {
                 "Column": {
                   "Expression": {
@@ -27,14 +26,15 @@
                   "Property": "Short name"
                 }
               },
-              "nativeQueryRef": "Short name"
+              "queryRef": "dim-gesellschaft.Short name",
+              "nativeQueryRef": "Short name",
+              "active": true
             }
           ]
         },
         "Values": {
           "projections": [
             {
-              "queryRef": "_Measures.Revenue AC mEUR",
               "field": {
                 "Measure": {
                   "Expression": {
@@ -45,11 +45,11 @@
                   "Property": "Revenue AC mEUR"
                 }
               },
+              "queryRef": "_Measures.Revenue AC mEUR",
               "nativeQueryRef": "Revenue AC mEUR",
               "displayName": "AC"
             },
             {
-              "queryRef": "_Measures.Rev AC PL PY bars SVG",
               "field": {
                 "Measure": {
                   "Expression": {
@@ -60,11 +60,11 @@
                   "Property": "Rev AC PL PY bars SVG"
                 }
               },
+              "queryRef": "_Measures.Rev AC PL PY bars SVG",
               "nativeQueryRef": "Rev AC PL PY bars SVG",
               "displayName": "AC · PL · PY"
             },
             {
-              "queryRef": "_Measures.Rev ΔPL UDF",
               "field": {
                 "Measure": {
                   "Expression": {
@@ -75,11 +75,11 @@
                   "Property": "Rev ΔPL UDF"
                 }
               },
+              "queryRef": "_Measures.Rev ΔPL UDF",
               "nativeQueryRef": "Rev ΔPL UDF",
               "displayName": "ΔPL"
             },
             {
-              "queryRef": "_Measures.Rev ΔPY UDF",
               "field": {
                 "Measure": {
                   "Expression": {
@@ -90,6 +90,7 @@
                   "Property": "Rev ΔPY UDF"
                 }
               },
+              "queryRef": "_Measures.Rev ΔPY UDF",
               "nativeQueryRef": "Rev ΔPY UDF",
               "displayName": "ΔPY"
             }

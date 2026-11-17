@@ -39,7 +39,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "Core column and bar charts with three overlapping series: PY grey, AC dark, PL as an outline (border on, fill 100 % transparent). Base measures only, no helpers. Where it stops: no variance panel, ΔPL and ΔPY have to be read off the bars, labels only for AC.",
+                    "value": "Core column and bar charts with three overlapping series: PY grey, AC dark, PL as an outline. ΔPL is drawn as an error bar from AC to PL, bound to the base measures, no helper measures. Where it stops: no variance panel, ΔPY has to be read off the bars, labels only for AC.",
                     "textStyle": {
                       "fontSize": "15pt",
                       "color": "#5F6368"

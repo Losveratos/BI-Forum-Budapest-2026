@@ -1,5 +1,14 @@
 {
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "ctable",
+  "position": {
+    "x": 27,
+    "y": 135,
+    "z": 0,
+    "height": 848,
+    "width": 1866,
+    "tabOrder": 0
+  },
   "visual": {
     "visualType": "tableEx",
     "query": {
@@ -7,7 +16,6 @@
         "Values": {
           "projections": [
             {
-              "queryRef": "complications.No",
               "field": {
                 "Column": {
                   "Expression": {
@@ -18,10 +26,10 @@
                   "Property": "No"
                 }
               },
+              "queryRef": "complications.No",
               "nativeQueryRef": "No"
             },
             {
-              "queryRef": "complications.Complication",
               "field": {
                 "Column": {
                   "Expression": {
@@ -32,10 +40,10 @@
                   "Property": "Complication"
                 }
               },
+              "queryRef": "complications.Complication",
               "nativeQueryRef": "Complication"
             },
             {
-              "queryRef": "complications.Why it is hard",
               "field": {
                 "Column": {
                   "Expression": {
@@ -46,10 +54,10 @@
                   "Property": "Why it is hard"
                 }
               },
+              "queryRef": "complications.Why it is hard",
               "nativeQueryRef": "Why it is hard"
             },
             {
-              "queryRef": "complications.Rung 1 Core",
               "field": {
                 "Column": {
                   "Expression": {
@@ -60,10 +68,10 @@
                   "Property": "Rung 1 Core"
                 }
               },
+              "queryRef": "complications.Rung 1 Core",
               "nativeQueryRef": "Rung 1 Core"
             },
             {
-              "queryRef": "complications.Rung 2 DAX",
               "field": {
                 "Column": {
                   "Expression": {
@@ -74,10 +82,10 @@
                   "Property": "Rung 2 DAX"
                 }
               },
+              "queryRef": "complications.Rung 2 DAX",
               "nativeQueryRef": "Rung 2 DAX"
             },
             {
-              "queryRef": "complications.Rung 3 SVG + UDF",
               "field": {
                 "Column": {
                   "Expression": {
@@ -88,10 +96,10 @@
                   "Property": "Rung 3 SVG + UDF"
                 }
               },
+              "queryRef": "complications.Rung 3 SVG + UDF",
               "nativeQueryRef": "Rung 3 SVG + UDF"
             },
             {
-              "queryRef": "complications.Rung 4 Deneb",
               "field": {
                 "Column": {
                   "Expression": {
@@ -102,10 +110,10 @@
                   "Property": "Rung 4 Deneb"
                 }
               },
+              "queryRef": "complications.Rung 4 Deneb",
               "nativeQueryRef": "Rung 4 Deneb"
             },
             {
-              "queryRef": "complications.Rung 5 Custom visual",
               "field": {
                 "Column": {
                   "Expression": {
@@ -116,6 +124,7 @@
                   "Property": "Rung 5 Custom visual"
                 }
               },
+              "queryRef": "complications.Rung 5 Custom visual",
               "nativeQueryRef": "Rung 5 Custom visual"
             }
           ]
@@ -360,7 +369,7 @@
             "autoSizeColumnWidth": {
               "expr": {
                 "Literal": {
-                  "Value": "false"
+                  "Value": "true"
                 }
               }
             }
@@ -544,7 +553,6 @@
         }
       ]
     },
-    "drillFilterOtherVisuals": true,
     "visualContainerObjects": {
       "title": [
         {
@@ -621,15 +629,7 @@
           }
         }
       ]
-    }
-  },
-  "position": {
-    "x": 27,
-    "y": 135,
-    "width": 1866,
-    "height": 848,
-    "z": 0,
-    "tabOrder": 0
-  },
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json"
+    },
+    "drillFilterOtherVisuals": true
+  }
 }

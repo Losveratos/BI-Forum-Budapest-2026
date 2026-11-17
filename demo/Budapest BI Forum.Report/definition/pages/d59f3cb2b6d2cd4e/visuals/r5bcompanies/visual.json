@@ -4,9 +4,9 @@
   "position": {
     "x": 1345,
     "y": 147,
-    "width": 548,
-    "height": 870,
     "z": 2000,
+    "height": 870,
+    "width": 548,
     "tabOrder": 2000
   },
   "visual": {
@@ -136,6 +136,26 @@
               "expr": {
                 "Literal": {
                   "Value": "'{\"version\":\"1.0.0\",\"features\":{\"calculationCorrectionFeature\":\"1.0.0\"}}'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "licenseSettings": [
+        {
+          "properties": {
+            "licenseKey": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Myc1upJpjIaYBPJuR1kJ3rRXcfpqr4X8NAKmCiOS+I0hCNNDRSYiPN+9zu0V110Tinls20WMYaJbV7NFCsrxDHsiY29tcGFueSI6IkJJIEdtYkgiLCJleHBpcnlEYXRlIjoiMjAyNi0wNi0wMyIsIm5PZlVzZXJzIjoiMTAwIiwibGljZW5zZVR5cGUiOiJQYWlkIiwidmlzdWFsVHlwZSI6IkFsbCJ9'"
+                }
+              }
+            },
+            "appliedTimestamp": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
                 }
               }
             }

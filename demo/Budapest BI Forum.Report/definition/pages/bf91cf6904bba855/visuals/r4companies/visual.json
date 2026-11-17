@@ -4,9 +4,9 @@
   "position": {
     "x": 327,
     "y": 679,
-    "width": 1566,
-    "height": 338,
     "z": 10,
+    "height": 338,
+    "width": 1566,
     "tabOrder": 10
   },
   "visual": {
@@ -16,7 +16,6 @@
         "dataset": {
           "projections": [
             {
-              "queryRef": "dim-gesellschaft.Short name",
               "field": {
                 "Column": {
                   "Expression": {
@@ -27,10 +26,10 @@
                   "Property": "Short name"
                 }
               },
+              "queryRef": "dim-gesellschaft.Short name",
               "nativeQueryRef": "Short name"
             },
             {
-              "queryRef": "_Measures.Revenue AC mEUR",
               "field": {
                 "Measure": {
                   "Expression": {
@@ -41,10 +40,10 @@
                   "Property": "Revenue AC mEUR"
                 }
               },
+              "queryRef": "_Measures.Revenue AC mEUR",
               "nativeQueryRef": "Revenue AC mEUR"
             },
             {
-              "queryRef": "_Measures.Revenue PL mEUR",
               "field": {
                 "Measure": {
                   "Expression": {
@@ -55,10 +54,10 @@
                   "Property": "Revenue PL mEUR"
                 }
               },
+              "queryRef": "_Measures.Revenue PL mEUR",
               "nativeQueryRef": "Revenue PL mEUR"
             },
             {
-              "queryRef": "_Measures.Revenue PY mEUR",
               "field": {
                 "Measure": {
                   "Expression": {
@@ -69,6 +68,7 @@
                   "Property": "Revenue PY mEUR"
                 }
               },
+              "queryRef": "_Measures.Revenue PY mEUR",
               "nativeQueryRef": "Revenue PY mEUR"
             }
           ]
@@ -151,7 +151,7 @@
             "viewportHeight": {
               "expr": {
                 "Literal": {
-                  "Value": "304D"
+                  "Value": "279D"
                 }
               }
             },
