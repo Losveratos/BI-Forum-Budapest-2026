@@ -411,19 +411,7 @@ cultureInfo en-US
 			          "ConceptualProperty": "Rev AC PL PY bars SVG"
 			        }
 			      },
-			      "State": "Generated",
-			      "Terms": [
-			        {
-			          "AC · PL · PY": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        }
-			      ]
+			      "State": "Generated"
 			    },
 			    "table_measures.rev_δpl_udf": {
 			      "Definition": {
@@ -478,6 +466,27 @@ cultureInfo en-US
 			      "Terms": [
 			        {
 			          "AC · PL · PY, ΔPL, ΔPY": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "table_measures.rev_ac_pl_bars_udf": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "_Measures",
+			          "ConceptualProperty": "Rev AC PL bars UDF"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "AC · PL": {
 			            "State": "Suggested",
 			            "Source": {
 			              "Type": "External",
