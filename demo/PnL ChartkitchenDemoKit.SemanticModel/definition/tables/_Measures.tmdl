@@ -1397,6 +1397,60 @@ table _Measures
 		lineageTag: 8fdd57c4-5165-43a5-8e78-7edf26218159
 		dataCategory: ImageUrl
 
+	/// Scenarios rung 3, UDF PowerofBI.IBCS.ColumnChart.WithAbsoluteVariance: one cell per month in a matrix,
+	/// AC dark column, PL outline, PY grey triangle, ΔPL as a thin variance bar beside the column. Values rounded to
+	/// 0.1 because the library writes the AC label unformatted. MonatNr filter removed so that the library's
+	/// ALLSELECTED on Month Short scales over all visible months. A viewBox is added so the 56x300 SVG fits the cell. ImageUrl.
+	measure 'Rev month UDF' =
+			IF (
+			    ISBLANK ( [Revenue AC mEUR] ) || NOT ISINSCOPE ( 'dim-datum'[Month Short] ),
+			    BLANK (),
+			    SUBSTITUTE (
+			        CALCULATE (
+			            PowerofBI.IBCS.ColumnChart.WithAbsoluteVariance (
+			                ROUND ( [Revenue AC mEUR], 1 ),
+			                ROUND ( [Revenue PY mEUR], 1 ),
+			                ROUND ( [Revenue PL mEUR], 1 ),
+			                BLANK (),
+			                'dim-datum'[Month Short],
+			                1
+			            ),
+			            REMOVEFILTERS ( 'dim-datum'[MonatNr] )
+			        ),
+			        "height='300'>",
+			        "width='56' height='300' viewBox='0 0 56 300'>"
+			    )
+			)
+		displayFolder: Budapest demo\Scenarios
+		lineageTag: 5d940138-60c6-42d0-9ee2-550a1b12acdc
+		dataCategory: ImageUrl
+
+	/// Scenarios rung 3, UDF PowerofBI.IBCS.BarChart.AbsoluteValues: AC dark bar against the PL outline bar per
+	/// company, AC label. Sortierung filter removed so that the library's ALLSELECTED on Short name scales over all
+	/// visible companies. Image size 265 x 23 as in the matrix format pane. Blank on the total row. ImageUrl.
+	measure 'Rev AC PL bars UDF' =
+			IF (
+			    ISBLANK ( [Revenue AC mEUR] ) || NOT ISINSCOPE ( 'dim-gesellschaft'[Short name] ),
+			    BLANK (),
+			    CALCULATE (
+			        PowerofBI.IBCS.BarChart.AbsoluteValues (
+			            'dim-gesellschaft'[Short name],
+			            [Revenue AC mEUR],
+			            BLANK (),
+			            [Revenue PL mEUR],
+			            "outlined",
+			            FORMAT ( [Revenue AC mEUR], "#,##0.0", "en-US" ),
+			            265,
+			            23,
+			            FALSE ()
+			        ),
+			        REMOVEFILTERS ( 'dim-gesellschaft'[Sortierung] )
+			    )
+			)
+		displayFolder: Budapest demo\Scenarios
+		lineageTag: a53a692c-e06c-4be8-951e-057fc649f6eb
+		dataCategory: ImageUrl
+
 	/// Complications page: background colour of the rung 1 cell, by the first word of the cell
 	/// (model, DAX, spec, visual, by hand, not possible). Used by conditional formatting.
 	measure 'Complication colour R1' =

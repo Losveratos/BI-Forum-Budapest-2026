@@ -57,12 +57,12 @@
                       "Entity": "_Measures"
                     }
                   },
-                  "Property": "Rev AC PL PY bars SVG"
+                  "Property": "Rev AC PL bars UDF"
                 }
               },
-              "queryRef": "_Measures.Rev AC PL PY bars SVG",
-              "nativeQueryRef": "Rev AC PL PY bars SVG",
-              "displayName": "AC · PL · PY"
+              "queryRef": "_Measures.Rev AC PL bars UDF",
+              "nativeQueryRef": "Rev AC PL bars UDF",
+              "displayName": "AC · PL"
             },
             {
               "field": {
@@ -222,7 +222,7 @@
             }
           },
           "selector": {
-            "metadata": "_Measures.Rev AC PL PY bars SVG"
+            "metadata": "_Measures.Rev AC PL bars UDF"
           }
         },
         {
@@ -269,7 +269,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Revenue in EUR m, by company, sorted by AC | AC, PL, PY bars (SVG) and ΔPL, ΔPY (PowerofBI.IBCS UDF)'"
+                  "Value": "'Revenue in EUR m, by company, sorted by AC | AC vs PL bars, ΔPL, ΔPY (all PowerofBI.IBCS UDF)'"
                 }
               }
             }

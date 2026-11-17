@@ -39,7 +39,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "Measures return SVG images: hand-written columns per month and bars per company, ΔPL and ΔPY per company from the PowerofBI.IBCS UDF library, the same mini chart on the month buttons. Where it stops: every pixel is DAX, scaling must name both sort columns, no tooltips inside the image.",
+                    "value": "Measures return SVG images: hand-written columns per month with ΔPL and ΔPY above them, the same mini chart on the month buttons; AC vs PL bars, ΔPL and ΔPY per company from the PowerofBI.IBCS UDF library. Where it stops: library layouts are fixed, scaling must name both sort columns, no tooltips inside the image.",
                     "textStyle": {
                       "fontSize": "15pt",
                       "color": "#5F6368"
