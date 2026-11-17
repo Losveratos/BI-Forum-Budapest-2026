@@ -1,0 +1,98 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "a4d0b337c4e3a080ee88",
+  "position": {
+    "x": 27,
+    "y": 0,
+    "z": 3000,
+    "height": 120,
+    "width": 1866,
+    "tabOrder": 3000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "AC vs PL vs PY, ChartKitchen byDatenWG",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "21pt",
+                      "color": "#1f2328"
+                    }
+                  },
+                  {
+                    "value": "   ",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "14pt",
+                      "color": "#c25a2d"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "The custom visual takes AC, PL and PY in its own data roles and draws both variances (ΔPL and ΔPY) with the IBCS notation built in. Free, not Microsoft-certified: no PDF or PowerPoint export and no subscriptions in the Service.",
+                    "textStyle": {
+                      "fontSize": "15pt",
+                      "color": "#5f6368"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "dropShadow": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

@@ -23,19 +23,216 @@
         },
         {
           "location": {
-            "x": 100,
+            "x": 1937.04058543028,
+            "y": 520.66837527632231
+          },
+          "nodeIndex": "_Measures",
+          "nodeLineageTag": "33dd1ee1-22c5-46b5-a37c-6c99b1b7f99b",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 3165.1671295969131,
+            "y": 606.66837527632231
+          },
+          "nodeIndex": "close-status",
+          "nodeLineageTag": "31c80196-ea2b-4c22-96c3-5b303f3d36f2",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2346.4161001524908,
+            "y": 534.66837527632231
+          },
+          "nodeIndex": "complications",
+          "nodeLineageTag": "38de80a2-969a-4000-8594-261e23a7a26e",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1110.8458905150292,
+            "y": 767.16153850567071
+          },
+          "nodeIndex": "dim-datum",
+          "nodeLineageTag": "7950f0fd-54f6-4ede-8c05-12ce6a4a048f",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1490.6487014835523,
+            "y": 755.68727553608824
+          },
+          "nodeIndex": "dim-gesellschaft",
+          "nodeLineageTag": "731418cc-77e4-47da-8b64-b663890716ab",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1073.8295212905123,
+            "y": 302.51262709028174
+          },
+          "nodeIndex": "dim-region",
+          "nodeLineageTag": "1e9edc10-a80f-42be-8b8a-ef556ac2968b",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 772.35784897275835,
+            "y": 48
+          },
+          "nodeIndex": "dim-waehrung",
+          "nodeLineageTag": "3b3deed1-4033-423e-839f-d99b4782d3fd",
+          "size": {
+            "height": 248,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 694.026710321989,
+            "y": 478.8191801930401
+          },
+          "nodeIndex": "fact-abschluss",
+          "nodeLineageTag": "aa1ddf8e-7e8e-405e-87c0-33f2fda07361",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 284,
             "y": 0
           },
-          "nodeIndex": "fact-guv",
-          "nodeLineageTag": "7c2e3b81-0d55-4f2c-9e4b-d3b2f7a00001",
+          "nodeIndex": "fact-kurse",
+          "nodeLineageTag": "1073e1d2-0bd3-477f-8a60-be9cb2d8727a",
           "size": {
-            "height": 426,
+            "height": 296,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1527.6650707080692,
+            "y": 1093.3367505526446
+          },
+          "nodeIndex": "fact-nachbuchung",
+          "nodeLineageTag": "8d6bd3ce-ce1d-4471-85c4-e17a2ed8225a",
+          "size": {
+            "height": 248,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2755.7916148747017,
+            "y": 582.66837527632231
+          },
+          "nodeIndex": "pnl-lines",
+          "nodeLineageTag": "530da059-01fc-4af7-9658-fdfa798b5f39",
+          "size": {
+            "height": 176,
             "width": 234
           },
           "zIndex": 0
         }
       ],
       "name": "All tables",
+      "zoomValue": 19.103073347718116,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    },
+    {
+      "ordinal": 1,
+      "scrollPosition": {
+        "x": 304.66665649414063,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 406.19574583757645,
+            "y": 285.33664784425673
+          },
+          "nodeIndex": "fact-abschluss",
+          "nodeLineageTag": "aa1ddf8e-7e8e-405e-87c0-33f2fda07361",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 50,
+            "y": 204.01607653610671
+          },
+          "nodeIndex": "dim-konten",
+          "nodeLineageTag": "458ba298-e6a7-4032-8c24-e48d5c674a59",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 679.33411908064124,
+            "y": 0
+          },
+          "nodeIndex": "dim-datum",
+          "nodeLineageTag": "7950f0fd-54f6-4ede-8c05-12ce6a4a048f",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 327.6957165046685,
+            "y": 673.53798084413506
+          },
+          "nodeIndex": "dim-gesellschaft",
+          "nodeLineageTag": "731418cc-77e4-47da-8b64-b663890716ab",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "Layout 1",
       "zoomValue": 100,
       "pinKeyFieldsToTop": false,
       "showExtraHeaderInfo": false,
@@ -43,6 +240,6 @@
       "tablesLocked": false
     }
   ],
-  "selectedDiagram": "All tables",
+  "selectedDiagram": "Layout 1",
   "defaultDiagram": "All tables"
 }

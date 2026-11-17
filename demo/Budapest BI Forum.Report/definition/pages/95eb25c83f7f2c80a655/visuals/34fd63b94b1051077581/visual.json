@@ -4,9 +4,9 @@
   "position": {
     "x": 327,
     "y": 147,
-    "width": 1566,
-    "height": 870,
     "z": 1000,
+    "height": 870,
+    "width": 1566,
     "tabOrder": 0
   },
   "visual": {
@@ -630,6 +630,26 @@
               "expr": {
                 "Literal": {
                   "Value": "true"
+                }
+              }
+            },
+            "foldable": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "state": [
+        {
+          "properties": {
+            "uiState": {
+              "expr": {
+                "Literal": {
+                  "Value": "'{\"view\":\"table\",\"preset\":\"full\",\"ref\":\"pl\",\"unit\":\"m\",\"density\":\"compact\",\"pctRev\":true,\"hideZero\":false,\"fit\":false,\"collapsed\":[\"L:Net revenue¦Product revenue\",\"L:Net revenue¦Product revenue¦Domestic revenue\",\"L:Net revenue¦Service revenue\",\"L:Net revenue¦Software & licences\",\"L:Net revenue¦Sales deductions\",\"L:Cost of sales¦Cost of materials\",\"L:Cost of sales¦Cost of materials¦Raw materials & supplies\",\"L:Cost of sales¦Production costs\",\"L:Cost of sales¦Logistics costs\",\"L:Cost of sales¦Logistics costs¦Freight & customs duties\",\"L:Cost of sales¦Warranty\",\"L:Selling expenses¦Sales personnel expenses\",\"L:Selling expenses¦Marketing\",\"L:Selling expenses¦Sales infrastructure\",\"L:Administrative expenses¦Administrative personnel expenses\",\"L:Administrative expenses¦IT & infrastructure\",\"L:Administrative expenses¦IT & infrastructure¦Cloud & software licences\",\"L:Administrative expenses¦External services\",\"L:Administrative expenses¦Occupancy costs\",\"L:Research & development¦R&D personnel\",\"L:Research & development¦R&D non-personnel costs\",\"L:Other operating result¦Other income\",\"L:Other operating result¦Other expenses\",\"L:Depreciation & amortisation¦Scheduled depreciation & amortisation\",\"L:Depreciation & amortisation¦Impairment losses\",\"L:Financial result¦Net interest result\",\"L:Financial result¦Other financial result\",\"L:Income taxes¦Current taxes\",\"L:Income taxes¦Deferred taxes\"],\"spark\":[],\"blocks\":{\"mtd\":false,\"ytd\":true,\"fy\":false},\"treeRoot\":\"\",\"treeCollapsed\":null,\"treeCard\":\"months\",\"treeStatus\":true,\"treeZoom\":null,\"treeV\":2,\"megaMin\":\"\",\"megaRef\":\"\",\"vals\":{\"ac\":true,\"py\":true,\"pl\":true,\"fc\":false,\"d\":true},\"megaVals\":null,\"exc\":{\"on\":false,\"pct\":5,\"abs\":0,\"ref\":\"auto\",\"dir\":\"both\",\"mode\":\"gray\"}}'"
                 }
               }
             }
